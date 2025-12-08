@@ -151,6 +151,30 @@ export function getAWSServiceIcon(serviceName: string): string | undefined {
 }
 
 /**
+ * Resolves an AWS service icon to its SVG file path
+ * 
+ * @param serviceName - The AWS service name (e.g., 'lambda', 's3', 'rds')
+ * @returns The path to the AWS icon SVG file
+ * 
+ * @example
+ * ```typescript
+ * const iconPath = resolveAWSIconPath('rds');
+ * // Returns: '/data/icons/aws/rds.svg'
+ * ```
+ */
+export function resolveAWSIconPath(serviceName: string): string {
+  if (!serviceName || typeof serviceName !== 'string') {
+    return '';
+  }
+
+  // Normalize to lowercase for consistent file naming
+  const normalizedName = serviceName.toLowerCase().trim();
+  
+  // Return path to SVG file in public/data/icons/aws/
+  return `/data/icons/aws/${normalizedName}.svg`;
+}
+
+/**
  * Resolves an icon based on type and name
  * 
  * @param iconType - The type of icon ('aws' or 'lucide')

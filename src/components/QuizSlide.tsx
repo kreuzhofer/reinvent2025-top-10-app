@@ -70,6 +70,11 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
     return { displayChoices: slide.choices, correctIndex: slide.correctAnswerIndex };
   }, [slide.choices, slide.correctAnswerIndex, shuffleEnabled]);
 
+  // Scroll to top when slide changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [slide.id]);
+
   // Add possible points when component mounts
   useEffect(() => {
     addPossiblePoints(slide.points);

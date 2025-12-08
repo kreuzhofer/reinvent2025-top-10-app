@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import type { ContentSlide as ContentSlideType, ContentBlock } from '../types/quiz.types';
 import { resolveImagePath, getPlaceholderImage } from '../utils/imageLoader';
-import { getLucideIcon, getAWSServiceIcon } from '../utils/iconMapper';
+import { getLucideIcon, resolveAWSIconPath } from '../utils/iconMapper';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import CalloutBox from './CalloutBox';
 import QuoteBlock from './QuoteBlock';
@@ -52,6 +52,11 @@ const ContentSlide: React.FC<ContentSlideProps> = ({
   showProgress = false,
   showScore = false
 }) => {
+  // Scroll to top when slide changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [slide.id]);
+
   // Enable keyboard navigation for content slides
   useKeyboardNav({
     onNext,
@@ -155,6 +160,8 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
       return <ImageBlockComponent block={block} />;
     case 'icon':
       return <IconBlockComponent block={block} />;
+    case 'iconList':
+      return <IconListBlockComponent block={block} />;
     case 'list':
       return <ListBlockComponent block={block} />;
     case 'stat':
@@ -242,7 +249,7 @@ const ImageBlockComponent: React.FC<{ block: { type: 'image'; src: string; alt: 
 /**
  * IconBlock Component
  */
-const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'lucide'; iconName: string; label?: string; size?: string } }> = ({ block }) => {
+const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'lucide'; iconName: string; label?: string; title?: string; size?: string } }> = ({ block }) => {
   const sizeClasses = {
     small: 'w-6 h-6 sm:w-8 sm:h-8',
     medium: 'w-10 h-10 sm:w-12 sm:h-12',
@@ -250,6 +257,9 @@ const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'l
   };
 
   const sizeClass = sizeClasses[block.size as keyof typeof sizeClasses] || sizeClasses.medium;
+  
+  // Use title if provided, otherwise fall back to label for backward compatibility
+  const displayText = block.title || block.label;
 
   if (block.iconType === 'lucide') {
     const IconComponent = getLucideIcon(block.iconName);
@@ -258,28 +268,139 @@ const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'l
     return (
       <div className="flex flex-col items-center gap-2 sm:gap-3 my-4 sm:my-6" data-testid="icon-block">
         <IconComponent className={`${sizeClass} text-reinvent-purple`} data-testid="icon-block-icon" />
-        {block.label && (
-          <span className="text-xs sm:text-sm text-gray-300 font-medium" data-testid="icon-block-label">
-            {block.label}
+        {displayText && (
+          <span className="text-xs sm:text-sm text-gray-300 font-medium text-center" data-testid="icon-block-label">
+            {displayText}
           </span>
         )}
       </div>
     );
   } else {
-    // AWS icon - for now, display the service name as text
-    // In a real implementation, you would load AWS service icon SVGs
-    const awsIconId = getAWSServiceIcon(block.iconName);
+    // AWS icon - load SVG from public/data/icons/aws/
+    const [imageError, setImageError] = useState(false);
+    const awsIconPath = resolveAWSIconPath(block.iconName);
     
     return (
       <div className="flex flex-col items-center gap-2 sm:gap-3 my-4 sm:my-6" data-testid="icon-block">
-        <div className={`${sizeClass} flex items-center justify-center bg-reinvent-purple/20 rounded-lg border border-reinvent-purple/50`} data-testid="icon-block-icon">
-          <span className="text-xs font-bold text-reinvent-purple uppercase">
-            {awsIconId || block.iconName}
+        {!imageError ? (
+          <img
+            src={awsIconPath}
+            alt={displayText || block.iconName}
+            className={`${sizeClass} object-contain`}
+            onError={() => setImageError(true)}
+            data-testid="icon-block-icon"
+          />
+        ) : (
+          <div className={`${sizeClass} flex items-center justify-center bg-reinvent-purple/20 rounded-lg border border-reinvent-purple/50`} data-testid="icon-block-icon">
+            <span className="text-xs font-bold text-reinvent-purple uppercase">
+              {block.iconName}
+            </span>
+          </div>
+        )}
+        {displayText && (
+          <span className="text-xs sm:text-sm text-gray-300 font-medium text-center" data-testid="icon-block-label">
+            {displayText}
           </span>
-        </div>
-        {block.label && (
-          <span className="text-xs sm:text-sm text-gray-300 font-medium" data-testid="icon-block-label">
-            {block.label}
+        )}
+      </div>
+    );
+  }
+};
+
+/**
+ * IconListBlock Component
+ * Renders a horizontal list of icons centered on the page
+ */
+const IconListBlockComponent: React.FC<{ 
+  block: { 
+    type: 'iconList'; 
+    icons: Array<{
+      iconType: 'aws' | 'lucide';
+      iconName: string;
+      title?: string;
+      size?: 'small' | 'medium' | 'large';
+    }>;
+    spacing?: 'tight' | 'normal' | 'loose';
+  } 
+}> = ({ block }) => {
+  // Define spacing classes based on spacing prop
+  const spacingClasses = {
+    tight: 'gap-3 sm:gap-4 md:gap-6',
+    normal: 'gap-6 sm:gap-8 md:gap-10',
+    loose: 'gap-8 sm:gap-12 md:gap-16',
+  };
+  
+  const spacingClass = spacingClasses[block.spacing || 'normal'];
+  
+  return (
+    <div className={`flex flex-wrap justify-center items-center ${spacingClass} my-6 sm:my-8`} data-testid="icon-list-block">
+      {block.icons.map((icon, index) => (
+        <IconListItemComponent key={index} icon={icon} />
+      ))}
+    </div>
+  );
+};
+
+/**
+ * IconListItemComponent
+ * Renders a single icon in the icon list
+ */
+const IconListItemComponent: React.FC<{
+  icon: {
+    iconType: 'aws' | 'lucide';
+    iconName: string;
+    title?: string;
+    size?: 'small' | 'medium' | 'large';
+  };
+}> = ({ icon }) => {
+  const [imageError, setImageError] = useState(false);
+  
+  const sizeClasses = {
+    small: 'w-8 h-8 sm:w-10 sm:h-10',
+    medium: 'w-12 h-12 sm:w-16 sm:h-16',
+    large: 'w-16 h-16 sm:w-20 sm:h-20',
+  };
+
+  const sizeClass = sizeClasses[icon.size as keyof typeof sizeClasses] || sizeClasses.medium;
+
+  if (icon.iconType === 'lucide') {
+    const IconComponent = getLucideIcon(icon.iconName);
+    if (!IconComponent) return null;
+
+    return (
+      <div className="flex flex-col items-center gap-2 sm:gap-3" data-testid="icon-list-item">
+        <IconComponent className={`${sizeClass} text-reinvent-purple`} data-testid="icon-list-item-icon" />
+        {icon.title && (
+          <span className="text-xs sm:text-sm text-gray-300 font-medium text-center" data-testid="icon-list-item-title">
+            {icon.title}
+          </span>
+        )}
+      </div>
+    );
+  } else {
+    // AWS icon - load SVG from public/data/icons/aws/
+    const awsIconPath = resolveAWSIconPath(icon.iconName);
+    
+    return (
+      <div className="flex flex-col items-center gap-2 sm:gap-3" data-testid="icon-list-item">
+        {!imageError ? (
+          <img
+            src={awsIconPath}
+            alt={icon.title || icon.iconName}
+            className={`${sizeClass} object-contain`}
+            onError={() => setImageError(true)}
+            data-testid="icon-list-item-icon"
+          />
+        ) : (
+          <div className={`${sizeClass} flex items-center justify-center bg-reinvent-purple/20 rounded-lg border border-reinvent-purple/50`} data-testid="icon-list-item-icon">
+            <span className="text-xs font-bold text-reinvent-purple uppercase">
+              {icon.iconName}
+            </span>
+          </div>
+        )}
+        {icon.title && (
+          <span className="text-xs sm:text-sm text-gray-300 font-medium text-center" data-testid="icon-list-item-title">
+            {icon.title}
           </span>
         )}
       </div>

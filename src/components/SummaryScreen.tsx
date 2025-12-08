@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, RotateCcw } from 'lucide-react';
 import Header from './Header';
@@ -29,6 +29,11 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   onRestart,
   allowRetry = true 
 }) => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   const percentage = totalPossible > 0 ? Math.round((score / totalPossible) * 100) : 0;
   
   // Determine performance level

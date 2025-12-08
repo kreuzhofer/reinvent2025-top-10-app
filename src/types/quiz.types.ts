@@ -28,6 +28,7 @@ export type ContentBlock =
   | TextBlock 
   | ImageBlock 
   | IconBlock 
+  | IconListBlock
   | ListBlock 
   | StatBlock
   | CalloutBlock
@@ -53,8 +54,20 @@ export interface IconBlock {
   type: 'icon';
   iconType: 'aws' | 'lucide';
   iconName: string; // e.g., 'lambda', 'database', 'check-circle'
-  label?: string;
+  label?: string; // Deprecated: use title instead
+  title?: string; // Title displayed centered under the icon
   size?: 'small' | 'medium' | 'large';
+}
+
+export interface IconListBlock {
+  type: 'iconList';
+  icons: Array<{
+    iconType: 'aws' | 'lucide';
+    iconName: string;
+    title?: string;
+    size?: 'small' | 'medium' | 'large';
+  }>;
+  spacing?: 'tight' | 'normal' | 'loose'; // Optional spacing between icons
 }
 
 export interface ListBlock {
@@ -90,7 +103,8 @@ export interface GridBlock {
 }
 
 export interface GridItem {
-  icon?: string; // Optional icon name
+  icon?: string; // Optional icon name (for Lucide icons)
+  iconType?: 'aws' | 'lucide'; // Icon type (defaults to 'lucide' if not specified)
   title: string;
   description?: string;
   stats?: string[]; // Array of stat strings

@@ -214,7 +214,7 @@ function validateContentBlock(block: unknown, path: string, errors: ValidationEr
   }
 
   const blockObj = block as Record<string, unknown>;
-  const validTypes = ['text', 'image', 'icon', 'list', 'stat', 'callout', 'quote', 'grid'];
+  const validTypes = ['text', 'image', 'icon', 'iconList', 'list', 'stat', 'callout', 'quote', 'grid'];
 
   if (!validTypes.includes(blockObj.type as string)) {
     errors.push({ path: `${path}.type`, message: `content block type must be one of: ${validTypes.join(', ')}` });
@@ -241,6 +241,25 @@ function validateContentBlock(block: unknown, path: string, errors: ValidationEr
       }
       if (typeof blockObj.iconName !== 'string') {
         errors.push({ path: `${path}.iconName`, message: 'iconName must be a string' });
+      }
+      break;
+    case 'iconList':
+      if (!Array.isArray(blockObj.icons)) {
+        errors.push({ path: `${path}.icons`, message: 'icons must be an array' });
+      } else {
+        blockObj.icons.forEach((icon, i) => {
+          if (!icon || typeof icon !== 'object') {
+            errors.push({ path: `${path}.icons[${i}]`, message: 'icon must be an object' });
+            return;
+          }
+          const iconObj = icon as Record<string, unknown>;
+          if (iconObj.iconType !== 'aws' && iconObj.iconType !== 'lucide') {
+            errors.push({ path: `${path}.icons[${i}].iconType`, message: 'iconType must be "aws" or "lucide"' });
+          }
+          if (typeof iconObj.iconName !== 'string') {
+            errors.push({ path: `${path}.icons[${i}].iconName`, message: 'iconName must be a string' });
+          }
+        });
       }
       break;
     case 'list':
