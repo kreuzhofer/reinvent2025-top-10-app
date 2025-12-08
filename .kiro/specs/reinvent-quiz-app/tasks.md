@@ -74,14 +74,14 @@
   - **Property 10: Icon rendering mapping**
   - **Validates: Requirements 4.5, 5.2, 5.3**
 
-- [ ] 7. Build WelcomeScreen component
+- [x] 7. Build WelcomeScreen component
   - Create WelcomeScreen component with re:Invent logo
   - Add welcome message and start button
   - Implement keyboard shortcut (Enter key) to start
   - Style with re:Invent branding
   - _Requirements: 1.1, 6.3, 10.3_
 
-- [ ] 7.1 Write unit test for WelcomeScreen
+- [x] 7.1 Write unit test for WelcomeScreen
   - Test logo and start button render
   - Test Enter key starts quiz
   - _Requirements: 1.1, 6.3, 10.3_

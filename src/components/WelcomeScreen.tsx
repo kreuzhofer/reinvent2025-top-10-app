@@ -1,0 +1,84 @@
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+interface WelcomeScreenProps {
+  onStart: () => void;
+}
+
+const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        onStart();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [onStart]);
+
+  return (
+    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center max-w-2xl"
+      >
+        {/* re:Invent Logo */}
+        <motion.img
+          src="/reinvent-logo-white.svg"
+          alt="AWS re:Invent Logo"
+          className="w-64 md:w-80 mx-auto mb-8"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        />
+
+        {/* Welcome Message */}
+        <motion.h1
+          className="text-4xl md:text-5xl font-bold text-white mb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          AWS re:Invent 2025 Quiz
+        </motion.h1>
+
+        <motion.p
+          className="text-xl md:text-2xl text-gray-300 mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          Test your knowledge of the latest AWS announcements
+        </motion.p>
+
+        {/* Start Button */}
+        <motion.button
+          onClick={onStart}
+          className="bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300 mb-6"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Start Quiz
+        </motion.button>
+
+        {/* Keyboard Shortcut Hint */}
+        <motion.p
+          className="text-gray-500 text-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          Press Enter to start
+        </motion.p>
+      </motion.div>
+    </div>
+  );
+};
+
+export default WelcomeScreen;
