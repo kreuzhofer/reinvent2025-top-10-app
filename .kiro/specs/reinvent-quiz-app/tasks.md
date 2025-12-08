@@ -60,17 +60,17 @@
   - **Property 7: Restart state reset**
   - **Validates: Requirements 3.5**
 
-- [ ] 6. Create utility functions
+- [x] 6. Create utility functions
   - Implement imageLoader.ts for resolving image paths from data/images
   - Implement iconMapper.ts for mapping icon names to components
   - Create helper for AWS service icon mapping
   - _Requirements: 4.4, 4.5, 5.1, 5.2, 5.3_
 
-- [ ] 6.1 Write property test for image path resolution
+- [x] 6.1 Write property test for image path resolution
   - **Property 9: Image path resolution**
   - **Validates: Requirements 4.4, 5.1**
 
-- [ ] 6.2 Write property test for icon rendering mapping
+- [x] 6.2 Write property test for icon rendering mapping
   - **Property 10: Icon rendering mapping**
   - **Validates: Requirements 4.5, 5.2, 5.3**
 
