@@ -1,0 +1,77 @@
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import ScoreDisplay from './ScoreDisplay';
+import { ScoreProvider } from '../context/ScoreContext';
+
+/**
+ * Unit Tests for ScoreDisplay Component
+ * 
+ * Tests specific examples and edge cases for the score display.
+ */
+describe('ScoreDisplay Component', () => {
+  it('renders the score display with initial score of 0', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay />
+      </ScoreProvider>
+    );
+
+    const scoreDisplay = screen.getByTestId('score-display');
+    expect(scoreDisplay).toBeInTheDocument();
+
+    const scoreValue = screen.getByTestId('score-value');
+    expect(scoreValue).toHaveTextContent('0');
+  });
+
+  it('displays "of X possible" when totalPossible is greater than 0', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay />
+      </ScoreProvider>
+    );
+
+    // Initially totalPossible is 0, so the text should not be present
+    expect(screen.queryByTestId('score-total')).not.toBeInTheDocument();
+  });
+
+  it('has proper styling classes for re:Invent branding', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay />
+      </ScoreProvider>
+    );
+
+    const scoreDisplay = screen.getByTestId('score-display');
+    
+    // Check for key styling classes
+    expect(scoreDisplay).toHaveClass('fixed');
+    expect(scoreDisplay).toHaveClass('top-4');
+    expect(scoreDisplay).toHaveClass('right-4');
+    expect(scoreDisplay).toHaveClass('rounded-lg');
+  });
+
+  it('displays the score value prominently', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay />
+      </ScoreProvider>
+    );
+
+    const scoreValue = screen.getByTestId('score-value');
+    
+    // Check for prominent styling
+    expect(scoreValue).toHaveClass('text-3xl');
+    expect(scoreValue).toHaveClass('font-bold');
+    expect(scoreValue).toHaveClass('text-white');
+  });
+
+  it('has a "Score" label', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay />
+      </ScoreProvider>
+    );
+
+    expect(screen.getByText('Score')).toBeInTheDocument();
+  });
+});

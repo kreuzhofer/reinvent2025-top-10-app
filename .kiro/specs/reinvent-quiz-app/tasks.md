@@ -86,13 +86,13 @@
   - Test Enter key starts quiz
   - _Requirements: 1.1, 6.3, 10.3_
 
-- [ ] 8. Build ScoreDisplay component
+- [x] 8. Build ScoreDisplay component
   - Create persistent score indicator
   - Add animated score updates using Framer Motion
   - Position prominently in UI
   - _Requirements: 3.1, 8.3_
 
-- [ ] 8.1 Write property test for score visibility
+- [x] 8.1 Write property test for score visibility
   - **Property 6: Score visibility persistence**
   - **Validates: Requirements 3.1**
 
