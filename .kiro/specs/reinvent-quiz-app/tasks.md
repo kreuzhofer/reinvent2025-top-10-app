@@ -165,17 +165,17 @@
   - Test placeholder displays when image fails to load
   - _Requirements: 5.4_
 
-- [ ] 13. Build FunFactDisplay component
+- [x] 13. Build FunFactDisplay component
   - Create component to display fun facts after quiz answers
   - Style to visually distinguish from main explanation
   - Handle optional fun facts gracefully
   - _Requirements: 14.1, 14.2, 14.3_
 
-- [ ] 13.1 Write property test for fun fact display
+- [x] 13.1 Write property test for fun fact display
   - **Property 22: Fun fact display**
   - **Validates: Requirements 14.1**
 
-- [ ] 13.2 Write unit tests for fun fact component
+- [x] 13.2 Write unit tests for fun fact component
   - Test fun fact displays when present
   - Test component works without fun fact
   - _Requirements: 14.1, 14.3_
