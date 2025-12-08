@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, SkipForward } from 'lucide-react';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 import { useScore } from '../context/ScoreContext';
+import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
 import { shuffleChoices } from '../utils/shuffleChoices';
@@ -26,6 +27,8 @@ interface QuizSlideProps {
  * - 2.4: Display correct answer for incorrect selections
  * - 2.5: Provide next button after answer/timeout/skip
  * - 2.6: Provide skip button
+ * - 10.1: Right arrow key to advance slides (when answered)
+ * - 10.2: Number keys (1-N) to select quiz answers
  * - 11.4: Handle timer timeout (highlight correct answer, award 0 points)
  * - 11.5: Calculate time-adjusted points based on elapsed time
  * - 11.6: Award zero points on skip
@@ -99,6 +102,15 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
     // Award 0 points (no need to call addPoints)
   };
 
+  // Enable keyboard navigation for quiz slides
+  const shouldShowNextButton = isAnswered || isTimedOut || isSkipped;
+  useKeyboardNav({
+    onNext: shouldShowNextButton ? onNext : undefined,
+    onSelectAnswer: !isAnswered && !isTimedOut && !isSkipped ? handleAnswerSelect : undefined,
+    answerCount: displayChoices.length,
+    enabled: true,
+  });
+
   const getChoiceClassName = (index: number): string => {
     const baseClasses = 'w-full p-4 text-left rounded-lg border-2 transition-all duration-200';
     
@@ -140,8 +152,6 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
 
     return null;
   };
-
-  const shouldShowNextButton = isAnswered || isTimedOut || isSkipped;
 
   return (
     <motion.div

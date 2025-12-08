@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import type { ContentSlide as ContentSlideType, ContentBlock } from '../types/quiz.types';
 import { resolveImagePath, getPlaceholderImage } from '../utils/imageLoader';
 import { getLucideIcon, getAWSServiceIcon } from '../utils/iconMapper';
+import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import CalloutBox from './CalloutBox';
 import QuoteBlock from './QuoteBlock';
 import GridLayout from './GridLayout';
@@ -32,12 +33,19 @@ interface ContentSlideProps {
  * - 1.5: Load and display images from designated directory
  * - 5.4: Display placeholder when image fails to load
  * - 8.1: Animate transitions smoothly
+ * - 10.1: Right arrow key to advance slides
  * - 13.1: Render callout blocks with specified style
  * - 13.2: Render quote blocks with author attribution
  * - 13.3: Render grid blocks in multi-column layout
  * - 13.4: Render list title when present
  */
 const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
+  // Enable keyboard navigation for content slides
+  useKeyboardNav({
+    onNext,
+    enabled: true,
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 50 }}

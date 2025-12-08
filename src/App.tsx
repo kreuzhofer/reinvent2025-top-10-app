@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { ScoreProvider, useScore } from './context/ScoreContext';
 import { QuizConfigProvider } from './context/QuizConfigContext';
@@ -9,6 +10,7 @@ import QuizSlide from './components/QuizSlide';
 import SummaryScreen from './components/SummaryScreen';
 import ScoreDisplay from './components/ScoreDisplay';
 import ProgressIndicator from './components/ProgressIndicator';
+import KeyboardHelpOverlay from './components/KeyboardHelpOverlay';
 
 /**
  * Welcome Route Component
@@ -146,6 +148,7 @@ function SummaryRoute() {
  * - 4.1: Load quiz data from JSON file
  * - 4.3: Handle loading and error states
  * - 9.3: React Router for navigation
+ * - 10.4: Keyboard shortcut help overlay
  * - 15.1: Load and apply quizConfig settings
  * - 15.2: Implement answer choice shuffling when enabled
  * - 15.3: Show/hide progress bar based on config
@@ -154,6 +157,20 @@ function SummaryRoute() {
  */
 function QuizApp() {
   const { data, loading, error } = useQuizData('/src/data/reinvent-2025-quiz-deck.json');
+  const [showHelp, setShowHelp] = useState(false);
+
+  // Global keyboard shortcut for help overlay (? key)
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === '?' || (event.shiftKey && event.key === '/')) {
+        event.preventDefault();
+        setShowHelp((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   // Loading state
   if (loading) {
@@ -194,12 +211,17 @@ function QuizApp() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<WelcomeRoute />} />
-      <Route path="/quiz/:slideIndex" element={<QuizRoute />} />
-      <Route path="/summary" element={<SummaryRoute />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<WelcomeRoute />} />
+        <Route path="/quiz/:slideIndex" element={<QuizRoute />} />
+        <Route path="/summary" element={<SummaryRoute />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      
+      {/* Global Keyboard Help Overlay */}
+      <KeyboardHelpOverlay isOpen={showHelp} onClose={() => setShowHelp(false)} />
+    </>
   );
 }
 

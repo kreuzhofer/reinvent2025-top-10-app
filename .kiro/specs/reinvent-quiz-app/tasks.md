@@ -266,7 +266,7 @@
   - **Property 1: Sequential slide progression**
   - **Validates: Requirements 1.2**
 
-- [ ] 18. Implement keyboard navigation
+- [x] 18. Implement keyboard navigation
   - Create useKeyboardNav hook
   - Implement right arrow key to advance slides
   - Implement number keys (1-N) to select quiz answers
@@ -275,15 +275,15 @@
   - Ensure proper focus management
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-- [ ] 18.1 Write property test for keyboard navigation
+- [x] 18.1 Write property test for keyboard navigation
   - **Property 11: Keyboard navigation advancement**
   - **Validates: Requirements 10.1**
 
-- [ ] 18.2 Write property test for keyboard answer selection
+- [x] 18.2 Write property test for keyboard answer selection
   - **Property 12: Quiz keyboard answer selection**
   - **Validates: Requirements 10.2**
 
-- [ ] 18.3 Write unit tests for keyboard shortcuts
+- [x] 18.3 Write unit tests for keyboard shortcuts
   - Test Enter key on welcome screen
   - Test help overlay toggle
   - _Requirements: 10.3, 10.4_
