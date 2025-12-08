@@ -1,0 +1,860 @@
+{
+  "metadata": {
+    "title": "AWS re:Invent 2025: Top 10 Announcements",
+    "description": "Discover the most impactful announcements from AWS re:Invent 2025 with interactive quizzes",
+    "version": "1.0.0",
+    "totalSlides": 22,
+    "author": "AWS Solutions Architect",
+    "date": "December 2025",
+    "tags": ["AWS", "re:Invent", "2025", "AI", "Developer Tools", "Innovation"]
+  },
+  "slides": [
+    {
+      "type": "content",
+      "id": "overview",
+      "title": "AWS re:Invent 2025: Top 10 Announcements",
+      "content": [
+        {
+          "type": "text",
+          "text": "AWS re:Invent 2025",
+          "style": "heading"
+        },
+        {
+          "type": "text",
+          "text": "December 1-5, 2025 | Las Vegas",
+          "style": "subheading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "aws-logo",
+          "size": "large"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Database Savings Plans",
+            "Frontier Agents (Kiro, Security, DevOps)",
+            "Werner Vogels' Final Keynote",
+            "Lambda Durable Functions",
+            "Nova Model Family & Nova Forge",
+            "Graviton5 & Trainium3 Silicon",
+            "Bedrock AgentCore Updates",
+            "Kiro IDE & Strands SDK",
+            "AWS AI Factories",
+            "AWS Transform"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "id": "announcement-1",
+      "title": "Database Savings Plans",
+      "content": [
+        {
+          "type": "text",
+          "text": "Database Savings Plans",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "aws",
+          "iconName": "rds",
+          "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "The biggest applause of the entire conference - finally addressing years of customer complaints",
+          "style": "body"
+        },
+        {
+          "type": "stat",
+          "value": "35%",
+          "label": "Cost Reduction",
+          "color": "orange"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Covers RDS, Aurora, Redshift, DynamoDB, ElastiCache, MemoryDB",
+            "1-year usage commitments",
+            "Corey Quinn: 'Six Years of Complaining Finally Pays Off'",
+            "GeekWire: 'The hot new thing has nothing to do with AI'",
+            "Early adopters: SmugMug, Vanguard"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "💡 Key Insight: Enterprises still prioritize cost management over AI features",
+          "style": "info"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-1",
+      "question": "What was the audience's reaction when Matt Garman announced Database Savings Plans?",
+      "relatedAnnouncementId": "announcement-1",
+      "choices": [
+        { "text": "Polite golf claps 👏" },
+        { "text": "Confused silence 🤔" },
+        { "text": "The biggest cheer of the entire conference 🎉" },
+        { "text": "Standing ovation with tears of joy 😭" }
+      ],
+      "correctAnswerIndex": 2,
+      "explanation": "Database Savings Plans got the loudest applause - even louder than the AI announcements! Turns out saving money is more exciting than fancy AI agents. Who knew?",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Corey Quinn titled his analysis 'Six Years of Complaining Finally Pays Off' - persistence pays off!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-2",
+      "title": "Frontier Agents",
+      "content": [
+        {
+          "type": "text",
+          "text": "Frontier Agents: Autonomous AI",
+          "style": "heading"
+        },
+        {
+          "type": "text",
+          "text": "AI that works independently for hours or days without human intervention",
+          "style": "subheading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "robot-assistant",
+          "size": "large"
+        },
+        {
+          "type": "grid",
+          "columns": 3,
+          "items": [
+            {
+              "icon": "code",
+              "title": "Kiro Agent",
+              "description": "Virtual developer learning from PRs and code reviews. Updates 15+ repos from single prompt."
+            },
+            {
+              "icon": "shield",
+              "title": "Security Agent",
+              "description": "Transforms pentesting from weeks to hours. Proactively scans design docs."
+            },
+            {
+              "icon": "tools",
+              "title": "DevOps Agent",
+              "description": "Autonomous on-call engineer. 86%+ root cause identification rate."
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "value": "30%",
+          "label": "Time Developers Actually Code",
+          "color": "red"
+        },
+        {
+          "type": "text",
+          "text": "The other 70% is consumed by meetings, documentation, and ticket management",
+          "style": "caption"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-2",
+      "question": "According to AWS, what percentage of time do developers actually spend coding?",
+      "relatedAnnouncementId": "announcement-2",
+      "choices": [
+        { "text": "90% - living the dream! 😎" },
+        { "text": "70% - pretty good 👍" },
+        { "text": "50% - perfectly balanced ⚖️" },
+        { "text": "30% - mostly meetings and tickets 😭" }
+      ],
+      "correctAnswerIndex": 3,
+      "explanation": "Only 30%! The rest is meetings, documentation, and tickets. Frontier Agents aim to help developers reclaim that lost 70%. Finally, robots taking the boring meetings!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Kiro is used by 'hundreds of thousands of developers' at Amazon. That's a lot of virtual coworkers!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-3",
+      "title": "Werner Vogels' Final Keynote",
+      "content": [
+        {
+          "type": "text",
+          "text": "Werner Vogels' Final Keynote",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "microphone",
+          "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "14th and final re:Invent keynote - ending with a literal mic drop and 'Werner, out.'",
+          "style": "body"
+        },
+        {
+          "type": "callout",
+          "text": "🎯 The Renaissance Developer: Curious, judgment-wielding, community-connected",
+          "style": "success"
+        },
+        {
+          "type": "quote",
+          "text": "Will AI take my job? Maybe. Will AI make me obsolete? Absolutely not, if you evolve.",
+          "author": "Werner Vogels"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Introduced 'verification debt' concept",
+            "Warning: AI generates code faster than humans can understand it",
+            "Developers with curiosity & judgment will thrive",
+            "Viral moment across Twitter and LinkedIn"
+          ]
+        },
+        {
+          "type": "image",
+          "src": "werner-keynote.jpg",
+          "alt": "Werner Vogels final keynote",
+          "size": "medium"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-3",
+      "question": "What new concept did Werner Vogels introduce in his final keynote?",
+      "relatedAnnouncementId": "announcement-3",
+      "choices": [
+        { "text": "Technical bankruptcy 💸" },
+        { "text": "Verification debt 🔍" },
+        { "text": "Code confusion syndrome 😵" },
+        { "text": "The AI anxiety paradox 🤯" }
+      ],
+      "correctAnswerIndex": 1,
+      "explanation": "'Verification debt' - when AI generates code faster than humans can understand it. It's like technical debt's evil twin that sneaks up on you while you're not looking!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Werner literally dropped the mic and said 'Werner, out.' After 14 years, he earned that moment!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-4",
+      "title": "Lambda Durable Functions",
+      "content": [
+        {
+          "type": "text",
+          "text": "Lambda Durable Functions",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "aws",
+          "iconName": "lambda",
+          "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "Serverless code that maintains state reliably - from seconds to one full year",
+          "style": "body"
+        },
+        {
+          "type": "stat",
+          "value": "1.8M",
+          "label": "Lambda Customers Monthly",
+          "color": "purple"
+        },
+        {
+          "type": "stat",
+          "value": "15T",
+          "label": "Monthly Requests",
+          "color": "blue"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Pause and wait for long-running background tasks",
+            "Automatically survives failures and resumes",
+            "Eliminates fragile state management workarounds",
+            "Combined with Lambda Managed Instances for hybrid approach"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "🎉 Another audible cheer from the crowd - developers know pain when they see relief!",
+          "style": "info"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-4",
+      "question": "How long can Lambda Durable Functions maintain state?",
+      "relatedAnnouncementId": "announcement-4",
+      "choices": [
+        { "text": "Up to 1 hour - good for coffee breaks ☕" },
+        { "text": "Up to 1 day - overnight processing 🌙" },
+        { "text": "Up to 1 week - vacation mode 🏖️" },
+        { "text": "Up to 1 year - forget about it! 🗓️" }
+      ],
+      "correctAnswerIndex": 3,
+      "explanation": "One full year! That's enough time to start a business, run a marathon training program, or wait for the next re:Invent. Lambda just got patient!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Lambda processes over 15 trillion requests monthly. That's about 2,000 requests for every person on Earth!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-5",
+      "title": "Nova Model Family & Nova Forge",
+      "content": [
+        {
+          "type": "text",
+          "text": "Nova Model Family & Nova Forge",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "aws",
+          "iconName": "bedrock",
+          "size": "large"
+        },
+        {
+          "type": "grid",
+          "columns": 2,
+          "items": [
+            {
+              "title": "Nova 2 Lite",
+              "description": "Fast, cost-effective reasoning with million-token context"
+            },
+            {
+              "title": "Nova 2 Pro",
+              "description": "Most intelligent reasoning for complex agentic tasks"
+            },
+            {
+              "title": "Nova 2 Sonic",
+              "description": "Speech-to-speech conversational AI"
+            },
+            {
+              "title": "Nova 2 Omni",
+              "description": "Multimodal: text, images, video, speech"
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "value": "$100K",
+          "label": "Nova Forge Annual Cost",
+          "color": "green"
+        },
+        {
+          "type": "text",
+          "text": "Nova Forge: 'Open training' - blend proprietary data with Amazon's datasets to build custom frontier models",
+          "style": "body"
+        },
+        {
+          "type": "callout",
+          "text": "⚠️ Limitation: Custom models must stay on Bedrock - no model weight exports",
+          "style": "warning"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-5",
+      "question": "What's the catch with Nova Forge custom models?",
+      "relatedAnnouncementId": "announcement-5",
+      "choices": [
+        { "text": "They only work on Tuesdays 📅" },
+        { "text": "You can't export model weights - Bedrock only 🔒" },
+        { "text": "They require daily sacrifices of GPU hours 🔥" },
+        { "text": "Werner has to personally approve each model 👴" }
+      ],
+      "correctAnswerIndex": 1,
+      "explanation": "Custom models must remain on Amazon Bedrock - you can't take your model weights and leave. It's like Hotel California for AI models: you can check out any time you like, but they can never leave!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Reddit built their own frontier model with Nova Forge, replacing multiple specialized models. One model to rule them all!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-6",
+      "title": "Graviton5 & Trainium3",
+      "content": [
+        {
+          "type": "text",
+          "text": "Custom Silicon: Graviton5 & Trainium3",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "chip",
+          "size": "large"
+        },
+        {
+          "type": "grid",
+          "columns": 2,
+          "items": [
+            {
+              "icon": "cpu",
+              "title": "Graviton5",
+              "stats": [
+                "192 cores",
+                "25% higher performance vs Graviton4",
+                "98% of top 1,000 EC2 customers"
+              ]
+            },
+            {
+              "icon": "ai-chip",
+              "title": "Trainium3",
+              "stats": [
+                "First 3nm AI training chip",
+                "4.4x more compute performance",
+                "4x better energy efficiency"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "value": "1M+",
+          "label": "Trainium Chips Deployed",
+          "color": "blue"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Customers: Apple, Adobe, Airbnb, Epic Games, Formula 1, Anthropic",
+            "Trainium4 preview with NVIDIA NVLink Fusion support",
+            "Andy Jassy personally posted on X about Trainium success"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "💪 Infrastructure strength is where AWS's expertise 'really lies' - Zacks analyst",
+          "style": "success"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-6",
+      "question": "How much more compute performance does Trainium3 deliver compared to its predecessor?",
+      "relatedAnnouncementId": "announcement-6",
+      "choices": [
+        { "text": "2x - modest improvement 📈" },
+        { "text": "3x - pretty good! 💪" },
+        { "text": "4.4x - now we're talking! 🚀" },
+        { "text": "10x - impossible! 🤯" }
+      ],
+      "correctAnswerIndex": 2,
+      "explanation": "4.4x more compute performance! That's like upgrading from a bicycle to a Ferrari. And it's 4x more energy efficient too - fast AND eco-friendly!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "AWS has deployed over 1 million Trainium chips. That's enough silicon to make a very expensive beach!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-7",
+      "title": "Bedrock AgentCore Updates",
+      "content": [
+        {
+          "type": "text",
+          "text": "Bedrock AgentCore: Enterprise-Ready AI",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "aws",
+          "iconName": "bedrock",
+          "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "How do you deploy AI agents safely at enterprise scale?",
+          "style": "subheading"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Policy: Cedar guardrails (e.g., block refunds over $1,000)",
+            "13 built-in evaluators for continuous quality assessment",
+            "Episodic Memory: Agents learn from past interactions"
+          ]
+        },
+        {
+          "type": "grid",
+          "columns": 3,
+          "items": [
+            {
+              "title": "PGA TOUR",
+              "stat": "1,000%",
+              "description": "Faster content writing",
+              "color": "green"
+            },
+            {
+              "title": "MongoDB",
+              "stat": "8 weeks",
+              "description": "To production (vs months)",
+              "color": "blue"
+            },
+            {
+              "title": "Swisscom",
+              "stat": "4 weeks",
+              "description": "Agentic solution launch",
+              "color": "purple"
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "🏢 The enterprise-ready layer with governance, compliance, and audit capabilities",
+          "style": "info"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-7",
+      "question": "How much faster did PGA TOUR achieve content writing with AgentCore?",
+      "relatedAnnouncementId": "announcement-7",
+      "choices": [
+        { "text": "100% faster - doubled productivity 📊" },
+        { "text": "500% faster - five times better! 🎯" },
+        { "text": "1,000% faster - TEN times better!! 🚀" },
+        { "text": "Over 9,000% faster - wait, wrong meme 😅" }
+      ],
+      "correctAnswerIndex": 2,
+      "explanation": "1,000% faster (that's 10x)! PGA TOUR also achieved 95% cost reduction. That's what we call a hole-in-one! ⛳",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "MongoDB pushed an agent app to production in 8 weeks instead of months. Even their database is getting faster!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-8",
+      "title": "Kiro IDE & Strands SDK",
+      "content": [
+        {
+          "type": "text",
+          "text": "Kiro IDE & Strands SDK",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "code-editor",
+          "size": "large"
+        },
+        {
+          "type": "grid",
+          "columns": 2,
+          "items": [
+            {
+              "title": "Kiro IDE",
+              "features": [
+                "Kiro Powers: Unified packaging for MCP tools",
+                "Partners: Datadog, Figma, Postman, Stripe",
+                "Anthropic Opus 4.5 support",
+                "CLI version for terminal workflows"
+              ]
+            },
+            {
+              "title": "Strands SDK",
+              "features": [
+                "5+ million downloads",
+                "TypeScript support added",
+                "Edge device support (automotive, gaming, robotics)",
+                "Local models: Ollama, Llama.cpp"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "Frontier models are so capable that the more structure you add around them, the worse your agent gets",
+          "author": "AWS Developer Advocates"
+        },
+        {
+          "type": "stat",
+          "value": "90%",
+          "label": "Traditional Agent Framework Overhead",
+          "color": "red"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-8",
+      "question": "What percentage of traditional agent frameworks is just 'structural glue code'?",
+      "relatedAnnouncementId": "announcement-8",
+      "choices": [
+        { "text": "30% - a little bloat 🤷" },
+        { "text": "50% - half boilerplate 😐" },
+        { "text": "70% - mostly scaffolding 😬" },
+        { "text": "90% - almost entirely glue! 🤯" }
+      ],
+      "correctAnswerIndex": 3,
+      "explanation": "90%! Traditional frameworks are mostly structural glue code. Strands aims to eliminate this overhead. It's like removing the cardboard from a cereal box - what you really want is the cereal (code)!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Strands SDK has 5+ million downloads. That's a lot of developers wanting less glue!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-9",
+      "title": "AWS AI Factories",
+      "content": [
+        {
+          "type": "text",
+          "text": "AWS AI Factories",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "factory",
+          "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "Fully managed AI infrastructure deployed in your data center",
+          "style": "body"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Combines NVIDIA GPUs + Trainium chips",
+            "Services: Bedrock, SageMaker, and more",
+            "Addresses data sovereignty requirements",
+            "Perfect for GDPR and sector-specific regulations"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "🤝 15-year NVIDIA collaboration highlighted",
+          "style": "info"
+        },
+        {
+          "type": "stat",
+          "value": "150K",
+          "label": "AI Chips in Saudi HUMAIN AI Zone",
+          "color": "green"
+        },
+        {
+          "type": "quote",
+          "text": "Really compelling and potentially AWS's most significant announcement",
+          "author": "Ethan Feller, Zacks Analyst"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-9",
+      "question": "What's the main benefit of AWS AI Factories for enterprises?",
+      "relatedAnnouncementId": "announcement-9",
+      "choices": [
+        { "text": "Free GPUs for everyone! 🎁" },
+        { "text": "Data sovereignty & regulatory compliance 🏛️" },
+        { "text": "Unlimited cloud credits 💳" },
+        { "text": "Personal visit from Andy Jassy 👔" }
+      ],
+      "correctAnswerIndex": 1,
+      "explanation": "Data sovereignty and regulatory compliance! AI Factories let you keep data on-premises while getting AWS managed infrastructure. Perfect for strict GDPR requirements or industries with heavy regulations!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Saudi Arabia's HUMAIN is building an AI Zone with up to 150,000 AI chips. That's a LOT of artificial intelligence in one place!"
+    },
+    {
+      "type": "content",
+      "id": "announcement-10",
+      "title": "AWS Transform",
+      "content": [
+        {
+          "type": "text",
+          "text": "AWS Transform: Agentic Code Modernization",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "transform",
+          "size": "large"
+        },
+        {
+          "type": "stat",
+          "value": "30%",
+          "label": "Team Time Spent on Tech Debt",
+          "color": "red"
+        },
+        {
+          "type": "grid",
+          "columns": 3,
+          "items": [
+            {
+              "title": "Windows Modernization",
+              "description": ".NET, SQL Server, UI frameworks"
+            },
+            {
+              "title": "Mainframe Reimagine",
+              "description": "Legacy to cloud-native"
+            },
+            {
+              "title": "Transform Custom",
+              "description": "Any framework transformation"
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Customer Results",
+          "items": [
+            "Air Canada: 80% reduction in modernization time",
+            "Thomson Reuters: 1.5M lines of code monthly",
+            "Up to 70% reduction in maintenance costs"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "💰 Practical, measurable ROI - not futuristic promises!",
+          "style": "success"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-10",
+      "question": "How much code does Thomson Reuters process monthly with AWS Transform?",
+      "relatedAnnouncementId": "announcement-10",
+      "choices": [
+        { "text": "100K lines - a decent app 📝" },
+        { "text": "500K lines - now we're cooking 🔥" },
+        { "text": "1.5M lines - that's a LOT of code! 📚" },
+        { "text": "10M lines - impossible to count! 🤯" }
+      ],
+      "correctAnswerIndex": 2,
+      "explanation": "1.5 million lines of code per month! That's roughly equivalent to rewriting Windows 95 every month. Thomson Reuters is doing Windows to Linux migration at massive scale!",
+      "points": 100,
+      "timeLimit": 15,
+      "funFact": "Air Canada achieved 80% reduction in time and cost. That's faster than most of their flights! ✈️"
+    },
+    {
+      "type": "content",
+      "id": "summary",
+      "title": "Key Takeaways",
+      "content": [
+        {
+          "type": "text",
+          "text": "Key Takeaways from re:Invent 2025",
+          "style": "heading"
+        },
+        {
+          "type": "icon",
+          "iconType": "custom",
+          "iconName": "lightbulb",
+          "size": "large"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Shift from AI assistants to autonomous AI agents",
+            "Cost management still wins loudest applause",
+            "Developer productivity gains are quantifiable",
+            "Werner's wisdom: Renaissance Developers will thrive",
+            "Infrastructure strength is AWS's core advantage"
+          ]
+        },
+        {
+          "type": "stat",
+          "value": "18.3%",
+          "label": "Increase in Weekly Deployments (Q Developer)",
+          "color": "green"
+        },
+        {
+          "type": "stat",
+          "value": "87%",
+          "label": "Reduction in Resolution Time (Lyft)",
+          "color": "blue"
+        },
+        {
+          "type": "quote",
+          "text": "AI won't make developers obsolete if they evolve. The Renaissance Developer—curious, judgment-wielding, community-connected—thrives with AI tools.",
+          "author": "Werner Vogels"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "final-quiz",
+      "question": "FINAL CHALLENGE: Which announcement got the LOUDEST applause at re:Invent 2025?",
+      "relatedAnnouncementId": "summary",
+      "choices": [
+        { "text": "Frontier Agents - autonomous AI is cool! 🤖" },
+        { "text": "Database Savings Plans - saving money! 💰" },
+        { "text": "Nova models - more AI power! 🚀" },
+        { "text": "Werner's final keynote - emotional! 😢" }
+      ],
+      "correctAnswerIndex": 1,
+      "explanation": "Database Savings Plans! The crowd went WILD for cost savings. Turns out 35% off databases is more exciting than AI that can code itself. Money talks, AI walks... to the second place podium! 🏆💰",
+      "points": 200,
+      "timeLimit": 20,
+      "funFact": "This perfectly captures the gap between what vendors want to talk about (AI) vs what customers actually care about (not going bankrupt). Classic re:Invent!"
+    }
+  ],
+  "resources": {
+    "images": [
+      {
+        "id": "s3-express-diagram",
+        "filename": "s3-express-diagram.png",
+        "description": "S3 Express One Zone architecture diagram"
+      },
+      {
+        "id": "werner-keynote",
+        "filename": "werner-keynote.jpg",
+        "description": "Werner Vogels delivering his final keynote"
+      }
+    ],
+    "icons": {
+      "aws": [
+        "rds",
+        "lambda",
+        "bedrock",
+        "s3",
+        "dynamodb",
+        "sagemaker"
+      ],
+      "custom": [
+        "aws-logo",
+        "robot-assistant",
+        "microphone",
+        "chip",
+        "code-editor",
+        "factory",
+        "transform",
+        "lightbulb",
+        "shield",
+        "tools",
+        "cpu",
+        "ai-chip",
+        "code"
+      ]
+    }
+  },
+  "quizConfig": {
+    "passingScore": 70,
+    "totalPoints": 1200,
+    "showExplanations": true,
+    "allowRetry": true,
+    "shuffleChoices": true,
+    "showProgressBar": true
+  }
+}

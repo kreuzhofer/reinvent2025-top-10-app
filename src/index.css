@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* re:Invent custom theme */
+@theme {
+  --color-reinvent-purple: #8B5CF6;
+  --color-reinvent-blue: #3B82F6;
+  --color-reinvent-red: #EF4444;
+  --color-reinvent-yellow: #F59E0B;
+  
+  --font-family-amazon: "Amazon Ember", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* re:Invent base styles */
+body {
+  margin: 0;
+  font-family: var(--font-family-amazon);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}

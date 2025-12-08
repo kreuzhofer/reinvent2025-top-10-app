@@ -1,0 +1,69 @@
+{
+  "metadata": {
+    "title": "AWS re:Invent 2025 Quiz",
+    "description": "Test your knowledge of AWS re:Invent 2025 announcements",
+    "version": "1.0.0",
+    "totalSlides": 3
+  },
+  "slides": [
+    {
+      "type": "content",
+      "id": "announcement-1",
+      "title": "Amazon S3 Express One Zone",
+      "content": [
+        {
+          "type": "text",
+          "text": "Introducing Amazon S3 Express One Zone",
+          "style": "heading"
+        },
+        {
+          "type": "text",
+          "text": "Single-digit millisecond latency for your most frequently accessed data",
+          "style": "body"
+        },
+        {
+          "type": "stat",
+          "value": "10x",
+          "label": "Faster than S3 Standard",
+          "color": "purple"
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "quiz-1",
+      "question": "What is the performance improvement of S3 Express One Zone compared to S3 Standard?",
+      "relatedAnnouncementId": "announcement-1",
+      "choices": [
+        { "text": "2x faster" },
+        { "text": "5x faster" },
+        { "text": "10x faster" },
+        { "text": "20x faster" }
+      ],
+      "correctAnswerIndex": 2,
+      "explanation": "S3 Express One Zone delivers up to 10x better performance than S3 Standard.",
+      "points": 100,
+      "timeLimit": 10
+    },
+    {
+      "type": "content",
+      "id": "announcement-2",
+      "title": "AWS Lambda Performance",
+      "content": [
+        {
+          "type": "text",
+          "text": "Enhanced AWS Lambda Performance",
+          "style": "heading"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Faster cold starts",
+            "Improved memory management",
+            "Better concurrency scaling"
+          ]
+        }
+      ]
+    }
+  ]
+}
