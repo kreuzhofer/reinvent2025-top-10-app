@@ -112,6 +112,7 @@ const KeyboardHelpOverlay = ({ isOpen, onClose }: KeyboardHelpOverlayProps) => {
               <button
                 onClick={onClose}
                 className="bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-2 px-6 rounded transition-colors"
+                aria-label="Close keyboard shortcuts help"
               >
                 Got it!
               </button>

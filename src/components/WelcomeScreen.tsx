@@ -18,7 +18,20 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
   }, [onStart]);
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Animated Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-75"
+        style={{ filter: 'brightness(0.7)' }}
+      >
+        <source src="/website-header-1920x700-grid-hero-1-3.mp4" type="video/mp4" />
+      </video>
+
+      {/* Content Overlay */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -26,11 +39,11 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
           duration: 0.4,
           ease: 'easeOut'
         }}
-        className="text-center max-w-2xl"
+        className="text-center max-w-2xl relative z-10"
       >
         {/* re:Invent Logo */}
         <motion.img
-          src="/reinvent-logo-white.svg"
+          src="/reinvent-white.png"
           alt="AWS re:Invent Logo"
           className="w-64 md:w-80 mx-auto mb-8"
           initial={{ scale: 0.8, opacity: 0 }}

@@ -10,8 +10,6 @@ import WelcomeScreen from './components/WelcomeScreen';
 import ContentSlide from './components/ContentSlide';
 import QuizSlide from './components/QuizSlide';
 import SummaryScreen from './components/SummaryScreen';
-import ScoreDisplay from './components/ScoreDisplay';
-import ProgressIndicator from './components/ProgressIndicator';
 import KeyboardHelpOverlay from './components/KeyboardHelpOverlay';
 
 /**
@@ -84,23 +82,26 @@ function QuizRoute() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Score Display - always visible during quiz */}
-      <ScoreDisplay />
-
-      {/* Progress Indicator - conditional based on config */}
-      {showProgressBar && (
-        <ProgressIndicator current={currentSlideIndex + 1} total={slides.length} />
-      )}
-
       {/* Current Slide */}
       <div className="container mx-auto px-4 py-8">
         {currentSlide.type === 'content' ? (
-          <ContentSlide slide={currentSlide} onNext={handleNext} />
+          <ContentSlide 
+            slide={currentSlide} 
+            onNext={handleNext}
+            currentSlide={currentSlideIndex + 1}
+            totalSlides={slides.length}
+            showProgress={showProgressBar}
+            showScore={true}
+          />
         ) : (
           <QuizSlide 
             slide={currentSlide} 
             onNext={handleNext}
             shuffleEnabled={shuffleChoices}
+            currentSlide={currentSlideIndex + 1}
+            totalSlides={slides.length}
+            showProgress={showProgressBar}
+            showScore={true}
           />
         )}
       </div>

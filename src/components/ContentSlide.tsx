@@ -8,10 +8,15 @@ import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import CalloutBox from './CalloutBox';
 import QuoteBlock from './QuoteBlock';
 import GridLayout from './GridLayout';
+import Header from './Header';
 
 interface ContentSlideProps {
   slide: ContentSlideType;
   onNext: () => void;
+  currentSlide?: number;
+  totalSlides?: number;
+  showProgress?: boolean;
+  showScore?: boolean;
 }
 
 /**
@@ -39,7 +44,14 @@ interface ContentSlideProps {
  * - 13.3: Render grid blocks in multi-column layout
  * - 13.4: Render list title when present
  */
-const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
+const ContentSlide: React.FC<ContentSlideProps> = ({ 
+  slide, 
+  onNext,
+  currentSlide,
+  totalSlides,
+  showProgress = false,
+  showScore = false
+}) => {
   // Enable keyboard navigation for content slides
   useKeyboardNav({
     onNext,
@@ -47,18 +59,27 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
   });
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
-      transition={{ 
-        duration: 0.4,
-        ease: 'easeOut'
-      }}
-      className="min-h-screen bg-black text-white px-4 sm:px-6 py-8 sm:py-12 flex flex-col"
-      data-testid="content-slide"
-    >
-      <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
+    <>
+      <Header 
+        showProgress={showProgress}
+        currentSlide={currentSlide}
+        totalSlides={totalSlides}
+        showScore={showScore}
+      />
+      <motion.main
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -50 }}
+        transition={{ 
+          duration: 0.4,
+          ease: 'easeOut'
+        }}
+        className="min-h-screen bg-black text-white px-4 sm:px-6 py-8 sm:py-12 flex flex-col pt-20 sm:pt-24"
+        data-testid="content-slide"
+        role="main"
+        aria-label="Content slide"
+      >
+        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
         {/* Slide Title */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
@@ -109,13 +130,15 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
             transition={{ duration: 0.15 }}
             className="flex items-center gap-2 bg-reinvent-purple hover:bg-purple-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-200"
             data-testid="next-button"
+            aria-label="Continue to next slide"
           >
             Next
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
           </motion.button>
         </motion.div>
       </div>
-    </motion.div>
+    </motion.main>
+    </>
   );
 };
 

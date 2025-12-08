@@ -41,7 +41,7 @@ describe('Quiz Configuration Features', () => {
         </ScoreProvider>
       );
 
-      const choices = screen.getAllByRole('button').filter(btn => 
+      const choices = screen.getAllByRole('radio').filter(btn => 
         btn.getAttribute('data-testid')?.startsWith('choice-')
       );
 
@@ -61,7 +61,7 @@ describe('Quiz Configuration Features', () => {
         </ScoreProvider>
       );
 
-      const choices = screen.getAllByRole('button').filter(btn => 
+      const choices = screen.getAllByRole('radio').filter(btn => 
         btn.getAttribute('data-testid')?.startsWith('choice-')
       );
 

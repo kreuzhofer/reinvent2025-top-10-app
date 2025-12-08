@@ -6,12 +6,17 @@ import { useScore } from '../context/ScoreContext';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
+import Header from './Header';
 import { shuffleChoices } from '../utils/shuffleChoices';
 
 interface QuizSlideProps {
   slide: QuizSlideType;
   onNext: () => void;
   shuffleEnabled?: boolean;
+  currentSlide?: number;
+  totalSlides?: number;
+  showProgress?: boolean;
+  showScore?: boolean;
 }
 
 /**
@@ -36,7 +41,15 @@ interface QuizSlideProps {
  * - 14.2: Visually distinguish fun facts
  * - 14.3: Handle optional fun facts gracefully
  */
-const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = false }) => {
+const QuizSlide: React.FC<QuizSlideProps> = ({ 
+  slide, 
+  onNext, 
+  shuffleEnabled = false,
+  currentSlide,
+  totalSlides,
+  showProgress = false,
+  showScore = false
+}) => {
   const { addPoints, addPossiblePoints, calculateTimeAdjustedPoints } = useScore();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -154,17 +167,26 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
   };
 
   return (
-    <motion.div
-      className="max-w-4xl mx-auto px-4 py-6 sm:p-8"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ 
-        duration: 0.4,
-        ease: 'easeOut'
-      }}
-      data-testid="quiz-slide"
-    >
+    <>
+      <Header 
+        showProgress={showProgress}
+        currentSlide={currentSlide}
+        totalSlides={totalSlides}
+        showScore={showScore}
+      />
+      <motion.main
+        className="max-w-4xl mx-auto px-4 py-6 sm:p-8 pt-20 sm:pt-24"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ 
+          duration: 0.4,
+          ease: 'easeOut'
+        }}
+        data-testid="quiz-slide"
+        role="main"
+        aria-label="Quiz question"
+      >
       {/* Timer - only show if not answered, timed out, or skipped */}
       {!isAnswered && !isTimedOut && !isSkipped && (
         <QuizTimer
@@ -188,7 +210,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
       </div>
 
       {/* Answer Choices */}
-      <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6" data-testid="quiz-choices">
+      <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6" data-testid="quiz-choices" role="radiogroup" aria-label="Answer choices">
         {displayChoices.map((choice, index) => (
           <button
             key={index}
@@ -196,15 +218,18 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
             className={getChoiceClassName(index)}
             disabled={isAnswered || isTimedOut || isSkipped}
             data-testid={`choice-${index}`}
+            role="radio"
+            aria-checked={selectedIndex === index}
+            aria-label={`Choice ${index + 1}: ${choice.text}`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 sm:gap-3">
-                <span className="text-base sm:text-lg font-semibold text-reinvent-purple">
+                <span className="text-base sm:text-lg font-semibold text-reinvent-purple" aria-hidden="true">
                   {index + 1}
                 </span>
                 <span className="text-sm sm:text-base md:text-lg text-white">{choice.text}</span>
               </div>
-              {getChoiceIcon(index)}
+              <span aria-hidden="true">{getChoiceIcon(index)}</span>
             </div>
           </button>
         ))}
@@ -339,8 +364,9 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
             onClick={handleSkip}
             className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg transition-colors"
             data-testid="skip-button"
+            aria-label="Skip this question and move to the next slide"
           >
-            <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
+            <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
             Skip Question
           </button>
         )}
@@ -359,12 +385,14 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
             onClick={onNext}
             className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-reinvent-purple to-reinvent-blue hover:from-reinvent-purple/80 hover:to-reinvent-blue/80 text-white text-base sm:text-lg font-semibold rounded-lg transition-all"
             data-testid="next-button"
+            aria-label="Continue to next slide"
           >
             Next →
           </motion.button>
         )}
       </div>
-    </motion.div>
+    </motion.main>
+    </>
   );
 };
 

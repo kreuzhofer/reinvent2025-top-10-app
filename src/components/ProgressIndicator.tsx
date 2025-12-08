@@ -21,17 +21,23 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ current, total })
   const progressPercentage = total > 0 ? (current / total) * 100 : 0;
 
   return (
-    <div
+    <nav
       className="fixed top-2 left-2 sm:top-4 sm:left-4 bg-black/60 backdrop-blur-sm border border-gray-700 rounded-lg px-3 py-2 sm:px-6 sm:py-3 shadow-lg z-10"
       data-testid="progress-indicator"
+      aria-label="Quiz progress"
+      role="navigation"
     >
       <div className="flex flex-col gap-2 min-w-[100px] sm:min-w-[120px]">
         {/* Slide Position Text */}
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide font-semibold">
+          <span className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide font-semibold" id="progress-label">
             Progress
           </span>
-          <span className="text-base sm:text-lg font-bold text-white" data-testid="progress-text">
+          <span 
+            className="text-base sm:text-lg font-bold text-white" 
+            data-testid="progress-text"
+            aria-label={`Slide ${current} of ${total}`}
+          >
             {current} / {total}
           </span>
         </div>
@@ -40,6 +46,11 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ current, total })
         <div
           className="w-full h-2 bg-gray-800 rounded-full overflow-hidden"
           data-testid="progress-bar-container"
+          role="progressbar"
+          aria-valuenow={current}
+          aria-valuemin={0}
+          aria-valuemax={total}
+          aria-labelledby="progress-label"
         >
           <motion.div
             className="h-full bg-gradient-to-r from-reinvent-purple via-reinvent-blue to-reinvent-purple rounded-full"
@@ -50,7 +61,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ current, total })
           />
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

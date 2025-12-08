@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, RotateCcw } from 'lucide-react';
+import Header from './Header';
 
 interface SummaryScreenProps {
   score: number;
@@ -42,17 +43,19 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   const performance = getPerformanceMessage();
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ 
-          duration: 0.4,
-          ease: 'easeOut'
-        }}
-        className="text-center max-w-2xl w-full"
-        data-testid="summary-screen"
-      >
+    <>
+      <Header />
+      <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8 pt-20 sm:pt-24">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ 
+            duration: 0.4,
+            ease: 'easeOut'
+          }}
+          className="text-center max-w-2xl w-full"
+          data-testid="summary-screen"
+        >
         {/* Trophy Icon */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
@@ -167,6 +170,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           <motion.button
             onClick={onRestart}
             className="flex items-center justify-center gap-2 sm:gap-3 mx-auto bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200"
+            aria-label="Restart the quiz and try again"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ 
@@ -178,7 +182,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             whileTap={{ scale: 0.95 }}
             data-testid="restart-button"
           >
-            <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" />
+            <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
             Retake Quiz
           </motion.button>
         )}
@@ -201,6 +205,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
         )}
       </motion.div>
     </div>
+    </>
   );
 };
 

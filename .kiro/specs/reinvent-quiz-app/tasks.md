@@ -322,7 +322,7 @@
   - Add reduced motion support
   - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 23. Accessibility improvements
+- [x] 23. Accessibility improvements
   - Add ARIA labels to interactive elements including new content blocks
   - Ensure semantic HTML throughout (callouts, quotes, grids)
   - Add alt text to all images

@@ -10,7 +10,7 @@ describe('WelcomeScreen', () => {
     
     const logo = screen.getByAltText(/re:Invent/i);
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute('src', '/reinvent-logo-white.svg');
+    expect(logo).toHaveAttribute('src', '/reinvent-white.png');
   });
 
   it('renders the welcome message', () => {

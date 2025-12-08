@@ -43,8 +43,12 @@ const CalloutBox: React.FC<CalloutBoxProps> = ({ text, style }) => {
   const config = styleConfig[style];
   const IconComponent = config.icon;
 
+  const ariaLabel = `${style} callout: ${text}`;
+  
   return (
-    <div
+    <aside
+      role="note"
+      aria-label={ariaLabel}
       className={`flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border ${config.bgColor} ${config.borderColor} backdrop-blur-sm`}
       data-testid="callout-box"
       data-style={style}
@@ -52,11 +56,12 @@ const CalloutBox: React.FC<CalloutBoxProps> = ({ text, style }) => {
       <IconComponent
         className={`flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 mt-0.5 ${config.iconColor}`}
         data-testid="callout-icon"
+        aria-hidden="true"
       />
       <p className={`text-sm sm:text-base ${config.textColor} leading-relaxed`} data-testid="callout-text">
         {text}
       </p>
-    </div>
+    </aside>
   );
 };
 
