@@ -1,25 +1,101 @@
 @import "tailwindcss";
 
-/* re:Invent custom theme */
+/* re:Invent custom theme configuration for Tailwind CSS v4 */
 @theme {
+  /* Custom re:Invent color palette */
   --color-reinvent-purple: #8B5CF6;
   --color-reinvent-blue: #3B82F6;
   --color-reinvent-red: #EF4444;
   --color-reinvent-yellow: #F59E0B;
+  --color-reinvent-orange: #F97316;
+  --color-reinvent-green: #10B981;
   
+  /* UI state colors */
+  --color-correct: #10B981;
+  --color-incorrect: #EF4444;
+  --color-hover: #1F1F1F;
+  --color-border: #333333;
+  --color-muted: #6B7280;
+  
+  /* Typography */
   --font-family-amazon: "Amazon Ember", "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+}
+
+/* Amazon Ember font fallback and loading */
+@font-face {
+  font-family: 'Amazon Ember';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Helvetica Neue'), local('Arial'), local('sans-serif');
+}
+
+@font-face {
+  font-family: 'Amazon Ember';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Helvetica Neue Bold'), local('Arial Bold'), local('sans-serif');
 }
 
 /* re:Invent base styles */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 0;
   font-family: var(--font-family-amazon);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #000000;
   color: #FFFFFF;
+  min-height: 100vh;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: var(--font-family-mono);
+}
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus indicators for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-reinvent-purple);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F1F1F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-reinvent-purple);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-reinvent-blue);
 }

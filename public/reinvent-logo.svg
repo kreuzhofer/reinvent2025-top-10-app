@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="120" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- AWS re:Invent Logo -->
+  <defs>
+    <linearGradient id="reinventGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+      <stop offset="33%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="66%" style="stop-color:#EF4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background accent bar -->
+  <rect x="0" y="50" width="400" height="4" fill="url(#reinventGradient)" opacity="0.6"/>
+  
+  <!-- AWS text -->
+  <text x="20" y="45" font-family="Amazon Ember, Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">
+    AWS
+  </text>
+  
+  <!-- re:Invent text with gradient -->
+  <text x="20" y="85" font-family="Amazon Ember, Helvetica Neue, Arial, sans-serif" font-size="48" font-weight="700" fill="url(#reinventGradient)">
+    re:Invent
+  </text>
+  
+  <!-- 2025 year badge -->
+  <rect x="280" y="55" width="100" height="40" rx="8" fill="#8B5CF6" opacity="0.2"/>
+  <text x="330" y="82" font-family="Amazon Ember, Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="#8B5CF6" text-anchor="middle">
+    2025
+  </text>
+</svg>

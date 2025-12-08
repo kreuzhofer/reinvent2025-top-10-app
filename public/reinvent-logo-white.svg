@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="120" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- AWS re:Invent Logo - White Version -->
+  
+  <!-- AWS text -->
+  <text x="20" y="45" font-family="Amazon Ember, Helvetica Neue, Arial, sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">
+    AWS
+  </text>
+  
+  <!-- re:Invent text -->
+  <text x="20" y="85" font-family="Amazon Ember, Helvetica Neue, Arial, sans-serif" font-size="48" font-weight="700" fill="#FFFFFF">
+    re:Invent
+  </text>
+  
+  <!-- 2025 year badge -->
+  <rect x="280" y="55" width="100" height="40" rx="8" fill="#FFFFFF" opacity="0.1"/>
+  <text x="330" y="82" font-family="Amazon Ember, Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+    2025
+  </text>
+</svg>
