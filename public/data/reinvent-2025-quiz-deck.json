@@ -861,19 +861,27 @@
     {
       "type": "quiz",
       "id": "final-quiz",
-      "question": "FINAL CHALLENGE: Which announcement got the LOUDEST applause at re:Invent 2025?",
+      "question": "FINAL CHALLENGE: Which moment generated the most EMOTIONAL response at re:Invent 2025?",
       "relatedAnnouncementId": "summary",
       "choices": [
-        { "text": "Frontier Agents - autonomous AI is cool! 🤖" },
-        { "text": "Database Savings Plans - saving money! 💰" },
-        { "text": "Nova models - more AI power! 🚀" },
-        { "text": "Werner's final keynote - emotional! 😢" }
+        {
+          "text": "Frontier Agents - autonomous AI is cool! 🤖"
+        },
+        {
+          "text": "Database Savings Plans - saving money! 💰"
+        },
+        {
+          "text": "Nova models - more AI power! 🚀"
+        },
+        {
+          "text": "Werner's final keynote - emotional farewell! 😢"
+        }
       ],
-      "correctAnswerIndex": 1,
-      "explanation": "Database Savings Plans! Cost optimization announcements resonate strongly because they deliver immediate, measurable value. This shows that re:Invent balances breakthrough innovation with practical operational improvements that matter to day-to-day operations.",
+      "correctAnswerIndex": 3,
+      "explanation": "Werner Vogels' final keynote after 14 years was the most emotionally resonant moment. His literal mic drop and 'Werner, out' created a viral moment celebrating his legacy. While Database Savings Plans got strong applause for practical value, Werner's farewell connected with the community on a personal level that transcended any product announcement.",
       "points": 200,
       "timeLimit": 20,
-      "funFact": "This highlights a key insight: even at a conference showcasing cutting-edge AI innovation, fundamentals like cost optimization remain critically important to customers. The best cloud strategies balance innovation with operational excellence!"
+      "funFact": "Werner Vogels has been the voice of AWS technical philosophy since the beginning. His 'Renaissance Developer' concept and focus on builder culture shaped how millions of developers think about cloud architecture. After 14 keynotes, his final appearance reminded everyone that behind the technology are people who genuinely care about the craft."
     }
   ],
   "resources": {
