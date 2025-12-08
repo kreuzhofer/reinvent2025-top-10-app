@@ -159,7 +159,10 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
+      transition={{ 
+        duration: 0.4,
+        ease: 'easeOut'
+      }}
       data-testid="quiz-slide"
     >
       {/* Timer - only show if not answered, timed out, or skipped */}
@@ -210,8 +213,14 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
       {/* Feedback Message */}
       {isAnswered && !isTimedOut && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.8, y: -10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            type: 'spring',
+            stiffness: 200,
+            damping: 15
+          }}
           className={`p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 ${
             isCorrect(selectedIndex!)
               ? 'bg-green-500/20 border-2 border-green-500'
@@ -219,68 +228,107 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
           }`}
           data-testid="quiz-feedback"
         >
-          <p className={`text-base sm:text-lg font-semibold ${
-            isCorrect(selectedIndex!)
-              ? 'text-green-400'
-              : 'text-red-400'
-          }`}>
+          <motion.p 
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            className={`text-base sm:text-lg font-semibold ${
+              isCorrect(selectedIndex!)
+                ? 'text-green-400'
+                : 'text-red-400'
+            }`}
+          >
             {isCorrect(selectedIndex!)
               ? '✓ Correct!'
               : '✗ Incorrect'}
-          </p>
+          </motion.p>
         </motion.div>
       )}
 
       {/* Timeout Message */}
       {isTimedOut && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.8, y: -10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            type: 'spring',
+            stiffness: 200,
+            damping: 15
+          }}
           className="p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 bg-red-500/20 border-2 border-red-500"
           data-testid="timeout-message"
         >
-          <p className="text-base sm:text-lg font-semibold text-red-400">
+          <motion.p 
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            className="text-base sm:text-lg font-semibold text-red-400"
+          >
             ⏱ Time's up! No points awarded.
-          </p>
+          </motion.p>
         </motion.div>
       )}
 
       {/* Skip Message */}
       {isSkipped && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.8, y: -10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            type: 'spring',
+            stiffness: 200,
+            damping: 15
+          }}
           className="p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 bg-gray-700/50 border-2 border-gray-600"
           data-testid="skip-message"
         >
-          <p className="text-base sm:text-lg font-semibold text-gray-400">
+          <motion.p 
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            className="text-base sm:text-lg font-semibold text-gray-400"
+          >
             ⏭ Question skipped. No points awarded.
-          </p>
+          </motion.p>
         </motion.div>
       )}
 
       {/* Explanation */}
       {showExplanation && slide.explanation && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.4,
+            ease: 'easeOut'
+          }}
           className="mb-4 sm:mb-6 p-4 sm:p-6 bg-gray-800/50 rounded-lg border border-gray-700"
           data-testid="quiz-explanation"
         >
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Explanation</h3>
-          <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{slide.explanation}</p>
+          <motion.h3 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3"
+          >
+            Explanation
+          </motion.h3>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+            className="text-sm sm:text-base text-gray-300 leading-relaxed"
+          >
+            {slide.explanation}
+          </motion.p>
         </motion.div>
       )}
 
       {/* Fun Fact */}
       {showExplanation && slide.funFact && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <FunFactDisplay funFact={slide.funFact} />
-        </motion.div>
+        <FunFactDisplay funFact={slide.funFact} />
       )}
 
       {/* Action Buttons */}
@@ -300,8 +348,14 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
         {/* Next Button - show after answer, timeout, or skip */}
         {shouldShowNextButton && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ 
+              duration: 0.3,
+              ease: 'easeOut'
+            }}
             onClick={onNext}
             className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-reinvent-purple to-reinvent-blue hover:from-reinvent-purple/80 hover:to-reinvent-blue/80 text-white text-base sm:text-lg font-semibold rounded-lg transition-all"
             data-testid="next-button"

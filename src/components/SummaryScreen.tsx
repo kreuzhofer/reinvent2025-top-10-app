@@ -44,17 +44,26 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ 
+          duration: 0.4,
+          ease: 'easeOut'
+        }}
         className="text-center max-w-2xl w-full"
         data-testid="summary-screen"
       >
         {/* Trophy Icon */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.2, type: 'spring' }}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            duration: 0.5,
+            delay: 0.1,
+            type: 'spring',
+            stiffness: 200,
+            damping: 15
+          }}
           className="mb-6 sm:mb-8"
         >
           <Trophy className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto text-reinvent-yellow" />
@@ -65,7 +74,11 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.2,
+            ease: 'easeOut'
+          }}
         >
           Quiz Complete!
         </motion.h1>
@@ -75,7 +88,11 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           className={`text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 ${performance.color}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.25,
+            ease: 'easeOut'
+          }}
         >
           {performance.emoji} {performance.text}
         </motion.p>
@@ -85,30 +102,63 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ 
+            duration: 0.4,
+            delay: 0.3,
+            ease: 'easeOut'
+          }}
         >
           {/* Points Score */}
           <div className="mb-4 sm:mb-6">
-            <p className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: 0.4 }}
+              className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2"
+            >
               Your Score
-            </p>
-            <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-white" data-testid="final-score">
+            </motion.p>
+            <motion.p 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ 
+                duration: 0.4,
+                delay: 0.45,
+                type: 'spring',
+                stiffness: 200
+              }}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-white" 
+              data-testid="final-score"
+            >
               {score}
               <span className="text-xl sm:text-2xl text-gray-500"> / {totalPossible}</span>
-            </p>
+            </motion.p>
           </div>
 
           {/* Percentage Score */}
           <div className="pt-4 sm:pt-6 border-t border-gray-700">
-            <p className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: 0.5 }}
+              className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2"
+            >
               Percentage
-            </p>
-            <p 
+            </motion.p>
+            <motion.p 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ 
+                duration: 0.4,
+                delay: 0.55,
+                type: 'spring',
+                stiffness: 200
+              }}
               className="text-3xl sm:text-4xl md:text-5xl font-bold text-reinvent-purple"
               data-testid="final-percentage"
             >
               {percentage}%
-            </p>
+            </motion.p>
           </div>
         </motion.div>
 
@@ -116,10 +166,14 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
         {allowRetry && onRestart && (
           <motion.button
             onClick={onRestart}
-            className="flex items-center justify-center gap-2 sm:gap-3 mx-auto bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-300"
+            className="flex items-center justify-center gap-2 sm:gap-3 mx-auto bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ 
+              duration: 0.3,
+              delay: 0.6,
+              ease: 'easeOut'
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             data-testid="restart-button"
@@ -135,7 +189,11 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             className="text-gray-500 text-base sm:text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ 
+              duration: 0.3,
+              delay: 0.6,
+              ease: 'easeOut'
+            }}
             data-testid="no-retry-message"
           >
             Thank you for completing the quiz!

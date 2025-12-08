@@ -51,7 +51,10 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
-      transition={{ duration: 0.4 }}
+      transition={{ 
+        duration: 0.4,
+        ease: 'easeOut'
+      }}
       className="min-h-screen bg-black text-white px-4 sm:px-6 py-8 sm:py-12 flex flex-col"
       data-testid="content-slide"
     >
@@ -60,7 +63,11 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.1,
+            ease: 'easeOut'
+          }}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-white"
           data-testid="content-slide-title"
         >
@@ -71,7 +78,11 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.15,
+            ease: 'easeOut'
+          }}
           className="flex-1 space-y-4 sm:space-y-6"
           data-testid="content-blocks-container"
         >
@@ -84,17 +95,24 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.2,
+            ease: 'easeOut'
+          }}
           className="mt-6 sm:mt-8 flex justify-end"
         >
-          <button
+          <motion.button
             onClick={onNext}
-            className="flex items-center gap-2 bg-reinvent-purple hover:bg-purple-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="flex items-center gap-2 bg-reinvent-purple hover:bg-purple-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-200"
             data-testid="next-button"
           >
             Next
             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+          </motion.button>
         </motion.div>
       </div>
     </motion.div>

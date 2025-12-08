@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 import './App.css';
 import { ScoreProvider, useScore } from './context/ScoreContext';
 import { QuizConfigProvider } from './context/QuizConfigContext';
 import { useQuizData } from './hooks/useQuizData';
+import { useReducedMotion } from './hooks/useReducedMotion';
 import WelcomeScreen from './components/WelcomeScreen';
 import ContentSlide from './components/ContentSlide';
 import QuizSlide from './components/QuizSlide';
@@ -147,6 +149,7 @@ function SummaryRoute() {
  * - 1.2: Sequential slide progression
  * - 4.1: Load quiz data from JSON file
  * - 4.3: Handle loading and error states
+ * - 8.4: Add reduced motion support
  * - 9.3: React Router for navigation
  * - 10.4: Keyboard shortcut help overlay
  * - 15.1: Load and apply quizConfig settings
@@ -158,6 +161,7 @@ function SummaryRoute() {
 function QuizApp() {
   const { data, loading, error } = useQuizData('/data/reinvent-2025-quiz-deck.json');
   const [showHelp, setShowHelp] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   // Global keyboard shortcut for help overlay (? key)
   useEffect(() => {
@@ -211,7 +215,7 @@ function QuizApp() {
   }
 
   return (
-    <>
+    <MotionConfig reducedMotion={prefersReducedMotion ? 'always' : 'never'}>
       <Routes>
         <Route path="/" element={<WelcomeRoute />} />
         <Route path="/quiz/:slideIndex" element={<QuizRoute />} />
@@ -221,7 +225,7 @@ function QuizApp() {
       
       {/* Global Keyboard Help Overlay */}
       <KeyboardHelpOverlay isOpen={showHelp} onClose={() => setShowHelp(false)} />
-    </>
+    </MotionConfig>
   );
 }
 
@@ -229,6 +233,7 @@ function QuizApp() {
  * Root App Component with Providers and Router
  * 
  * Requirements:
+ * - 8.4: Add reduced motion support
  * - 9.3: React Router for navigation
  */
 function App() {

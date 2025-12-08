@@ -20,7 +20,10 @@ const ScoreDisplay: React.FC = () => {
       className="fixed top-2 right-2 sm:top-4 sm:right-4 bg-reinvent-purple/20 backdrop-blur-sm border border-reinvent-purple/50 rounded-lg px-3 py-2 sm:px-6 sm:py-3 shadow-lg z-10"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ 
+        duration: 0.4,
+        ease: 'easeOut'
+      }}
       data-testid="score-display"
     >
       <div className="flex flex-col items-end">
@@ -30,9 +33,14 @@ const ScoreDisplay: React.FC = () => {
         <motion.span
           key={score}
           className="text-2xl sm:text-3xl font-bold text-white"
-          initial={{ scale: 1.2, color: '#8B5CF6' }}
+          initial={{ scale: 1.3, color: '#8B5CF6' }}
           animate={{ scale: 1, color: '#FFFFFF' }}
-          transition={{ duration: 0.3 }}
+          transition={{ 
+            duration: 0.4,
+            type: 'spring',
+            stiffness: 200,
+            damping: 15
+          }}
           data-testid="score-value"
         >
           {score}

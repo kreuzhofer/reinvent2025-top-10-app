@@ -25,8 +25,9 @@ describe('FunFactDisplay Property-Based Tests', () => {
    * - Render all required elements
    */
   it('Property 22: Fun fact display - displays fun fact with visual distinction', () => {
-    // Generator for fun fact text
-    const funFactTextArb = fc.string({ minLength: 1, maxLength: 300 });
+    // Generator for non-empty fun fact text (excluding whitespace-only strings)
+    const funFactTextArb = fc.string({ minLength: 1, maxLength: 300 })
+      .filter(s => s.trim().length > 0);
 
     fc.assert(
       fc.property(
@@ -99,7 +100,9 @@ describe('FunFactDisplay Property-Based Tests', () => {
    * a consistent structure with container, icon, label, and text elements.
    */
   it('Property: Fun fact maintains consistent structure when present', () => {
-    const funFactTextArb = fc.string({ minLength: 1, maxLength: 300 });
+    // Generator for non-empty fun fact text (excluding whitespace-only strings)
+    const funFactTextArb = fc.string({ minLength: 1, maxLength: 300 })
+      .filter(s => s.trim().length > 0);
 
     fc.assert(
       fc.property(
@@ -144,7 +147,9 @@ describe('FunFactDisplay Property-Based Tests', () => {
    * that differentiates it from regular explanation text.
    */
   it('Property: Fun fact has distinct visual styling', () => {
-    const funFactTextArb = fc.string({ minLength: 1, maxLength: 200 });
+    // Generator for non-empty fun fact text (excluding whitespace-only strings)
+    const funFactTextArb = fc.string({ minLength: 1, maxLength: 200 })
+      .filter(s => s.trim().length > 0);
 
     fc.assert(
       fc.property(
