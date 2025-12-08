@@ -6,6 +6,7 @@ import { ScoreProvider, useScore } from './context/ScoreContext';
 import { QuizStateProvider, useQuizState } from './context/QuizStateContext';
 import { QuizConfigProvider } from './context/QuizConfigContext';
 import { AudioProvider } from './context/AudioContext';
+import { EmojiProvider } from './context/EmojiContext';
 import { useQuizData } from './hooks/useQuizData';
 import { useReducedMotion } from './hooks/useReducedMotion';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -274,13 +275,15 @@ function App() {
   return (
     <BrowserRouter>
       <AudioProvider>
-        <ScoreProvider>
-          <QuizStateProvider>
-            <QuizConfigProvider>
-              <QuizApp />
-            </QuizConfigProvider>
-          </QuizStateProvider>
-        </ScoreProvider>
+        <EmojiProvider>
+          <ScoreProvider>
+            <QuizStateProvider>
+              <QuizConfigProvider>
+                <QuizApp />
+              </QuizConfigProvider>
+            </QuizStateProvider>
+          </ScoreProvider>
+        </EmojiProvider>
       </AudioProvider>
     </BrowserRouter>
   );

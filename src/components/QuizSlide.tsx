@@ -115,11 +115,13 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
 
   // Handle background music for this slide
   useEffect(() => {
-    // Play background music if specified
+    // Play background music if specified on the slide
     if (slide.backgroundMusic) {
       playBackgroundMusic(slide.backgroundMusic);
+    } else {
+      // For quiz slides without specific background music, play default quiz music
+      playBackgroundMusic('quiz-bg.mp3');
     }
-    // If no backgroundMusic property, current music continues playing
   }, [slide.id, slide.backgroundMusic, playBackgroundMusic]);
 
   const handleAnswerSelect = (index: number) => {
@@ -142,13 +144,13 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
       
       // Trigger success emoji animation and sound effect
       showSuccessEmoji();
-      playSFX('effects/correct-answer.mp3').catch(() => {
+      playSFX('correct-answer.mp3').catch(() => {
         // Silently fail if audio doesn't play
       });
     } else {
       // Trigger miss emoji animation and sound effect
       showMissEmoji();
-      playSFX('effects/wrong-answer.mp3').catch(() => {
+      playSFX('wrong-answer.mp3').catch(() => {
         // Silently fail if audio doesn't play
       });
     }

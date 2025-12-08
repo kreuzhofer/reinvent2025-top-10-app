@@ -73,7 +73,7 @@ describe('ContentSlide Property-Based Tests', () => {
           );
 
           // Verify that slide transition sound effect was played
-          expect(mockPlaySFX).toHaveBeenCalledWith('effects/slide-transition.mp3');
+          expect(mockPlaySFX).toHaveBeenCalledWith('slide-transition.mp3');
           expect(mockPlaySFX).toHaveBeenCalledTimes(1);
 
           unmount();

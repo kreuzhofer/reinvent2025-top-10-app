@@ -50,6 +50,12 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
     if (!isInitialized) {
       await audioManager.initialize();
       setIsInitialized(true);
+      
+      // After initialization, check if there's pending background music to play
+      const pendingMusic = audioManager.getCurrentBackgroundMusic();
+      if (pendingMusic && !audioManager.isMuted()) {
+        await audioManager.playBackgroundMusic(pendingMusic);
+      }
     }
   }, [audioManager, isInitialized]);
 

@@ -25,10 +25,10 @@ export interface UseAudioManagerReturn {
  * ```tsx
  * const { playBackgroundMusic, playSFX, isMuted, toggleMute } = useAudioManager();
  * 
- * // Play background music
+ * // Play background music (filename only, no path prefix)
  * await playBackgroundMusic('welcome-bg.mp3');
  * 
- * // Play sound effect
+ * // Play sound effect (filename only, no path prefix)
  * await playSFX('correct-answer.mp3');
  * 
  * // Toggle mute

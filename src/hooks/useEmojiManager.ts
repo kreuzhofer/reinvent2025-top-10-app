@@ -26,7 +26,7 @@ export function useEmojiManager(): UseEmojiManagerReturn {
     
     // Play emoji fly-in sound effect
     if (audioContext.audioManager && audioContext.isInitialized) {
-      audioContext.audioManager.playSFX('effects/emoji-fly.mp3').catch(() => {
+      audioContext.audioManager.playSFX('emoji-fly.mp3').catch(() => {
         // Silently fail if audio doesn't play
       });
     }
@@ -40,7 +40,7 @@ export function useEmojiManager(): UseEmojiManagerReturn {
     
     // Play emoji fly-in sound effect
     if (audioContext.audioManager && audioContext.isInitialized) {
-      audioContext.audioManager.playSFX('effects/emoji-fly.mp3').catch(() => {
+      audioContext.audioManager.playSFX('emoji-fly.mp3').catch(() => {
         // Silently fail if audio doesn't play
       });
     }

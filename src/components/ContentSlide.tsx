@@ -72,13 +72,15 @@ const ContentSlide: React.FC<ContentSlideProps> = ({
   // Handle background music for this slide
   useEffect(() => {
     // Play slide transition sound effect
-    playSFX('effects/slide-transition.mp3');
+    playSFX('slide-transition.mp3');
 
-    // Play background music if specified
+    // Play background music if specified on the slide
     if (slide.backgroundMusic) {
       playBackgroundMusic(slide.backgroundMusic);
+    } else {
+      // For content slides without specific background music, play default quiz music
+      playBackgroundMusic('quiz-bg.mp3');
     }
-    // If no backgroundMusic property, current music continues playing
   }, [slide.id, slide.backgroundMusic, playBackgroundMusic, playSFX]);
 
   // Enable keyboard navigation for content slides

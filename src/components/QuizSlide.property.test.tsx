@@ -408,7 +408,7 @@ describe('QuizSlide Property-Based Tests', () => {
 
           // Property: playSFX should be called with correct-answer.mp3
           await waitFor(() => {
-            expect(mockPlaySFX).toHaveBeenCalledWith('effects/correct-answer.mp3');
+            expect(mockPlaySFX).toHaveBeenCalledWith('correct-answer.mp3');
           });
 
           // Property: Success emoji should be triggered
@@ -453,7 +453,7 @@ describe('QuizSlide Property-Based Tests', () => {
 
           // Property: playSFX should be called with wrong-answer.mp3
           await waitFor(() => {
-            expect(mockPlaySFX).toHaveBeenCalledWith('effects/wrong-answer.mp3');
+            expect(mockPlaySFX).toHaveBeenCalledWith('wrong-answer.mp3');
           });
 
           // Property: Miss emoji should be triggered

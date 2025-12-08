@@ -49,7 +49,7 @@ export const EmojiProvider: React.FC<EmojiProviderProps> = ({ children }) => {
       
       // Play emoji fly-in sound effect if audio manager is available
       if (audioManagerRef.current) {
-        audioManagerRef.current.playSFX('effects/emoji-fly.mp3').catch(() => {
+        audioManagerRef.current.playSFX('emoji-fly.mp3').catch(() => {
           // Silently fail if audio doesn't play
         });
       }
@@ -66,7 +66,7 @@ export const EmojiProvider: React.FC<EmojiProviderProps> = ({ children }) => {
       
       // Play emoji fly-in sound effect if audio manager is available
       if (audioManagerRef.current) {
-        audioManagerRef.current.playSFX('effects/emoji-fly.mp3').catch(() => {
+        audioManagerRef.current.playSFX('emoji-fly.mp3').catch(() => {
           // Silently fail if audio doesn't play
         });
       }

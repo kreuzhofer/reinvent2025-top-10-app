@@ -40,7 +40,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
 
   // Play victory music on mount
   useEffect(() => {
-    playBackgroundMusic('background/victory-bg.mp3');
+    playBackgroundMusic('victory-bg.mp3');
   }, [playBackgroundMusic]);
 
   const percentage = totalPossible > 0 ? Math.round((score / totalPossible) * 100) : 0;

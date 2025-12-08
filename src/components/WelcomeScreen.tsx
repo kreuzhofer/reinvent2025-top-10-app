@@ -16,7 +16,7 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
 
   // Play welcome background music on mount
   useEffect(() => {
-    playBackgroundMusic('background/welcome-bg.mp3');
+    playBackgroundMusic('welcome-bg.mp3');
   }, [playBackgroundMusic]);
 
   useEffect(() => {
