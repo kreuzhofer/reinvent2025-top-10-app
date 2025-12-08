@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import QuizSlide from './QuizSlide';
 import { ScoreProvider } from '../context/ScoreContext';
+import { QuizStateProvider } from '../context/QuizStateContext';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 
 // Mock the QuizTimer component to avoid timer complexity in tests
@@ -49,12 +50,19 @@ const mockQuizSlide: QuizSlideType = {
 };
 
 describe('QuizSlide Component', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
+  });
+
   it('renders question and all choices', () => {
     const onNext = vi.fn();
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -75,7 +83,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -91,7 +101,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -110,7 +122,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -129,7 +143,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -150,7 +166,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -171,7 +189,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -193,7 +213,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -220,7 +242,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={slideWithoutFunFact} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={slideWithoutFunFact} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -243,7 +267,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -264,7 +290,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -291,7 +319,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -309,7 +339,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 
@@ -323,7 +355,9 @@ describe('QuizSlide Component', () => {
 
     render(
       <ScoreProvider>
-        <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        <QuizStateProvider>
+          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
+        </QuizStateProvider>
       </ScoreProvider>
     );
 

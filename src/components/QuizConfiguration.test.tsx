@@ -1,7 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { QuizConfigProvider } from '../context/QuizConfigContext';
 import { ScoreProvider } from '../context/ScoreContext';
+import { QuizStateProvider } from '../context/QuizStateContext';
 import QuizSlide from './QuizSlide';
 import ProgressIndicator from './ProgressIndicator';
 import SummaryScreen from './SummaryScreen';
@@ -16,6 +17,11 @@ import type { QuizSlide as QuizSlideType, QuizConfig } from '../types/quiz.types
  * - 15.4: Retry option appears when enabled
  */
 describe('Quiz Configuration Features', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
+  });
+
   const mockQuizSlide: QuizSlideType = {
     type: 'quiz',
     id: 'test-quiz',
@@ -37,7 +43,9 @@ describe('Quiz Configuration Features', () => {
 
       render(
         <ScoreProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={false} />
+          <QuizStateProvider>
+            <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={false} />
+          </QuizStateProvider>
         </ScoreProvider>
       );
 
@@ -57,7 +65,9 @@ describe('Quiz Configuration Features', () => {
 
       render(
         <ScoreProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={true} />
+          <QuizStateProvider>
+            <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={true} />
+          </QuizStateProvider>
         </ScoreProvider>
       );
 

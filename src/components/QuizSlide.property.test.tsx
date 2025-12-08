@@ -1,9 +1,10 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { render, screen, waitFor, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as fc from 'fast-check';
 import QuizSlide from './QuizSlide';
 import { ScoreProvider } from '../context/ScoreContext';
+import { QuizStateProvider } from '../context/QuizStateContext';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 
 // Mock the QuizTimer component to avoid timer complexity in tests
@@ -60,6 +61,11 @@ const arbitraryQuizSlide = (): fc.Arbitrary<QuizSlideType> => {
 };
 
 describe('QuizSlide Property-Based Tests', () => {
+  // Clear localStorage before each test
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   // Clean up after each test to avoid DOM pollution
   afterEach(() => {
     cleanup();
@@ -81,7 +87,9 @@ describe('QuizSlide Property-Based Tests', () => {
 
           render(
             <ScoreProvider>
-              <QuizSlide slide={slide} onNext={onNext} />
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
             </ScoreProvider>
           );
 
@@ -132,7 +140,9 @@ describe('QuizSlide Property-Based Tests', () => {
 
           render(
             <ScoreProvider>
-              <QuizSlide slide={slide} onNext={onNext} />
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
             </ScoreProvider>
           );
 
@@ -182,7 +192,9 @@ describe('QuizSlide Property-Based Tests', () => {
 
           render(
             <ScoreProvider>
-              <QuizSlide slide={slide} onNext={onNext} />
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
             </ScoreProvider>
           );
 
@@ -225,7 +237,9 @@ describe('QuizSlide Property-Based Tests', () => {
 
           render(
             <ScoreProvider>
-              <QuizSlide slide={slide} onNext={onNext} />
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
             </ScoreProvider>
           );
 
@@ -272,7 +286,9 @@ describe('QuizSlide Property-Based Tests', () => {
 
           render(
             <ScoreProvider>
-              <QuizSlide slide={slide} onNext={onNext} />
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
             </ScoreProvider>
           );
 
@@ -306,7 +322,9 @@ describe('QuizSlide Property-Based Tests', () => {
 
           render(
             <ScoreProvider>
-              <QuizSlide slide={slide} onNext={onNext} />
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
             </ScoreProvider>
           );
 

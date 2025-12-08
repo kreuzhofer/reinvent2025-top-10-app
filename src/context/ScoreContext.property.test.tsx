@@ -20,6 +20,11 @@ const calculateTimeAdjustedPoints = (basePoints: number, elapsedSeconds: number)
 };
 
 describe('ScoreContext Property Tests', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
+  });
+
   describe('Property 14: Time-adjusted point calculation', () => {
     it('should calculate time-adjusted points correctly for any base points and elapsed seconds', () => {
       fc.assert(

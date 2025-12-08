@@ -18,6 +18,11 @@ import type { ReactNode } from 'react';
  */
 
 describe('ScoreDisplay Property-Based Tests', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
+  });
+
   /**
    * Property 6: Score visibility persistence
    * 

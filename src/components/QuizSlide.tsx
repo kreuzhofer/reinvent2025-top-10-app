@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, SkipForward, ChevronRight } from 'lucide-react';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 import { useScore } from '../context/ScoreContext';
+import { useQuizState } from '../context/QuizStateContext';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
@@ -50,39 +51,59 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   showProgress = false,
   showScore = false
 }) => {
-  const { addPoints, addPossiblePoints, calculateTimeAdjustedPoints } = useScore();
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [isTimedOut, setIsTimedOut] = useState(false);
-  const [isSkipped, setIsSkipped] = useState(false);
+  const { addPoints, calculateTimeAdjustedPoints } = useScore();
+  const { getAnswerState, setAnswerState, getShuffleOrder, setShuffleOrder } = useQuizState();
+  
+  // Check if this question was already answered
+  const savedState = getAnswerState(slide.id);
+  
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(savedState?.selectedIndex ?? null);
+  const [isAnswered, setIsAnswered] = useState(!!savedState);
+  const [isTimedOut, setIsTimedOut] = useState(savedState?.isTimedOut ?? false);
+  const [isSkipped, setIsSkipped] = useState(savedState?.isSkipped ?? false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(!!savedState);
 
-  // Shuffle choices if enabled (memoized to prevent re-shuffling on re-renders)
+  // Shuffle choices if enabled, but use saved shuffle order if it exists
   const { displayChoices, correctIndex } = useMemo(() => {
     if (shuffleEnabled) {
-      const { shuffledChoices, newCorrectIndex } = shuffleChoices(
-        slide.choices,
-        slide.correctAnswerIndex
-      );
-      return { displayChoices: shuffledChoices, correctIndex: newCorrectIndex };
+      // Check if we have a saved shuffle order for this slide
+      const savedOrder = getShuffleOrder(slide.id);
+      
+      if (savedOrder) {
+        // Use the saved shuffle order
+        const shuffledChoices = savedOrder.choiceIndices.map(i => slide.choices[i]);
+        return { displayChoices: shuffledChoices, correctIndex: savedOrder.correctIndex };
+      } else {
+        // Generate new shuffle and save it
+        const { shuffledChoices, newCorrectIndex } = shuffleChoices(
+          slide.choices,
+          slide.correctAnswerIndex
+        );
+        
+        // Save the shuffle order for consistency across reloads
+        const choiceIndices = shuffledChoices.map(choice => 
+          slide.choices.findIndex(c => c.text === choice.text)
+        );
+        setShuffleOrder(slide.id, {
+          choiceIndices,
+          correctIndex: newCorrectIndex,
+        });
+        
+        return { displayChoices: shuffledChoices, correctIndex: newCorrectIndex };
+      }
     }
     return { displayChoices: slide.choices, correctIndex: slide.correctAnswerIndex };
-  }, [slide.choices, slide.correctAnswerIndex, shuffleEnabled]);
+  }, [slide.id, slide.choices, slide.correctAnswerIndex, shuffleEnabled, getShuffleOrder, setShuffleOrder]);
 
   // Scroll to top when slide changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slide.id]);
 
-  // Add possible points when component mounts
-  useEffect(() => {
-    addPossiblePoints(slide.points);
-  }, [slide.points, addPossiblePoints]);
-
   const handleAnswerSelect = (index: number) => {
     // Prevent selection if already answered, timed out, or skipped
-    if (isAnswered || isTimedOut || isSkipped) {
+    if (isAnswered || isTimedOut || isSkipped || savedState) {
       return;
     }
 
@@ -92,11 +113,21 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
     // Check if answer is correct (use correctIndex which accounts for shuffling)
     const isCorrect = index === correctIndex;
 
+    let pointsAwarded = 0;
     if (isCorrect) {
       // Calculate time-adjusted points
-      const points = calculateTimeAdjustedPoints(slide.points, elapsedSeconds);
-      addPoints(points);
+      pointsAwarded = calculateTimeAdjustedPoints(slide.points, elapsedSeconds);
+      addPoints(pointsAwarded);
     }
+
+    // Save answer state to localStorage
+    setAnswerState(slide.id, {
+      selectedIndex: index,
+      isCorrect,
+      pointsAwarded,
+      isSkipped: false,
+      isTimedOut: false,
+    });
 
     // Show explanation after a brief delay
     setTimeout(() => {
@@ -105,9 +136,19 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   };
 
   const handleTimeout = () => {
+    if (savedState) return; // Don't process if already answered
+    
     setIsTimedOut(true);
     setShowExplanation(true);
-    // Award 0 points (no need to call addPoints)
+    
+    // Save timeout state
+    setAnswerState(slide.id, {
+      selectedIndex: null,
+      isCorrect: false,
+      pointsAwarded: 0,
+      isSkipped: false,
+      isTimedOut: true,
+    });
   };
 
   const handleTick = (elapsed: number) => {
@@ -115,9 +156,19 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   };
 
   const handleSkip = () => {
+    if (savedState) return; // Don't process if already answered
+    
     setIsSkipped(true);
     setShowExplanation(true);
-    // Award 0 points (no need to call addPoints)
+    
+    // Save skip state
+    setAnswerState(slide.id, {
+      selectedIndex: null,
+      isCorrect: false,
+      pointsAwarded: 0,
+      isSkipped: true,
+      isTimedOut: false,
+    });
   };
 
   // Enable keyboard navigation for quiz slides

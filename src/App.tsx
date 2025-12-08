@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { MotionConfig, AnimatePresence } from 'framer-motion';
 import './App.css';
 import { ScoreProvider, useScore } from './context/ScoreContext';
+import { QuizStateProvider, useQuizState } from './context/QuizStateContext';
 import { QuizConfigProvider } from './context/QuizConfigContext';
 import { useQuizData } from './hooks/useQuizData';
 import { useReducedMotion } from './hooks/useReducedMotion';
@@ -123,6 +124,7 @@ function QuizRoute() {
 function SummaryRoute() {
   const navigate = useNavigate();
   const { score, totalPossible, resetScore } = useScore();
+  const { clearAllAnswers } = useQuizState();
   const { data } = useQuizData('/data/reinvent-2025-quiz-deck.json');
 
   const quizConfig = data?.quizConfig;
@@ -130,6 +132,7 @@ function SummaryRoute() {
 
   const handleRestart = () => {
     resetScore();
+    clearAllAnswers();
     navigate('/');
   };
 
@@ -167,6 +170,23 @@ function QuizApp() {
   const { data, loading, error } = useQuizData('/data/reinvent-2025-quiz-deck.json');
   const [showHelp, setShowHelp] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const { setTotalPossible, totalPossible } = useScore();
+
+  // Calculate and set total possible points from all quiz slides (only once when data loads)
+  useEffect(() => {
+    if (data && data.slides && totalPossible === 0) {
+      const total = data.slides
+        .filter(slide => slide.type === 'quiz')
+        .reduce((sum, slide) => {
+          if (slide.type === 'quiz') {
+            return sum + slide.points;
+          }
+          return sum;
+        }, 0);
+      
+      setTotalPossible(total);
+    }
+  }, [data, setTotalPossible, totalPossible]);
 
   // Global keyboard shortcut for help overlay (? key)
   useEffect(() => {
@@ -245,9 +265,11 @@ function App() {
   return (
     <BrowserRouter>
       <ScoreProvider>
-        <QuizConfigProvider>
-          <QuizApp />
-        </QuizConfigProvider>
+        <QuizStateProvider>
+          <QuizConfigProvider>
+            <QuizApp />
+          </QuizConfigProvider>
+        </QuizStateProvider>
       </ScoreProvider>
     </BrowserRouter>
   );

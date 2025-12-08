@@ -167,6 +167,7 @@ export interface ScoreContextType {
   totalPossible: number;
   addPoints: (points: number) => void;
   addPossiblePoints: (points: number) => void;
+  setTotalPossible: (points: number) => void;
   resetScore: () => void;
   calculateTimeAdjustedPoints: (basePoints: number, elapsedSeconds: number) => number;
 }
