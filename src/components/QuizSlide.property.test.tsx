@@ -89,7 +89,8 @@ describe('QuizSlide Property-Based Tests', () => {
             // Property: Question should be displayed
             const questionElement = screen.getByTestId('quiz-question');
             expect(questionElement).toBeInTheDocument();
-            expect(questionElement).toHaveTextContent(slide.question);
+            // Trim whitespace for comparison since HTML naturally trims whitespace
+            expect(questionElement.textContent?.trim()).toBe(slide.question.trim());
 
             // Property: All choices should be rendered
             const choicesContainer = screen.getByTestId('quiz-choices');
@@ -98,7 +99,8 @@ describe('QuizSlide Property-Based Tests', () => {
             slide.choices.forEach((choice, index) => {
               const choiceButton = screen.getByTestId(`choice-${index}`);
               expect(choiceButton).toBeInTheDocument();
-              expect(choiceButton).toHaveTextContent(choice.text);
+              // Check that the choice text is present (trimmed for whitespace handling)
+              expect(choiceButton.textContent).toContain(choice.text.trim());
             });
           } finally {
             // Clean up after each iteration
