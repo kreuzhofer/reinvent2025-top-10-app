@@ -210,7 +210,7 @@
   - **Property 15: Timer expiration behavior**
   - **Validates: Requirements 11.4**
 
-- [ ] 14.5 Write property test for skip button presence
+- [x] 14.5 Write property test for skip button presence
   - **Property 16: Skip button presence**
   - **Validates: Requirements 2.6**
 
