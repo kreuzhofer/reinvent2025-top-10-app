@@ -2,7 +2,7 @@
   "metadata": {
     "title": "AWS re:Invent 2025: Top 10 Announcements",
     "description": "Discover the most impactful announcements from AWS re:Invent 2025 with interactive quizzes",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "totalSlides": 22,
     "author": "AWS Solutions Architect",
     "date": "December 2025",
@@ -14,16 +14,6 @@
       "id": "overview",
       "title": "AWS re:Invent 2025: Top 10 Announcements",
       "content": [
-        {
-          "type": "text",
-          "text": "AWS re:Invent 2025",
-          "style": "heading"
-        },
-        {
-          "type": "text",
-          "text": "December 1-5, 2025 | Las Vegas",
-          "style": "subheading"
-        },
         {
           "type": "icon",
           "iconType": "lucide",
@@ -54,7 +44,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Database Savings Plans",
+          "text": "Simplifying cost optimization across managed databases",
           "style": "heading"
         },
         {
@@ -65,7 +55,7 @@
         },
         {
           "type": "text",
-          "text": "The biggest applause of the entire conference - finally addressing years of customer complaints",
+          "text": "Addressing years of customer requests for simpler database cost management with flexible commitment plans",
           "style": "body"
         },
         {
@@ -78,7 +68,7 @@
           "type": "list",
           "items": [
             "Covers RDS, Aurora, Redshift, DynamoDB, ElastiCache, MemoryDB",
-            "1-year usage commitments",
+            "1-year usage commitments with flexible allocation",
             "Corey Quinn: 'Six Years of Complaining Finally Pays Off'",
             "GeekWire: 'The hot new thing has nothing to do with AI'",
             "Early adopters: SmugMug, Vanguard"
@@ -86,7 +76,7 @@
         },
         {
           "type": "callout",
-          "text": "💡 Key Insight: Enterprises still prioritize cost management over AI features",
+          "text": "💡 Enterprises prioritize cost management alongside AI innovation",
           "style": "info"
         }
       ]
@@ -115,12 +105,12 @@
       "content": [
         {
           "type": "text",
-          "text": "Frontier Agents: Autonomous AI",
+          "text": "Autonomous AI working independently for hours or days",
           "style": "heading"
         },
         {
           "type": "text",
-          "text": "AI that works independently for hours or days without human intervention",
+          "text": "A new class of AI agents that operate without continuous human intervention",
           "style": "subheading"
         },
         {
@@ -187,7 +177,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Werner Vogels' Final Keynote",
+          "text": "The Renaissance Developer and verification debt",
           "style": "heading"
         },
         {
@@ -198,12 +188,12 @@
         },
         {
           "type": "text",
-          "text": "14th and final re:Invent keynote - ending with a literal mic drop and 'Werner, out.'",
+          "text": "Amazon CTO Werner Vogels delivered his 14th and final re:Invent keynote, ending with a literal mic drop",
           "style": "body"
         },
         {
           "type": "callout",
-          "text": "🎯 The Renaissance Developer: Curious, judgment-wielding, community-connected",
+          "text": "🎯 Renaissance Developers: Curious, judgment-wielding, community-connected",
           "style": "success"
         },
         {
@@ -214,10 +204,10 @@
         {
           "type": "list",
           "items": [
-            "Introduced 'verification debt' concept",
-            "Warning: AI generates code faster than humans can understand it",
-            "Developers with curiosity & judgment will thrive",
-            "Viral moment across Twitter and LinkedIn"
+            "Introduced 'verification debt' - AI generating code faster than humans understand it",
+            "Developers with curiosity and judgment will thrive in the AI era",
+            "Emphasized the need for proper oversight of AI-generated code",
+            "Created viral moment across Twitter and LinkedIn"
           ]
         },
         {
@@ -252,7 +242,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Lambda Durable Functions",
+          "text": "Reliable state management for serverless workflows",
           "style": "heading"
         },
         {
@@ -263,7 +253,7 @@
         },
         {
           "type": "text",
-          "text": "Serverless code that maintains state reliably - from seconds to one full year",
+          "text": "Serverless code that maintains state reliably from seconds to one full year, eliminating fragile workarounds",
           "style": "body"
         },
         {
@@ -282,14 +272,14 @@
           "type": "list",
           "items": [
             "Pause and wait for long-running background tasks",
-            "Automatically survives failures and resumes",
-            "Eliminates fragile state management workarounds",
-            "Combined with Lambda Managed Instances for hybrid approach"
+            "Automatically survives failures and resumes execution",
+            "Addresses massive user base pain point",
+            "Combined with Lambda Managed Instances for hybrid flexibility"
           ]
         },
         {
           "type": "callout",
-          "text": "🎉 Another audible cheer from the crowd - developers know pain when they see relief!",
+          "text": "🎯 Bridging serverless convenience with infrastructure control",
           "style": "info"
         }
       ]
@@ -318,7 +308,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Nova Model Family & Nova Forge",
+          "text": "Custom AI model development at enterprise scale",
           "style": "heading"
         },
         {
@@ -326,6 +316,11 @@
           "iconType": "aws",
           "iconName": "bedrock",
           "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "Four new Nova models plus Nova Forge 'open training' for building custom frontier models",
+          "style": "body"
         },
         {
           "type": "grid",
@@ -356,14 +351,12 @@
           "color": "green"
         },
         {
-          "type": "text",
-          "text": "Nova Forge: 'Open training' - blend proprietary data with Amazon's datasets to build custom frontier models",
-          "style": "body"
-        },
-        {
-          "type": "callout",
-          "text": "⚠️ Limitation: Custom models must stay on Bedrock - no model weight exports",
-          "style": "warning"
+          "type": "list",
+          "items": [
+            "Blend proprietary data with Amazon's curated datasets",
+            "Reddit built custom frontier model replacing multiple specialized models",
+            "Note: Custom models must remain on Bedrock - no model weight exports"
+          ]
         }
       ]
     },
@@ -387,11 +380,11 @@
     {
       "type": "content",
       "id": "announcement-6",
-      "title": "Graviton5 & Trainium3",
+      "title": "Graviton5 & Trainium3 Silicon",
       "content": [
         {
           "type": "text",
-          "text": "Custom Silicon: Graviton5 & Trainium3",
+          "text": "Next-generation processors for compute and AI training",
           "style": "heading"
         },
         {
@@ -399,6 +392,11 @@
           "iconType": "lucide",
           "iconName": "chip",
           "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "AWS's most powerful custom silicon yet, with CEO Andy Jassy personally highlighting the milestone",
+          "style": "body"
         },
         {
           "type": "grid",
@@ -434,14 +432,9 @@
           "type": "list",
           "items": [
             "Customers: Apple, Adobe, Airbnb, Epic Games, Formula 1, Anthropic",
-            "Trainium4 preview with NVIDIA NVLink Fusion support",
-            "Andy Jassy personally posted on X about Trainium success"
+            "Trainium4 preview with NVIDIA NVLink Fusion interoperability",
+            "Infrastructure strength as AWS's core competitive advantage"
           ]
-        },
-        {
-          "type": "callout",
-          "text": "💪 Infrastructure strength is where AWS's expertise 'really lies' - Zacks analyst",
-          "style": "success"
         }
       ]
     },
@@ -469,7 +462,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Bedrock AgentCore: Enterprise-Ready AI",
+          "text": "Deploying AI agents safely at enterprise scale",
           "style": "heading"
         },
         {
@@ -480,8 +473,8 @@
         },
         {
           "type": "text",
-          "text": "How do you deploy AI agents safely at enterprise scale?",
-          "style": "subheading"
+          "text": "Enterprise-ready governance, compliance, and audit capabilities for production AI agents",
+          "style": "body"
         },
         {
           "type": "list",
@@ -517,7 +510,7 @@
         },
         {
           "type": "callout",
-          "text": "🏢 The enterprise-ready layer with governance, compliance, and audit capabilities",
+          "text": "🏢 From experimental chatbots to production systems with full enterprise controls",
           "style": "info"
         }
       ]
@@ -546,7 +539,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Kiro IDE & Strands SDK",
+          "text": "Developer tooling for AI-powered workflows",
           "style": "heading"
         },
         {
@@ -556,13 +549,18 @@
           "size": "large"
         },
         {
+          "type": "text",
+          "text": "Enhanced development environments and SDKs that eliminate traditional agent framework overhead",
+          "style": "body"
+        },
+        {
           "type": "grid",
           "columns": 2,
           "items": [
             {
               "title": "Kiro IDE",
               "features": [
-                "Kiro Powers: Unified packaging for MCP tools",
+                "Kiro Powers: Unified MCP tools packaging",
                 "Partners: Datadog, Figma, Postman, Stripe",
                 "Anthropic Opus 4.5 support",
                 "CLI version for terminal workflows"
@@ -616,7 +614,7 @@
       "content": [
         {
           "type": "text",
-          "text": "AWS AI Factories",
+          "text": "Managed AI infrastructure deployed in your data center",
           "style": "heading"
         },
         {
@@ -627,21 +625,21 @@
         },
         {
           "type": "text",
-          "text": "Fully managed AI infrastructure deployed in your data center",
+          "text": "Addressing data sovereignty and regulatory compliance with on-premises AWS-managed AI infrastructure",
           "style": "body"
         },
         {
           "type": "list",
           "items": [
-            "Combines NVIDIA GPUs + Trainium chips",
-            "Services: Bedrock, SageMaker, and more",
-            "Addresses data sovereignty requirements",
-            "Perfect for GDPR and sector-specific regulations"
+            "Combines NVIDIA GPUs and Trainium chips",
+            "Full AWS services: Bedrock, SageMaker, and more",
+            "Perfect for GDPR and sector-specific regulations",
+            "15-year NVIDIA partnership highlighted"
           ]
         },
         {
           "type": "callout",
-          "text": "🤝 15-year NVIDIA collaboration highlighted",
+          "text": "🌍 Keep data on-premises while leveraging AWS managed infrastructure",
           "style": "info"
         },
         {
@@ -681,7 +679,7 @@
       "content": [
         {
           "type": "text",
-          "text": "AWS Transform: Agentic Code Modernization",
+          "text": "Agentic code modernization for legacy applications",
           "style": "heading"
         },
         {
@@ -689,6 +687,11 @@
           "iconType": "lucide",
           "iconName": "transform",
           "size": "large"
+        },
+        {
+          "type": "text",
+          "text": "Using AI agents to tackle technical debt and modernize legacy codebases at scale",
+          "style": "body"
         },
         {
           "type": "stat",
@@ -718,14 +721,14 @@
           "type": "list",
           "title": "Customer Results",
           "items": [
-            "Air Canada: 80% reduction in modernization time",
-            "Thomson Reuters: 1.5M lines of code monthly",
-            "Up to 70% reduction in maintenance costs"
+            "Air Canada: 80% reduction in modernization time and cost",
+            "Thomson Reuters: 1.5M lines of code processed monthly",
+            "Up to 70% reduction in maintenance and licensing costs"
           ]
         },
         {
           "type": "callout",
-          "text": "💰 Practical, measurable ROI - not futuristic promises!",
+          "text": "💰 Practical, measurable ROI with documented productivity gains",
           "style": "success"
         }
       ]
@@ -754,7 +757,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Key Takeaways from re:Invent 2025",
+          "text": "The shift to autonomous AI and measurable developer gains",
           "style": "heading"
         },
         {
@@ -766,11 +769,11 @@
         {
           "type": "list",
           "items": [
-            "Shift from AI assistants to autonomous AI agents",
-            "Cost management still wins loudest applause",
-            "Developer productivity gains are quantifiable",
-            "Werner's wisdom: Renaissance Developers will thrive",
-            "Infrastructure strength is AWS's core advantage"
+            "From AI assistants to autonomous agents working independently",
+            "Cost management and practical ROI remain critical priorities",
+            "Developer productivity improvements are quantifiable and significant",
+            "Werner's Renaissance Developer: curiosity, judgment, community",
+            "Infrastructure and custom silicon as AWS's core advantage"
           ]
         },
         {
@@ -813,11 +816,6 @@
   "resources": {
     "images": [
       {
-        "id": "s3-express-diagram",
-        "filename": "s3-express-diagram.png",
-        "description": "S3 Express One Zone architecture diagram"
-      },
-      {
         "id": "werner-keynote",
         "filename": "werner-keynote.jpg",
         "description": "Werner Vogels delivering his final keynote"
@@ -827,12 +825,9 @@
       "aws": [
         "rds",
         "lambda",
-        "bedrock",
-        "s3",
-        "dynamodb",
-        "sagemaker"
+        "bedrock"
       ],
-      "custom": [
+      "lucide": [
         "aws-logo",
         "robot-assistant",
         "microphone",

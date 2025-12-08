@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, SkipForward } from 'lucide-react';
+import { CheckCircle, XCircle, SkipForward, ChevronRight } from 'lucide-react';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 import { useScore } from '../context/ScoreContext';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
@@ -357,40 +357,50 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
       )}
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          duration: 0.3,
+          delay: 0.2,
+          ease: 'easeOut'
+        }}
+        className="mt-6 sm:mt-8 flex justify-end gap-3"
+      >
         {/* Skip Button - only show if not answered, timed out, or skipped */}
         {!isAnswered && !isTimedOut && !isSkipped && (
-          <button
+          <motion.button
             onClick={handleSkip}
-            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-200"
             data-testid="skip-button"
             aria-label="Skip this question and move to the next slide"
           >
             <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
-            Skip Question
-          </button>
+            Skip
+          </motion.button>
         )}
 
         {/* Next Button - show after answer, timeout, or skip */}
         {shouldShowNextButton && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ 
-              duration: 0.3,
-              ease: 'easeOut'
-            }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.15 }}
             onClick={onNext}
-            className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-reinvent-purple to-reinvent-blue hover:from-reinvent-purple/80 hover:to-reinvent-blue/80 text-white text-base sm:text-lg font-semibold rounded-lg transition-all"
+            className="flex items-center gap-2 bg-reinvent-purple hover:bg-purple-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-200"
             data-testid="next-button"
             aria-label="Continue to next slide"
           >
-            Next →
+            Next
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
           </motion.button>
         )}
-      </div>
+      </motion.div>
     </motion.main>
     </>
   );

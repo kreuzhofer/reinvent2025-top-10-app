@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { MotionConfig } from 'framer-motion';
+import { MotionConfig, AnimatePresence } from 'framer-motion';
 import './App.css';
 import { ScoreProvider, useScore } from './context/ScoreContext';
 import { QuizConfigProvider } from './context/QuizConfigContext';
@@ -84,26 +84,30 @@ function QuizRoute() {
     <div className="min-h-screen bg-black text-white">
       {/* Current Slide */}
       <div className="container mx-auto px-4 py-8">
-        {currentSlide.type === 'content' ? (
-          <ContentSlide 
-            slide={currentSlide} 
-            onNext={handleNext}
-            currentSlide={currentSlideIndex + 1}
-            totalSlides={slides.length}
-            showProgress={showProgressBar}
-            showScore={true}
-          />
-        ) : (
-          <QuizSlide 
-            slide={currentSlide} 
-            onNext={handleNext}
-            shuffleEnabled={shuffleChoices}
-            currentSlide={currentSlideIndex + 1}
-            totalSlides={slides.length}
-            showProgress={showProgressBar}
-            showScore={true}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {currentSlide.type === 'content' ? (
+            <ContentSlide 
+              key={`content-${currentSlideIndex}`}
+              slide={currentSlide} 
+              onNext={handleNext}
+              currentSlide={currentSlideIndex + 1}
+              totalSlides={slides.length}
+              showProgress={showProgressBar}
+              showScore={true}
+            />
+          ) : (
+            <QuizSlide 
+              key={`quiz-${currentSlideIndex}`}
+              slide={currentSlide} 
+              onNext={handleNext}
+              shuffleEnabled={shuffleChoices}
+              currentSlide={currentSlideIndex + 1}
+              totalSlides={slides.length}
+              showProgress={showProgressBar}
+              showScore={true}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

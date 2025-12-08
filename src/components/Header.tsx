@@ -27,12 +27,17 @@ const Header: React.FC<HeaderProps> = ({
       role="banner"
     >
       <div className="px-4 py-3 sm:px-6 sm:py-4 flex items-center justify-between">
-        {/* Logo */}
-        <img
-          src="/reinvent-white.png"
-          alt="AWS re:Invent Logo"
-          className="h-8 sm:h-10 md:h-12"
-        />
+        {/* Logo with Date/Location */}
+        <div className="flex flex-col">
+          <img
+            src="/reinvent-white.png"
+            alt="AWS re:Invent Logo"
+            className="h-8 sm:h-10 md:h-12"
+          />
+          <p className="text-[0.5rem] sm:text-xs text-gray-400 mt-0.5 sm:mt-1 tracking-wide whitespace-nowrap">
+            December 1-5, 2025 | Las Vegas
+          </p>
+        </div>
 
         {/* Right side: Progress and Score */}
         <div className="flex items-center gap-4 sm:gap-6">

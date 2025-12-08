@@ -41,19 +41,33 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         }}
         className="text-center max-w-2xl relative z-10"
       >
-        {/* re:Invent Logo */}
-        <motion.img
-          src="/reinvent-white.png"
-          alt="AWS re:Invent Logo"
-          className="w-64 md:w-80 mx-auto mb-8"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ 
-            duration: 0.4,
-            delay: 0.1,
-            ease: 'easeOut'
-          }}
-        />
+        {/* re:Invent Logo with Date/Location */}
+        <div className="mb-8">
+          <motion.img
+            src="/reinvent-white.png"
+            alt="AWS re:Invent Logo"
+            className="w-64 md:w-80 mx-auto"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              duration: 0.4,
+              delay: 0.1,
+              ease: 'easeOut'
+            }}
+          />
+          <motion.p
+            className="text-sm md:text-base text-gray-300 mt-2 md:mt-3 tracking-wide"
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.3,
+              delay: 0.15,
+              ease: 'easeOut'
+            }}
+          >
+            December 1-5, 2025 | Las Vegas
+          </motion.p>
+        </div>
 
         {/* Welcome Message */}
         <motion.h1
