@@ -94,6 +94,26 @@ The AWS re:Invent 2025 Quiz App is a single-page React application that delivers
 - Shows current point value based on elapsed time
 - Props: `basePoints: number, onTimeout: () => void, onTick: (elapsedSeconds: number) => void`
 
+#### 9. CalloutBox Component
+- Renders highlighted callout boxes with different styles
+- Supports info, success, and warning styles
+- Props: `text: string, style: 'info' | 'success' | 'warning'`
+
+#### 10. QuoteBlock Component
+- Displays quotes with author attribution
+- Styled with quotation marks and emphasis
+- Props: `text: string, author: string`
+
+#### 11. GridLayout Component
+- Renders items in multi-column grid layout
+- Responsive column count
+- Props: `columns: number, items: GridItem[]`
+
+#### 12. FunFactDisplay Component
+- Shows fun facts after quiz answers
+- Visually distinct from main explanation
+- Props: `funFact: string`
+
 ### Data Models
 
 #### QuizData Interface
@@ -104,8 +124,44 @@ interface QuizData {
     description: string;
     version: string;
     totalSlides: number;
+    author?: string; // Optional author name
+    date?: string; // Optional date
+    tags?: string[]; // Optional tags for categorization
   };
   slides: Slide[];
+  resources?: ResourcesConfig; // Optional resources configuration
+  quizConfig?: QuizConfig; // Optional quiz configuration
+}
+```
+
+#### ResourcesConfig Interface
+```typescript
+interface ResourcesConfig {
+  images: ImageResource[];
+  icons: IconResources;
+}
+
+interface ImageResource {
+  id: string;
+  filename: string;
+  description: string;
+}
+
+interface IconResources {
+  aws: string[]; // List of AWS service icon names
+  custom: string[]; // List of custom icon names
+}
+```
+
+#### QuizConfig Interface
+```typescript
+interface QuizConfig {
+  passingScore: number; // Percentage required to pass (e.g., 70)
+  totalPoints: number; // Total possible points across all questions
+  showExplanations: boolean; // Whether to show explanations after answers
+  allowRetry: boolean; // Whether users can retake the quiz
+  shuffleChoices: boolean; // Whether to randomize answer order
+  showProgressBar: boolean; // Whether to display progress indicator
 }
 ```
 
@@ -131,7 +187,10 @@ type ContentBlock =
   | ImageBlock 
   | IconBlock 
   | ListBlock 
-  | StatBlock;
+  | StatBlock
+  | CalloutBlock
+  | QuoteBlock
+  | GridBlock;
 ```
 
 #### TextBlock Interface
@@ -170,6 +229,7 @@ interface IconBlock {
 ```typescript
 interface ListBlock {
   type: 'list';
+  title?: string; // Optional title displayed above the list
   items: string[];
   ordered?: boolean;
 }
@@ -181,7 +241,47 @@ interface StatBlock {
   type: 'stat';
   value: string; // e.g., "10x", "99.99%", "< 1ms"
   label: string;
-  color?: 'purple' | 'blue' | 'red' | 'yellow';
+  color?: 'purple' | 'blue' | 'red' | 'yellow' | 'orange' | 'green';
+}
+```
+
+#### CalloutBlock Interface
+```typescript
+interface CalloutBlock {
+  type: 'callout';
+  text: string;
+  style: 'info' | 'success' | 'warning';
+}
+```
+
+#### QuoteBlock Interface
+```typescript
+interface QuoteBlock {
+  type: 'quote';
+  text: string;
+  author: string;
+}
+```
+
+#### GridBlock Interface
+```typescript
+interface GridBlock {
+  type: 'grid';
+  columns: number; // Number of columns (e.g., 2, 3)
+  items: GridItem[];
+}
+```
+
+#### GridItem Interface
+```typescript
+interface GridItem {
+  icon?: string; // Optional icon name
+  title: string;
+  description?: string;
+  stats?: string[]; // Array of stat strings
+  features?: string[]; // Array of feature strings
+  stat?: string; // Single stat value
+  color?: string; // Color for the item
 }
 ```
 
@@ -195,6 +295,7 @@ interface QuizSlide {
   choices: QuizChoice[];
   correctAnswerIndex: number;
   explanation?: string;
+  funFact?: string; // Optional fun fact displayed after explanation
   points: number; // Base points (before time adjustment)
   timeLimit?: number; // Optional, defaults to 10 seconds
 }
@@ -248,6 +349,11 @@ src/
     SummaryScreen.tsx
     ScoreDisplay.tsx
     ProgressIndicator.tsx
+    QuizTimer.tsx
+    CalloutBox.tsx
+    QuoteBlock.tsx
+    GridLayout.tsx
+    FunFactDisplay.tsx
   context/
     ScoreContext.tsx
   hooks/
@@ -282,7 +388,10 @@ The `data/quiz-data.json` file will follow this structure:
     "title": "AWS re:Invent 2025 Quiz",
     "description": "Test your knowledge of AWS re:Invent 2025 announcements",
     "version": "1.0.0",
-    "totalSlides": 15
+    "totalSlides": 15,
+    "author": "AWS Solutions Architect",
+    "date": "December 2025",
+    "tags": ["AWS", "re:Invent", "2025"]
   },
   "slides": [
     {
@@ -313,6 +422,30 @@ The `data/quiz-data.json` file will follow this structure:
           "color": "purple"
         },
         {
+          "type": "callout",
+          "text": "💡 Key Insight: Perfect for high-performance workloads",
+          "style": "info"
+        },
+        {
+          "type": "grid",
+          "columns": 2,
+          "items": [
+            {
+              "title": "Use Case 1",
+              "description": "Real-time analytics"
+            },
+            {
+              "title": "Use Case 2",
+              "description": "Machine learning training"
+            }
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "S3 Express One Zone changes the game for latency-sensitive applications",
+          "author": "AWS Storage Team"
+        },
+        {
           "type": "image",
           "src": "s3-express-diagram.png",
           "alt": "S3 Express One Zone architecture",
@@ -333,10 +466,32 @@ The `data/quiz-data.json` file will follow this structure:
       ],
       "correctAnswerIndex": 2,
       "explanation": "S3 Express One Zone delivers up to 10x better performance than S3 Standard.",
+      "funFact": "S3 Express One Zone uses a new bucket type optimized for single-digit millisecond latency!",
       "points": 100,
       "timeLimit": 10
     }
-  ]
+  ],
+  "resources": {
+    "images": [
+      {
+        "id": "s3-express-diagram",
+        "filename": "s3-express-diagram.png",
+        "description": "S3 Express One Zone architecture diagram"
+      }
+    ],
+    "icons": {
+      "aws": ["s3", "lambda", "ec2", "dynamodb"],
+      "custom": ["aws-logo", "chip", "factory"]
+    }
+  },
+  "quizConfig": {
+    "passingScore": 70,
+    "totalPoints": 1000,
+    "showExplanations": true,
+    "allowRetry": true,
+    "shuffleChoices": true,
+    "showProgressBar": true
+  }
 }
 ```
 
@@ -486,6 +641,58 @@ Testable: yes - property
 Thoughts: This is about UI presence. For any quiz slide, a skip button should be present. This is a property.
 Testable: yes - property
 
+13.1 WHEN a callout block is specified in the Data File THEN the system SHALL render a highlighted box with the specified style
+Thoughts: This is about rendering any callout block. For any callout with a style, it should render as a highlighted box. This is a property.
+Testable: yes - property
+
+13.2 WHEN a quote block is specified in the Data File THEN the system SHALL render the quote text with author attribution
+Thoughts: This is about rendering any quote block. For any quote, it should display text and author. This is a property.
+Testable: yes - property
+
+13.3 WHEN a grid block is specified in the Data File THEN the system SHALL render items in a multi-column layout with the specified number of columns
+Thoughts: This is about layout. For any grid with N columns, items should be arranged in N columns. This is a property.
+Testable: yes - property
+
+13.4 WHEN a list block includes a title field THEN the system SHALL render the title above the list items
+Thoughts: This is about conditional rendering. For any list with a title, the title should appear above items. This is a property.
+Testable: yes - property
+
+13.5 WHERE grid items include icons THEN the system SHALL render the icons alongside the item content
+Thoughts: This is about conditional rendering within grids. For any grid item with an icon, the icon should be visible. This is a property.
+Testable: yes - property
+
+14.1 WHEN a quiz slide includes a funFact field THEN the system SHALL display the fun fact after showing the answer explanation
+Thoughts: This is about conditional display. For any quiz with a funFact, it should appear after the explanation. This is a property.
+Testable: yes - property
+
+14.2 WHEN displaying fun facts THEN the system SHALL visually distinguish them from the main explanation
+Thoughts: This is about visual styling. For any fun fact, it should be visually distinct. This is a property about UI rendering.
+Testable: yes - property
+
+14.3 WHEN a quiz slide does not include a funFact field THEN the system SHALL display only the explanation without errors
+Thoughts: This is about handling missing optional fields. For any quiz without funFact, it should work normally. This is a property.
+Testable: yes - property
+
+15.1 WHEN the Data File includes a quizConfig section THEN the system SHALL apply the configuration settings to the quiz
+Thoughts: This is about configuration loading. For any valid quizConfig, settings should be applied. This is a property.
+Testable: yes - property
+
+15.2 WHERE shuffleChoices is enabled in quizConfig THEN the system SHALL randomize the order of answer choices for each quiz question
+Thoughts: This is about answer randomization. For any quiz with shuffle enabled, choices should be in random order. This is a property.
+Testable: yes - property
+
+15.3 WHERE showProgressBar is enabled in quizConfig THEN the system SHALL display a visual progress indicator throughout the quiz
+Thoughts: This is about conditional UI display. For any quiz with progress bar enabled, it should be visible. This is a property.
+Testable: yes - property
+
+15.4 WHERE allowRetry is enabled in quizConfig THEN the system SHALL provide an option to retake the quiz after completion
+Thoughts: This is about conditional functionality. For any quiz with retry enabled, a retry option should appear. This is a property.
+Testable: yes - property
+
+15.5 WHEN quizConfig is not specified THEN the system SHALL use default configuration values
+Thoughts: This is about default behavior. For any quiz without config, defaults should apply. This is a property.
+Testable: yes - property
+
 #### Property 1: Sequential slide progression
 *For any* valid quiz data with N slides, starting the presentation and advancing N times should display each slide exactly once in the order specified in the data file.
 **Validates: Requirements 1.2**
@@ -554,6 +761,30 @@ Testable: yes - property
 *For any* quiz slide, activating the skip button should award zero points and advance to the next slide.
 **Validates: Requirements 11.6**
 
+#### Property 18: Callout block rendering
+*For any* content slide containing a callout block, the rendered output should display a visually distinct highlighted box with the specified style.
+**Validates: Requirements 13.1**
+
+#### Property 19: Quote block rendering
+*For any* content slide containing a quote block, the rendered output should display the quote text with author attribution.
+**Validates: Requirements 13.2**
+
+#### Property 20: Grid layout rendering
+*For any* content slide containing a grid block with N columns, the rendered output should display items in an N-column layout.
+**Validates: Requirements 13.3**
+
+#### Property 21: List title rendering
+*For any* list block with a title field, the rendered output should display the title above the list items.
+**Validates: Requirements 13.4**
+
+#### Property 22: Fun fact display
+*For any* quiz slide with a funFact field, after answering the question, the system should display both the explanation and the fun fact.
+**Validates: Requirements 14.1**
+
+#### Property 23: Quiz choice shuffling
+*For any* quiz with shuffleChoices enabled in quizConfig, the order of answer choices should be randomized while maintaining correctness validation.
+**Validates: Requirements 15.2**
+
 ### Unit Testing Strategy
 
 Unit tests will cover specific examples and edge cases:
@@ -568,6 +799,14 @@ Unit tests will cover specific examples and edge cases:
 - Help overlay shows keyboard shortcuts (Requirements 10.4)
 - QuizTimer displays remaining time (Requirements 11.2)
 - QuizSlide renders skip button (Requirements 2.6)
+- CalloutBlock renders with correct style class (Requirements 13.1)
+- QuoteBlock displays quote and author (Requirements 13.2)
+- GridBlock renders with specified column count (Requirements 13.3)
+- ListBlock with title displays title above items (Requirements 13.4)
+- QuizSlide displays fun fact when present (Requirements 14.1)
+- QuizSlide works without fun fact (Requirements 14.3)
+- Answer choices are shuffled when config enabled (Requirements 15.2)
+- Progress bar displays when config enabled (Requirements 15.3)
 
 **Data Loading Tests:**
 - Quiz data loads successfully from JSON file (Requirements 4.1)
@@ -593,16 +832,22 @@ Property-based tests will verify universal properties using **fast-check** libra
 - Custom generators for quiz data structures
 
 **Test Generators:**
-- `arbitraryQuizData()`: Generates valid quiz data with random slides
-- `arbitraryContentSlide()`: Generates content slides with various content blocks
-- `arbitraryQuizSlide()`: Generates quiz slides with random questions and choices
+- `arbitraryQuizData()`: Generates valid quiz data with random slides and optional quizConfig
+- `arbitraryContentSlide()`: Generates content slides with various content blocks including callouts, quotes, and grids
+- `arbitraryQuizSlide()`: Generates quiz slides with random questions, choices, and optional funFacts
 - `arbitraryAnswerSequence()`: Generates sequences of answer selections
+- `arbitraryCalloutBlock()`: Generates callout blocks with random styles
+- `arbitraryQuoteBlock()`: Generates quote blocks with random text and authors
+- `arbitraryGridBlock()`: Generates grid blocks with random column counts and items
+- `arbitraryQuizConfig()`: Generates quiz configuration with random settings
 
 **Property Test Coverage:**
-- All 17 correctness properties listed above
+- All 23 correctness properties listed above
 - Each property implemented as a single property-based test
 - Tests validate behavior across randomly generated valid inputs
 - Timer-based scoring properties test various elapsed times (0-10 seconds)
+- Content block rendering properties test all block types (text, image, icon, list, stat, callout, quote, grid)
+- Quiz configuration properties test various config combinations
 
 ### Integration Testing
 

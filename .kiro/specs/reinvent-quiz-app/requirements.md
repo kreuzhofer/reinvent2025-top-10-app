@@ -152,6 +152,40 @@ The AWS re:Invent 2025 Quiz App is a browser-based, interactive web application 
 4. WHEN keyboard shortcuts are available THEN the system SHALL provide a help overlay showing available keys
 5. WHEN keyboard navigation is used THEN the system SHALL provide visual focus indicators
 
+### Requirement 13
+
+**User Story:** As a content creator, I want to use advanced content blocks like callouts, quotes, and grids, so that I can create more engaging and visually diverse presentations.
+
+#### Acceptance Criteria
+
+1. WHEN a callout block is specified in the Data File THEN the system SHALL render a highlighted box with the specified style
+2. WHEN a quote block is specified in the Data File THEN the system SHALL render the quote text with author attribution
+3. WHEN a grid block is specified in the Data File THEN the system SHALL render items in a multi-column layout with the specified number of columns
+4. WHEN a list block includes a title field THEN the system SHALL render the title above the list items
+5. WHERE grid items include icons THEN the system SHALL render the icons alongside the item content
+
+### Requirement 14
+
+**User Story:** As a user, I want to see fun facts after answering quiz questions, so that I can learn additional interesting information beyond the main explanation.
+
+#### Acceptance Criteria
+
+1. WHEN a quiz slide includes a funFact field THEN the system SHALL display the fun fact after showing the answer explanation
+2. WHEN displaying fun facts THEN the system SHALL visually distinguish them from the main explanation
+3. WHEN a quiz slide does not include a funFact field THEN the system SHALL display only the explanation without errors
+
+### Requirement 15
+
+**User Story:** As a content creator, I want to configure global quiz settings, so that I can control behavior like answer shuffling and progress display across the entire quiz.
+
+#### Acceptance Criteria
+
+1. WHEN the Data File includes a quizConfig section THEN the system SHALL apply the configuration settings to the quiz
+2. WHERE shuffleChoices is enabled in quizConfig THEN the system SHALL randomize the order of answer choices for each quiz question
+3. WHERE showProgressBar is enabled in quizConfig THEN the system SHALL display a visual progress indicator throughout the quiz
+4. WHERE allowRetry is enabled in quizConfig THEN the system SHALL provide an option to retake the quiz after completion
+5. WHEN quizConfig is not specified THEN the system SHALL use default configuration values
+
 ### Requirement 12
 
 **User Story:** As a system administrator, I want to deploy the application using Docker Compose, so that I can host it reliably on a web server with consistent configuration.

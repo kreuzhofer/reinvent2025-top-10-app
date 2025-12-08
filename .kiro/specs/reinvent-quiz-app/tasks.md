@@ -9,9 +9,14 @@
 
 - [ ] 2. Define TypeScript interfaces and types
   - Create quiz.types.ts with all data model interfaces (QuizData, Slide, ContentSlide, QuizSlide, ContentBlock types, QuizChoice)
+  - Add new content block interfaces: CalloutBlock, QuoteBlock, GridBlock, GridItem
+  - Add QuizConfig and ResourcesConfig interfaces
+  - Update QuizSlide to include optional funFact field
+  - Update ListBlock to include optional title field
+  - Update metadata to include optional author, date, tags fields
   - Define context types (ScoreContextType, QuizState)
   - Export all types for use across the application
-  - _Requirements: 9.1_
+  - _Requirements: 9.1, 13.1, 13.2, 13.3, 13.4, 14.1, 15.1_
 
 - [ ] 2.1 Write property test for JSON schema validation
   - **Property 8: JSON schema validation**
@@ -114,92 +119,154 @@
   - Test timer displays remaining time
   - _Requirements: 11.2_
 
-- [ ] 11. Build ContentSlide component
+- [ ] 11. Build basic content block components
+  - Create CalloutBox component for info/success/warning callouts
+  - Create QuoteBlock component with quote text and author attribution
+  - Create GridLayout component for multi-column layouts
+  - Style components with re:Invent branding
+  - _Requirements: 13.1, 13.2, 13.3_
+
+- [ ] 11.1 Write property test for callout block rendering
+  - **Property 18: Callout block rendering**
+  - **Validates: Requirements 13.1**
+
+- [ ] 11.2 Write property test for quote block rendering
+  - **Property 19: Quote block rendering**
+  - **Validates: Requirements 13.2**
+
+- [ ] 11.3 Write property test for grid layout rendering
+  - **Property 20: Grid layout rendering**
+  - **Validates: Requirements 13.3**
+
+- [ ] 11.4 Write unit tests for new content blocks
+  - Test CalloutBox renders with correct style
+  - Test QuoteBlock displays quote and author
+  - Test GridLayout renders with specified columns
+  - _Requirements: 13.1, 13.2, 13.3_
+
+- [ ] 12. Build ContentSlide component
   - Create component to render content slides
-  - Implement rendering for all ContentBlock types (text, image, icon, list, stat)
+  - Implement rendering for all ContentBlock types (text, image, icon, list, stat, callout, quote, grid)
+  - Handle list blocks with optional title
   - Add navigation button to proceed
   - Apply Framer Motion transitions
   - Handle image loading errors with placeholders
-  - _Requirements: 1.3, 1.4, 1.5, 5.4, 8.1_
+  - _Requirements: 1.3, 1.4, 1.5, 5.4, 8.1, 13.1, 13.2, 13.3, 13.4_
 
-- [ ] 11.1 Write property test for content block rendering
+- [ ] 12.1 Write property test for content block rendering
   - **Property 2: Content block rendering completeness**
   - **Validates: Requirements 1.3**
 
-- [ ] 11.2 Write property test for navigation control presence
-  - **Property 4: Incorrect answer score invariance** (Note: This should be Property 4 from design - navigation control presence)
-  - **Validates: Requirements 1.4**
+- [ ] 12.2 Write property test for list title rendering
+  - **Property 21: List title rendering**
+  - **Validates: Requirements 13.4**
 
-- [ ] 11.3 Write unit test for image placeholder
+- [ ] 12.3 Write unit test for image placeholder
   - Test placeholder displays when image fails to load
   - _Requirements: 5.4_
 
-- [ ] 12. Build QuizSlide component
+- [ ] 13. Build FunFactDisplay component
+  - Create component to display fun facts after quiz answers
+  - Style to visually distinguish from main explanation
+  - Handle optional fun facts gracefully
+  - _Requirements: 14.1, 14.2, 14.3_
+
+- [ ] 13.1 Write property test for fun fact display
+  - **Property 22: Fun fact display**
+  - **Validates: Requirements 14.1**
+
+- [ ] 13.2 Write unit tests for fun fact component
+  - Test fun fact displays when present
+  - Test component works without fun fact
+  - _Requirements: 14.1, 14.3_
+
+- [ ] 14. Build QuizSlide component
   - Create component to display quiz questions and choices
   - Integrate QuizTimer component
+  - Integrate FunFactDisplay component
   - Implement answer selection with immediate feedback
   - Add skip button
   - Calculate time-adjusted points on answer
   - Handle timer timeout (highlight correct answer, award 0 points)
   - Disable choices after answer or timeout
   - Show explanation after answer
+  - Show fun fact after explanation (if present)
   - Add next button after answer/timeout/skip
-  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 11.4, 11.5, 11.6_
+  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 11.4, 11.5, 11.6, 14.1, 14.2, 14.3_
 
-- [ ] 12.1 Write property test for quiz slide rendering
+- [ ] 14.1 Write property test for quiz slide rendering
   - **Property 1: Sequential slide progression** (Note: Actually testing quiz question and choices render)
   - **Validates: Requirements 2.1**
 
-- [ ] 12.2 Write property test for quiz feedback
+- [ ] 14.2 Write property test for quiz feedback
   - **Property 5: Quiz feedback presence**
   - **Validates: Requirements 2.2**
 
-- [ ] 12.3 Write property test for incorrect answer scoring
+- [ ] 14.3 Write property test for incorrect answer scoring
   - **Property 4: Incorrect answer score invariance**
   - **Validates: Requirements 2.4**
 
-- [ ] 12.4 Write property test for timer expiration
+- [ ] 14.4 Write property test for timer expiration
   - **Property 15: Timer expiration behavior**
   - **Validates: Requirements 11.4**
 
-- [ ] 12.5 Write property test for skip button presence
+- [ ] 14.5 Write property test for skip button presence
   - **Property 16: Skip button presence**
   - **Validates: Requirements 2.6**
 
-- [ ] 12.6 Write property test for skip action scoring
+- [ ] 14.6 Write property test for skip action scoring
   - **Property 17: Skip action scoring**
   - **Validates: Requirements 11.6**
 
-- [ ] 12.7 Write unit test for quiz slide components
+- [ ] 14.7 Write unit test for quiz slide components
   - Test question and choices render
   - Test skip button renders
   - Test next button appears after answer
   - _Requirements: 2.1, 2.5, 2.6_
 
-- [ ] 13. Build SummaryScreen component
+- [ ] 15. Implement quiz configuration support
+  - Load quizConfig from quiz data file
+  - Implement answer choice shuffling when shuffleChoices is enabled
+  - Show/hide progress bar based on showProgressBar setting
+  - Enable/disable retry option based on allowRetry setting
+  - Apply default configuration when quizConfig is not specified
+  - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
+
+- [ ] 15.1 Write property test for quiz choice shuffling
+  - **Property 23: Quiz choice shuffling**
+  - **Validates: Requirements 15.2**
+
+- [ ] 15.2 Write unit tests for quiz configuration
+  - Test progress bar displays when enabled
+  - Test answer choices are shuffled when enabled
+  - Test retry option appears when enabled
+  - Test default config applies when not specified
+  - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
+
+- [ ] 16. Build SummaryScreen component
   - Create summary screen with final score display
   - Show score as number and percentage
-  - Add restart button
+  - Add restart button (conditional on allowRetry config)
   - Style with re:Invent branding and celebratory design
-  - _Requirements: 3.2, 3.3, 3.4_
+  - _Requirements: 3.2, 3.3, 3.4, 15.4_
 
-- [ ] 13.1 Write unit tests for SummaryScreen
+- [ ] 16.1 Write unit tests for SummaryScreen
   - Test score displays as number and percentage
   - Test restart button renders
   - _Requirements: 3.2, 3.3, 3.4_
 
-- [ ] 14. Implement quiz navigation and routing
+- [ ] 17. Implement quiz navigation and routing
   - Set up React Router with routes for welcome, quiz, and summary
   - Create quiz navigation state (currentSlideIndex, goToNext, restart)
   - Implement sequential slide progression logic
   - Handle transition from last slide to summary
   - _Requirements: 1.2, 9.3_
 
-- [ ] 14.1 Write property test for sequential slide progression
+- [ ] 17.1 Write property test for sequential slide progression
   - **Property 1: Sequential slide progression**
   - **Validates: Requirements 1.2**
 
-- [ ] 15. Implement keyboard navigation
+- [ ] 18. Implement keyboard navigation
   - Create useKeyboardNav hook
   - Implement right arrow key to advance slides
   - Implement number keys (1-N) to select quiz answers
@@ -208,78 +275,84 @@
   - Ensure proper focus management
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-- [ ] 15.1 Write property test for keyboard navigation
+- [ ] 18.1 Write property test for keyboard navigation
   - **Property 11: Keyboard navigation advancement**
   - **Validates: Requirements 10.1**
 
-- [ ] 15.2 Write property test for keyboard answer selection
+- [ ] 18.2 Write property test for keyboard answer selection
   - **Property 12: Quiz keyboard answer selection**
   - **Validates: Requirements 10.2**
 
-- [ ] 15.3 Write unit tests for keyboard shortcuts
+- [ ] 18.3 Write unit tests for keyboard shortcuts
   - Test Enter key on welcome screen
   - Test help overlay toggle
   - _Requirements: 10.3, 10.4_
 
-- [ ] 16. Build main App component and integrate all pieces
+- [ ] 19. Build main App component and integrate all pieces
   - Create App component with routing
   - Integrate ScoreContext provider
   - Load quiz data with useQuizData hook
+  - Load and apply quizConfig settings
   - Handle loading and error states
   - Wire up all components (WelcomeScreen, ContentSlide, QuizSlide, SummaryScreen)
-  - Add ScoreDisplay and ProgressIndicator to quiz layout
-  - _Requirements: 1.1, 4.1, 4.3_
+  - Add ScoreDisplay and ProgressIndicator to quiz layout (conditional on config)
+  - _Requirements: 1.1, 4.1, 4.3, 15.1, 15.3_
 
-- [ ] 17. Create comprehensive quiz data file
-  - Create detailed quiz-data.json with multiple announcements and questions
-  - Add variety of content blocks (text, images, icons, lists, stats)
-  - Include at least 10-15 slides total
-  - Add sample images to data/images directory
-  - _Requirements: 4.1, 4.4_
+- [ ] 20. Create comprehensive quiz data file
+  - Use reinvent-2025-quiz-deck.json as the primary quiz data
+  - Verify all content blocks are supported (text, images, icons, lists, stats, callouts, quotes, grids)
+  - Ensure quizConfig section is present with all settings
+  - Add any missing sample images to data/images directory
+  - _Requirements: 4.1, 4.4, 13.1, 13.2, 13.3, 14.1, 15.1_
 
-- [ ] 18. Implement responsive design
-  - Add responsive Tailwind classes to all components
+- [ ] 21. Implement responsive design
+  - Add responsive Tailwind classes to all components including new content blocks
   - Test layouts at mobile (320px), tablet (768px), and desktop (1024px+) breakpoints
-  - Ensure images scale appropriately
+  - Ensure images and grids scale appropriately
   - Adjust font sizes and spacing for different screens
+  - Test callouts, quotes, and grids on mobile devices
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-- [ ] 19. Add animations and polish
+- [ ] 22. Add animations and polish
   - Implement slide transitions with Framer Motion
   - Add answer feedback animations
   - Add score update animations
+  - Add fun fact reveal animation
   - Ensure animations complete within 500ms
   - Add reduced motion support
   - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 20. Accessibility improvements
-  - Add ARIA labels to interactive elements
-  - Ensure semantic HTML throughout
+- [ ] 23. Accessibility improvements
+  - Add ARIA labels to interactive elements including new content blocks
+  - Ensure semantic HTML throughout (callouts, quotes, grids)
   - Add alt text to all images
   - Implement focus indicators with proper contrast
-  - Add screen reader announcements for score changes
+  - Add screen reader announcements for score changes and fun facts
   - Test with keyboard-only navigation
   - _Requirements: 10.5_
 
-- [ ] 21. Final testing and bug fixes
-  - Run all unit tests and property-based tests
-  - Perform manual testing of complete quiz flow
+- [ ] 24. Final testing and bug fixes
+  - Run all unit tests and property-based tests (now 23 properties)
+  - Test all new content blocks (callouts, quotes, grids)
+  - Test quiz configuration options (shuffle, progress bar, retry)
+  - Test fun facts display
+  - Perform manual testing of complete quiz flow with reinvent-2025-quiz-deck.json
   - Test on different browsers (Chrome, Firefox, Safari, Edge)
   - Fix any discovered bugs
   - Ensure all tests pass
   - _Requirements: All_
 
-- [ ] 22. Build and deployment preparation
+- [ ] 25. Build and deployment preparation
   - Run production build with Vite
-  - Verify all assets are bundled correctly
-  - Test production build locally
+  - Verify all assets are bundled correctly including new content blocks
+  - Test production build locally with reinvent-2025-quiz-deck.json
   - Create deployment documentation
   - _Requirements: 9.5_
 
-- [ ] 23. Create Docker deployment configuration
+- [ ] 26. Create Docker deployment configuration
   - Create multi-stage Dockerfile with Node.js build stage and Nginx production stage
   - Create docker-compose.yml with frontend service configuration
   - Create Nginx configuration file for SPA routing and static file serving
   - Add .dockerignore file to exclude unnecessary files from build context
-  - Test Docker build and container startup locally
+  - Test Docker build and container startup locally with full reinvent quiz data
   - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5_
