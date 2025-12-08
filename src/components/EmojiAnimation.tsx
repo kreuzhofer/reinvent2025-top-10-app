@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { EmojiConfig } from '../services/emoji/EmojiManager';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface EmojiAnimationProps {
   config: EmojiConfig;
@@ -8,6 +9,8 @@ interface EmojiAnimationProps {
 }
 
 export const EmojiAnimation: React.FC<EmojiAnimationProps> = ({ config, onComplete }) => {
+  const prefersReducedMotion = useReducedMotion();
+
   useEffect(() => {
     // Set up cleanup timer
     const timer = setTimeout(() => {
@@ -16,6 +19,26 @@ export const EmojiAnimation: React.FC<EmojiAnimationProps> = ({ config, onComple
 
     return () => clearTimeout(timer);
   }, [config.duration, onComplete]);
+
+  // If user prefers reduced motion, show emoji without animation
+  if (prefersReducedMotion) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          fontSize: '80px',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          left: config.endPosition.x,
+          top: config.endPosition.y,
+          transform: `rotate(${config.rotation}deg) scale(${config.scale})`,
+          opacity: 1
+        }}
+      >
+        {config.emoji}
+      </div>
+    );
+  }
 
   return (
     <motion.div

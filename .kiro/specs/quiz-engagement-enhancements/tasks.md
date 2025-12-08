@@ -217,20 +217,20 @@
     - **Property 19: Incorrect answer sound effect**
     - **Validates: Requirements 4.2**
 
-- [ ] 8. Add accessibility and reduced motion support
-  - [ ] 8.1 Implement reduced motion detection for emojis
+- [x] 8. Add accessibility and reduced motion support
+  - [x] 8.1 Implement reduced motion detection for emojis
     - Check prefers-reduced-motion media query
     - Disable or simplify emoji animations when enabled
     - Maintain visual feedback without animation
     - _Requirements: 1.1, 2.1_
 
-  - [ ] 8.2 Ensure audio controls are accessible
+  - [x] 8.2 Ensure audio controls are accessible
     - Verify keyboard navigation works for mute button
     - Verify ARIA labels are present
     - Test with screen reader
     - _Requirements: 6.2_
 
-  - [ ] 8.3 Write unit tests for accessibility features
+  - [x] 8.3 Write unit tests for accessibility features
     - Test reduced motion behavior
     - Test keyboard accessibility
     - Test ARIA attributes

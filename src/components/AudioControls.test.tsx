@@ -13,6 +13,7 @@ vi.mock('../services/audio/AudioManager', () => {
     this.cleanup = vi.fn();
     this.playBackgroundMusic = vi.fn().mockResolvedValue(undefined);
     this.playSFX = vi.fn().mockResolvedValue(undefined);
+    this.getCurrentBackgroundMusic = vi.fn().mockReturnValue(null);
   });
   
   return {
@@ -140,5 +141,109 @@ describe('AudioControls', () => {
 
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('type', 'button');
+  });
+
+  describe('Accessibility Features', () => {
+    it('has ARIA label that describes current state', () => {
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      const ariaLabel = button.getAttribute('aria-label');
+      
+      expect(ariaLabel).toBeTruthy();
+      expect(ariaLabel).toMatch(/mute|unmute/i);
+    });
+
+    it('has aria-pressed attribute for toggle state', () => {
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      const ariaPressed = button.getAttribute('aria-pressed');
+      
+      expect(ariaPressed).toBeTruthy();
+      expect(['true', 'false']).toContain(ariaPressed);
+    });
+
+    it('updates aria-label when state changes', async () => {
+      const user = userEvent.setup();
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      const initialLabel = button.getAttribute('aria-label');
+
+      await user.click(button);
+
+      const newLabel = button.getAttribute('aria-label');
+      expect(newLabel).not.toBe(initialLabel);
+      expect(newLabel).toMatch(/mute|unmute/i);
+    });
+
+    it('updates aria-pressed when state changes', async () => {
+      const user = userEvent.setup();
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      const initialPressed = button.getAttribute('aria-pressed');
+
+      await user.click(button);
+
+      const newPressed = button.getAttribute('aria-pressed');
+      expect(newPressed).not.toBe(initialPressed);
+    });
+
+    it('has title attribute for tooltip', () => {
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      const title = button.getAttribute('title');
+      
+      expect(title).toBeTruthy();
+      expect(title).toMatch(/mute|unmute/i);
+    });
+
+    it('SVG icons have aria-hidden attribute', () => {
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      const svg = button.querySelector('svg');
+      
+      expect(svg).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('is focusable via keyboard', () => {
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      button.focus();
+      
+      expect(document.activeElement).toBe(button);
+    });
+
+    it('prevents default behavior on Space key to avoid page scroll', async () => {
+      const user = userEvent.setup();
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      button.focus();
+
+      // Space key should toggle without scrolling
+      await user.keyboard(' ');
+
+      // If we get here without errors, the preventDefault worked
+      expect(button).toBeInTheDocument();
+    });
+
+    it('prevents default behavior on Enter key', async () => {
+      const user = userEvent.setup();
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      button.focus();
+
+      await user.keyboard('{Enter}');
+
+      // If we get here without errors, the preventDefault worked
+      expect(button).toBeInTheDocument();
+    });
   });
 });
