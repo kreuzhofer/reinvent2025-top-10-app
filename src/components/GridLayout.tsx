@@ -1,0 +1,101 @@
+import React from 'react';
+import type { GridItem } from '../types/quiz.types';
+import { getLucideIcon } from '../utils/iconMapper';
+
+interface GridLayoutProps {
+  columns: number;
+  items: GridItem[];
+}
+
+/**
+ * GridLayout Component
+ * 
+ * Renders items in a multi-column grid layout with responsive design.
+ * Supports icons, titles, descriptions, stats, and features for each grid item.
+ * 
+ * Requirements:
+ * - 13.3: Render items in multi-column layout with specified columns
+ * - 13.5: Render icons alongside item content when present
+ */
+const GridLayout: React.FC<GridLayoutProps> = ({ columns, items }) => {
+  // Generate grid column classes based on column count
+  const gridColsClass = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-1 md:grid-cols-2',
+    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+  }[columns] || 'grid-cols-1 md:grid-cols-2';
+
+  return (
+    <div
+      className={`grid ${gridColsClass} gap-4 my-4`}
+      data-testid="grid-layout"
+      data-columns={columns}
+    >
+      {items.map((item, index) => {
+        const IconComponent = item.icon ? getLucideIcon(item.icon) : null;
+        const colorClass = item.color ? `text-${item.color}-400` : 'text-reinvent-purple';
+
+        return (
+          <div
+            key={index}
+            className="p-4 bg-gray-900/50 border border-gray-700 rounded-lg hover:border-reinvent-purple/50 transition-colors"
+            data-testid="grid-item"
+          >
+            {/* Icon and Title */}
+            <div className="flex items-start gap-3 mb-2">
+              {IconComponent && (
+                <IconComponent
+                  className={`flex-shrink-0 w-6 h-6 ${colorClass}`}
+                  data-testid="grid-item-icon"
+                />
+              )}
+              <h3 className="text-lg font-semibold text-white" data-testid="grid-item-title">
+                {item.title}
+              </h3>
+            </div>
+
+            {/* Description */}
+            {item.description && (
+              <p className="text-sm text-gray-300 mb-3" data-testid="grid-item-description">
+                {item.description}
+              </p>
+            )}
+
+            {/* Single Stat */}
+            {item.stat && (
+              <div className={`text-2xl font-bold ${colorClass} mb-2`} data-testid="grid-item-stat">
+                {item.stat}
+              </div>
+            )}
+
+            {/* Stats Array */}
+            {item.stats && item.stats.length > 0 && (
+              <ul className="space-y-1 mb-2" data-testid="grid-item-stats">
+                {item.stats.map((stat, statIndex) => (
+                  <li key={statIndex} className={`text-sm font-semibold ${colorClass}`}>
+                    {stat}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* Features Array */}
+            {item.features && item.features.length > 0 && (
+              <ul className="space-y-1" data-testid="grid-item-features">
+                {item.features.map((feature, featureIndex) => (
+                  <li key={featureIndex} className="text-sm text-gray-400 flex items-start gap-2">
+                    <span className="text-reinvent-purple mt-0.5">•</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default GridLayout;

@@ -119,26 +119,26 @@
   - Test timer displays remaining time
   - _Requirements: 11.2_
 
-- [ ] 11. Build basic content block components
+- [x] 11. Build basic content block components
   - Create CalloutBox component for info/success/warning callouts
   - Create QuoteBlock component with quote text and author attribution
   - Create GridLayout component for multi-column layouts
   - Style components with re:Invent branding
   - _Requirements: 13.1, 13.2, 13.3_
 
-- [ ] 11.1 Write property test for callout block rendering
+- [x] 11.1 Write property test for callout block rendering
   - **Property 18: Callout block rendering**
   - **Validates: Requirements 13.1**
 
-- [ ] 11.2 Write property test for quote block rendering
+- [x] 11.2 Write property test for quote block rendering
   - **Property 19: Quote block rendering**
   - **Validates: Requirements 13.2**
 
-- [ ] 11.3 Write property test for grid layout rendering
+- [x] 11.3 Write property test for grid layout rendering
   - **Property 20: Grid layout rendering**
   - **Validates: Requirements 13.3**
 
-- [ ] 11.4 Write unit tests for new content blocks
+- [x] 11.4 Write unit tests for new content blocks
   - Test CalloutBox renders with correct style
   - Test QuoteBlock displays quote and author
   - Test GridLayout renders with specified columns

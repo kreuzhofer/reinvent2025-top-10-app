@@ -1,0 +1,40 @@
+import React from 'react';
+import { Quote } from 'lucide-react';
+
+interface QuoteBlockProps {
+  text: string;
+  author: string;
+}
+
+/**
+ * QuoteBlock Component
+ * 
+ * Displays a quote with author attribution, styled with quotation marks and emphasis.
+ * Uses re:Invent branding colors for visual consistency.
+ * 
+ * Requirements:
+ * - 13.2: Render quote text with author attribution
+ */
+const QuoteBlock: React.FC<QuoteBlockProps> = ({ text, author }) => {
+  return (
+    <div
+      className="relative p-6 my-4 bg-gradient-to-br from-reinvent-purple/10 to-reinvent-blue/10 border-l-4 border-reinvent-purple rounded-r-lg"
+      data-testid="quote-block"
+    >
+      <Quote
+        className="absolute top-4 left-4 w-8 h-8 text-reinvent-purple/30"
+        data-testid="quote-icon"
+      />
+      <div className="pl-8">
+        <blockquote className="text-lg italic text-gray-200 leading-relaxed mb-3" data-testid="quote-text">
+          "{text}"
+        </blockquote>
+        <cite className="text-sm text-reinvent-purple font-semibold not-italic" data-testid="quote-author">
+          — {author}
+        </cite>
+      </div>
+    </div>
+  );
+};
+
+export default QuoteBlock;
