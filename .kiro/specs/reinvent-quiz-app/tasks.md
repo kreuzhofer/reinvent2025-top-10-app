@@ -210,7 +210,7 @@
   - **Property 15: Timer expiration behavior**
   - **Validates: Requirements 11.4**
 
-- [x] 14.5 Write property test for skip button presence
+- [ ] 14.5 Write property test for skip button presence
   - **Property 16: Skip button presence**
   - **Validates: Requirements 2.6**
 
@@ -224,7 +224,7 @@
   - Test next button appears after answer
   - _Requirements: 2.1, 2.5, 2.6_
 
-- [ ] 15. Implement quiz configuration support
+- [x] 15. Implement quiz configuration support
   - Load quizConfig from quiz data file
   - Implement answer choice shuffling when shuffleChoices is enabled
   - Show/hide progress bar based on showProgressBar setting
@@ -232,11 +232,11 @@
   - Apply default configuration when quizConfig is not specified
   - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [ ] 15.1 Write property test for quiz choice shuffling
+- [x] 15.1 Write property test for quiz choice shuffling
   - **Property 23: Quiz choice shuffling**
   - **Validates: Requirements 15.2**
 
-- [ ] 15.2 Write unit tests for quiz configuration
+- [x] 15.2 Write unit tests for quiz configuration
   - Test progress bar displays when enabled
   - Test answer choices are shuffled when enabled
   - Test retry option appears when enabled

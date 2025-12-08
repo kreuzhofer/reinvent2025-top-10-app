@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, SkipForward } from 'lucide-react';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 import { useScore } from '../context/ScoreContext';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
+import { shuffleChoices } from '../utils/shuffleChoices';
 
 interface QuizSlideProps {
   slide: QuizSlideType;
   onNext: () => void;
+  shuffleEnabled?: boolean;
 }
 
 /**
@@ -31,7 +33,7 @@ interface QuizSlideProps {
  * - 14.2: Visually distinguish fun facts
  * - 14.3: Handle optional fun facts gracefully
  */
-const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
+const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = false }) => {
   const { addPoints, addPossiblePoints, calculateTimeAdjustedPoints } = useScore();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -39,6 +41,18 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
   const [isSkipped, setIsSkipped] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [showExplanation, setShowExplanation] = useState(false);
+
+  // Shuffle choices if enabled (memoized to prevent re-shuffling on re-renders)
+  const { displayChoices, correctIndex } = useMemo(() => {
+    if (shuffleEnabled) {
+      const { shuffledChoices, newCorrectIndex } = shuffleChoices(
+        slide.choices,
+        slide.correctAnswerIndex
+      );
+      return { displayChoices: shuffledChoices, correctIndex: newCorrectIndex };
+    }
+    return { displayChoices: slide.choices, correctIndex: slide.correctAnswerIndex };
+  }, [slide.choices, slide.correctAnswerIndex, shuffleEnabled]);
 
   // Add possible points when component mounts
   useEffect(() => {
@@ -54,8 +68,8 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
     setSelectedIndex(index);
     setIsAnswered(true);
 
-    // Check if answer is correct
-    const isCorrect = index === slide.correctAnswerIndex;
+    // Check if answer is correct (use correctIndex which accounts for shuffling)
+    const isCorrect = index === correctIndex;
 
     if (isCorrect) {
       // Calculate time-adjusted points
@@ -93,8 +107,8 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
       return `${baseClasses} border-gray-700 bg-gray-800 hover:border-reinvent-purple hover:bg-gray-700 cursor-pointer`;
     }
 
-    // Show correct answer in green
-    if (index === slide.correctAnswerIndex) {
+    // Show correct answer in green (use correctIndex which accounts for shuffling)
+    if (index === correctIndex) {
       return `${baseClasses} border-green-500 bg-green-500/20 cursor-not-allowed`;
     }
 
@@ -108,7 +122,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
   };
 
   const isCorrect = (index: number): boolean => {
-    return index === slide.correctAnswerIndex;
+    return index === correctIndex;
   };
 
   const getChoiceIcon = (index: number) => {
@@ -116,7 +130,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
       return null;
     }
 
-    if (index === slide.correctAnswerIndex) {
+    if (index === correctIndex) {
       return <CheckCircle className="w-6 h-6 text-green-500" data-testid={`correct-icon-${index}`} />;
     }
 
@@ -162,7 +176,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext }) => {
 
       {/* Answer Choices */}
       <div className="space-y-4 mb-6" data-testid="quiz-choices">
-        {slide.choices.map((choice, index) => (
+        {displayChoices.map((choice, index) => (
           <button
             key={index}
             onClick={() => handleAnswerSelect(index)}
