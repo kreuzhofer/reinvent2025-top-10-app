@@ -29,14 +29,14 @@
   - Create CSS for Amazon Ember font fallback
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 4. Implement data loading and validation
+- [x] 4. Implement data loading and validation
   - Create useQuizData hook to load quiz-data.json
   - Implement JSON schema validation function
   - Handle loading states and errors
   - Create sample quiz-data.json with 2-3 slides for testing
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 4.1 Write unit test for data loading
+- [x] 4.1 Write unit test for data loading
   - Test successful JSON loading
   - Test error handling for missing file
   - _Requirements: 4.1, 4.3_
