@@ -45,15 +45,15 @@ const CalloutBox: React.FC<CalloutBoxProps> = ({ text, style }) => {
 
   return (
     <div
-      className={`flex items-start gap-3 p-4 rounded-lg border ${config.bgColor} ${config.borderColor} backdrop-blur-sm`}
+      className={`flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border ${config.bgColor} ${config.borderColor} backdrop-blur-sm`}
       data-testid="callout-box"
       data-style={style}
     >
       <IconComponent
-        className={`flex-shrink-0 w-5 h-5 mt-0.5 ${config.iconColor}`}
+        className={`flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 mt-0.5 ${config.iconColor}`}
         data-testid="callout-icon"
       />
-      <p className={`text-base ${config.textColor} leading-relaxed`} data-testid="callout-text">
+      <p className={`text-sm sm:text-base ${config.textColor} leading-relaxed`} data-testid="callout-text">
         {text}
       </p>
     </div>

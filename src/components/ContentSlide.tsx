@@ -52,7 +52,7 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
       transition={{ duration: 0.4 }}
-      className="min-h-screen bg-black text-white px-6 py-12 flex flex-col"
+      className="min-h-screen bg-black text-white px-4 sm:px-6 py-8 sm:py-12 flex flex-col"
       data-testid="content-slide"
     >
       <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
@@ -61,7 +61,7 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold mb-8 text-white"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-white"
           data-testid="content-slide-title"
         >
           {slide.title}
@@ -72,7 +72,7 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="flex-1 space-y-6"
+          className="flex-1 space-y-4 sm:space-y-6"
           data-testid="content-blocks-container"
         >
           {slide.content.map((block, index) => (
@@ -85,15 +85,15 @@ const ContentSlide: React.FC<ContentSlideProps> = ({ slide, onNext }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="mt-8 flex justify-end"
+          className="mt-6 sm:mt-8 flex justify-end"
         >
           <button
             onClick={onNext}
-            className="flex items-center gap-2 bg-reinvent-purple hover:bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300"
+            className="flex items-center gap-2 bg-reinvent-purple hover:bg-purple-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition-colors duration-300"
             data-testid="next-button"
           >
             Next
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </motion.div>
       </div>
@@ -134,10 +134,10 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
  */
 const TextBlockComponent: React.FC<{ block: { type: 'text'; text: string; style?: string; emphasis?: string } }> = ({ block }) => {
   const styleClasses = {
-    heading: 'text-3xl md:text-4xl font-bold text-white',
-    subheading: 'text-2xl md:text-3xl font-semibold text-gray-200',
-    body: 'text-lg text-gray-300 leading-relaxed',
-    caption: 'text-sm text-gray-400 italic',
+    heading: 'text-2xl sm:text-3xl md:text-4xl font-bold text-white',
+    subheading: 'text-xl sm:text-2xl md:text-3xl font-semibold text-gray-200',
+    body: 'text-base sm:text-lg text-gray-300 leading-relaxed',
+    caption: 'text-xs sm:text-sm text-gray-400 italic',
   };
 
   const emphasisClasses = {
@@ -175,7 +175,7 @@ const ImageBlockComponent: React.FC<{ block: { type: 'image'; src: string; alt: 
   const imageSrc = imageError ? getPlaceholderImage() : resolveImagePath(block.src);
 
   return (
-    <figure className={`${sizeClass} mx-auto my-6`} data-testid="image-block">
+    <figure className={`${sizeClass} mx-auto my-4 sm:my-6`} data-testid="image-block">
       <div className="relative">
         {!imageLoaded && !imageError && (
           <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-lg" />
@@ -190,7 +190,7 @@ const ImageBlockComponent: React.FC<{ block: { type: 'image'; src: string; alt: 
         />
       </div>
       {block.caption && (
-        <figcaption className="text-sm text-gray-400 text-center mt-3 italic" data-testid="image-caption">
+        <figcaption className="text-xs sm:text-sm text-gray-400 text-center mt-2 sm:mt-3 italic" data-testid="image-caption">
           {block.caption}
         </figcaption>
       )}
@@ -203,9 +203,9 @@ const ImageBlockComponent: React.FC<{ block: { type: 'image'; src: string; alt: 
  */
 const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'lucide'; iconName: string; label?: string; size?: string } }> = ({ block }) => {
   const sizeClasses = {
-    small: 'w-8 h-8',
-    medium: 'w-12 h-12',
-    large: 'w-16 h-16',
+    small: 'w-6 h-6 sm:w-8 sm:h-8',
+    medium: 'w-10 h-10 sm:w-12 sm:h-12',
+    large: 'w-12 h-12 sm:w-16 sm:h-16',
   };
 
   const sizeClass = sizeClasses[block.size as keyof typeof sizeClasses] || sizeClasses.medium;
@@ -215,10 +215,10 @@ const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'l
     if (!IconComponent) return null;
 
     return (
-      <div className="flex flex-col items-center gap-3 my-6" data-testid="icon-block">
+      <div className="flex flex-col items-center gap-2 sm:gap-3 my-4 sm:my-6" data-testid="icon-block">
         <IconComponent className={`${sizeClass} text-reinvent-purple`} data-testid="icon-block-icon" />
         {block.label && (
-          <span className="text-sm text-gray-300 font-medium" data-testid="icon-block-label">
+          <span className="text-xs sm:text-sm text-gray-300 font-medium" data-testid="icon-block-label">
             {block.label}
           </span>
         )}
@@ -230,14 +230,14 @@ const IconBlockComponent: React.FC<{ block: { type: 'icon'; iconType: 'aws' | 'l
     const awsIconId = getAWSServiceIcon(block.iconName);
     
     return (
-      <div className="flex flex-col items-center gap-3 my-6" data-testid="icon-block">
+      <div className="flex flex-col items-center gap-2 sm:gap-3 my-4 sm:my-6" data-testid="icon-block">
         <div className={`${sizeClass} flex items-center justify-center bg-reinvent-purple/20 rounded-lg border border-reinvent-purple/50`} data-testid="icon-block-icon">
           <span className="text-xs font-bold text-reinvent-purple uppercase">
             {awsIconId || block.iconName}
           </span>
         </div>
         {block.label && (
-          <span className="text-sm text-gray-300 font-medium" data-testid="icon-block-label">
+          <span className="text-xs sm:text-sm text-gray-300 font-medium" data-testid="icon-block-label">
             {block.label}
           </span>
         )}
@@ -254,15 +254,15 @@ const ListBlockComponent: React.FC<{ block: { type: 'list'; title?: string; item
   const listClass = block.ordered ? 'list-decimal list-inside' : 'list-disc list-inside';
 
   return (
-    <div className="my-6" data-testid="list-block">
+    <div className="my-4 sm:my-6" data-testid="list-block">
       {block.title && (
-        <h3 className="text-xl font-semibold text-white mb-3" data-testid="list-block-title">
+        <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3" data-testid="list-block-title">
           {block.title}
         </h3>
       )}
-      <ListTag className={`${listClass} space-y-2 text-gray-300`} data-testid="list-block-items">
+      <ListTag className={`${listClass} space-y-1 sm:space-y-2 text-gray-300`} data-testid="list-block-items">
         {block.items.map((item, index) => (
-          <li key={index} className="text-lg leading-relaxed">
+          <li key={index} className="text-sm sm:text-base md:text-lg leading-relaxed">
             {item}
           </li>
         ))}
@@ -287,11 +287,11 @@ const StatBlockComponent: React.FC<{ block: { type: 'stat'; value: string; label
   const colorClass = colorClasses[block.color as keyof typeof colorClasses] || colorClasses.purple;
 
   return (
-    <div className="text-center my-8 p-6 bg-gray-900/50 rounded-lg border border-gray-700" data-testid="stat-block">
-      <div className={`text-5xl md:text-6xl font-bold ${colorClass} mb-2`} data-testid="stat-block-value">
+    <div className="text-center my-6 sm:my-8 p-4 sm:p-6 bg-gray-900/50 rounded-lg border border-gray-700" data-testid="stat-block">
+      <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold ${colorClass} mb-2`} data-testid="stat-block-value">
         {block.value}
       </div>
-      <div className="text-lg text-gray-300 font-medium" data-testid="stat-block-label">
+      <div className="text-base sm:text-lg text-gray-300 font-medium" data-testid="stat-block-label">
         {block.label}
       </div>
     </div>

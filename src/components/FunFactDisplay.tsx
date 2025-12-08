@@ -24,19 +24,19 @@ const FunFactDisplay: React.FC<FunFactDisplayProps> = ({ funFact }) => {
 
   return (
     <div
-      className="mt-4 p-4 bg-gradient-to-r from-reinvent-yellow/20 to-reinvent-red/20 border-2 border-reinvent-yellow/50 rounded-lg backdrop-blur-sm"
+      className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gradient-to-r from-reinvent-yellow/20 to-reinvent-red/20 border-2 border-reinvent-yellow/50 rounded-lg backdrop-blur-sm"
       data-testid="fun-fact-display"
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-2 sm:gap-3">
         <Lightbulb
-          className="flex-shrink-0 w-6 h-6 text-reinvent-yellow mt-0.5"
+          className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 text-reinvent-yellow mt-0.5"
           data-testid="fun-fact-icon"
         />
         <div>
-          <h4 className="text-sm font-bold text-reinvent-yellow uppercase tracking-wide mb-1" data-testid="fun-fact-label">
+          <h4 className="text-xs sm:text-sm font-bold text-reinvent-yellow uppercase tracking-wide mb-1" data-testid="fun-fact-label">
             Fun Fact
           </h4>
-          <p className="text-base text-gray-200 leading-relaxed" data-testid="fun-fact-text">
+          <p className="text-sm sm:text-base text-gray-200 leading-relaxed" data-testid="fun-fact-text">
             {funFact}
           </p>
         </div>

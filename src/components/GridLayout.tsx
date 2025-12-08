@@ -28,7 +28,7 @@ const GridLayout: React.FC<GridLayoutProps> = ({ columns, items }) => {
 
   return (
     <div
-      className={`grid ${gridColsClass} gap-4 my-4`}
+      className={`grid ${gridColsClass} gap-3 sm:gap-4 my-3 sm:my-4`}
       data-testid="grid-layout"
       data-columns={columns}
     >
@@ -39,32 +39,32 @@ const GridLayout: React.FC<GridLayoutProps> = ({ columns, items }) => {
         return (
           <div
             key={index}
-            className="p-4 bg-gray-900/50 border border-gray-700 rounded-lg hover:border-reinvent-purple/50 transition-colors"
+            className="p-3 sm:p-4 bg-gray-900/50 border border-gray-700 rounded-lg hover:border-reinvent-purple/50 transition-colors"
             data-testid="grid-item"
           >
             {/* Icon and Title */}
-            <div className="flex items-start gap-3 mb-2">
+            <div className="flex items-start gap-2 sm:gap-3 mb-2">
               {IconComponent && (
                 <IconComponent
-                  className={`flex-shrink-0 w-6 h-6 ${colorClass}`}
+                  className={`flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 ${colorClass}`}
                   data-testid="grid-item-icon"
                 />
               )}
-              <h3 className="text-lg font-semibold text-white" data-testid="grid-item-title">
+              <h3 className="text-base sm:text-lg font-semibold text-white" data-testid="grid-item-title">
                 {item.title}
               </h3>
             </div>
 
             {/* Description */}
             {item.description && (
-              <p className="text-sm text-gray-300 mb-3" data-testid="grid-item-description">
+              <p className="text-xs sm:text-sm text-gray-300 mb-2 sm:mb-3" data-testid="grid-item-description">
                 {item.description}
               </p>
             )}
 
             {/* Single Stat */}
             {item.stat && (
-              <div className={`text-2xl font-bold ${colorClass} mb-2`} data-testid="grid-item-stat">
+              <div className={`text-xl sm:text-2xl font-bold ${colorClass} mb-2`} data-testid="grid-item-stat">
                 {item.stat}
               </div>
             )}
@@ -73,7 +73,7 @@ const GridLayout: React.FC<GridLayoutProps> = ({ columns, items }) => {
             {item.stats && item.stats.length > 0 && (
               <ul className="space-y-1 mb-2" data-testid="grid-item-stats">
                 {item.stats.map((stat, statIndex) => (
-                  <li key={statIndex} className={`text-sm font-semibold ${colorClass}`}>
+                  <li key={statIndex} className={`text-xs sm:text-sm font-semibold ${colorClass}`}>
                     {stat}
                   </li>
                 ))}
@@ -84,7 +84,7 @@ const GridLayout: React.FC<GridLayoutProps> = ({ columns, items }) => {
             {item.features && item.features.length > 0 && (
               <ul className="space-y-1" data-testid="grid-item-features">
                 {item.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="text-sm text-gray-400 flex items-start gap-2">
+                  <li key={featureIndex} className="text-xs sm:text-sm text-gray-400 flex items-start gap-2">
                     <span className="text-reinvent-purple mt-0.5">•</span>
                     <span>{feature}</span>
                   </li>

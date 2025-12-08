@@ -67,18 +67,18 @@ const QuizTimer: React.FC<QuizTimerProps> = ({
 
   return (
     <div
-      className="flex flex-col items-center gap-4 mb-6"
+      className="flex flex-col items-center gap-3 sm:gap-4 mb-4 sm:mb-6"
       data-testid="quiz-timer"
     >
       {/* Timer Display */}
-      <div className="flex items-center gap-6">
+      <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
         <div className="text-center">
-          <div className="text-sm text-gray-400 uppercase tracking-wide font-semibold mb-1">
+          <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide font-semibold mb-1">
             Time Remaining
           </div>
           <motion.div
             key={remainingTime}
-            className={`text-5xl font-bold ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold ${
               remainingTime <= 3 ? 'text-reinvent-red' : 'text-white'
             }`}
             initial={{ scale: 1.1 }}
@@ -90,15 +90,16 @@ const QuizTimer: React.FC<QuizTimerProps> = ({
           </motion.div>
         </div>
 
-        <div className="h-16 w-px bg-gray-700" />
+        <div className="hidden sm:block h-16 w-px bg-gray-700" />
+        <div className="block sm:hidden h-px w-16 bg-gray-700" />
 
         <div className="text-center">
-          <div className="text-sm text-gray-400 uppercase tracking-wide font-semibold mb-1">
+          <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide font-semibold mb-1">
             Current Points
           </div>
           <motion.div
             key={currentPoints}
-            className="text-5xl font-bold text-reinvent-purple"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-reinvent-purple"
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.2 }}
@@ -111,7 +112,7 @@ const QuizTimer: React.FC<QuizTimerProps> = ({
 
       {/* Visual Progress Bar */}
       <div
-        className="w-full max-w-md h-3 bg-gray-800 rounded-full overflow-hidden"
+        className="w-full max-w-xs sm:max-w-md h-2 sm:h-3 bg-gray-800 rounded-full overflow-hidden"
         data-testid="timer-progress-container"
       >
         <motion.div
@@ -130,7 +131,7 @@ const QuizTimer: React.FC<QuizTimerProps> = ({
       {/* Status Indicator */}
       {!isActive && (
         <div 
-          className="text-sm text-reinvent-red font-semibold"
+          className="text-xs sm:text-sm text-reinvent-red font-semibold"
           data-testid="timer-expired"
         >
           Time's Up!

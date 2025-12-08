@@ -43,10 +43,10 @@ describe('ScoreDisplay Component', () => {
 
     const scoreDisplay = screen.getByTestId('score-display');
     
-    // Check for key styling classes
+    // Check for key styling classes (responsive)
     expect(scoreDisplay).toHaveClass('fixed');
-    expect(scoreDisplay).toHaveClass('top-4');
-    expect(scoreDisplay).toHaveClass('right-4');
+    expect(scoreDisplay).toHaveClass('sm:top-4');
+    expect(scoreDisplay).toHaveClass('sm:right-4');
     expect(scoreDisplay).toHaveClass('rounded-lg');
   });
 
@@ -59,8 +59,8 @@ describe('ScoreDisplay Component', () => {
 
     const scoreValue = screen.getByTestId('score-value');
     
-    // Check for prominent styling
-    expect(scoreValue).toHaveClass('text-3xl');
+    // Check for prominent styling (responsive)
+    expect(scoreValue).toHaveClass('sm:text-3xl');
     expect(scoreValue).toHaveClass('font-bold');
     expect(scoreValue).toHaveClass('text-white');
   });

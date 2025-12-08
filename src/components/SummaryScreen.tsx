@@ -42,12 +42,12 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   const performance = getPerformanceMessage();
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-2xl"
+        className="text-center max-w-2xl w-full"
         data-testid="summary-screen"
       >
         {/* Trophy Icon */}
@@ -55,14 +55,14 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2, type: 'spring' }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
-          <Trophy className="w-24 h-24 mx-auto text-reinvent-yellow" />
+          <Trophy className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto text-reinvent-yellow" />
         </motion.div>
 
         {/* Title */}
         <motion.h1
-          className="text-4xl md:text-5xl font-bold text-white mb-4"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -72,7 +72,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
 
         {/* Performance Message */}
         <motion.p
-          className={`text-2xl md:text-3xl font-semibold mb-8 ${performance.color}`}
+          className={`text-xl sm:text-2xl md:text-3xl font-semibold mb-6 sm:mb-8 ${performance.color}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
@@ -82,29 +82,29 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
 
         {/* Score Display */}
         <motion.div
-          className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-8 mb-8"
+          className="bg-gray-900 border-2 border-gray-700 rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           {/* Points Score */}
-          <div className="mb-6">
-            <p className="text-gray-400 text-sm uppercase tracking-wide mb-2">
+          <div className="mb-4 sm:mb-6">
+            <p className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2">
               Your Score
             </p>
-            <p className="text-5xl md:text-6xl font-bold text-white" data-testid="final-score">
+            <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-white" data-testid="final-score">
               {score}
-              <span className="text-2xl text-gray-500"> / {totalPossible}</span>
+              <span className="text-xl sm:text-2xl text-gray-500"> / {totalPossible}</span>
             </p>
           </div>
 
           {/* Percentage Score */}
-          <div className="pt-6 border-t border-gray-700">
-            <p className="text-gray-400 text-sm uppercase tracking-wide mb-2">
+          <div className="pt-4 sm:pt-6 border-t border-gray-700">
+            <p className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2">
               Percentage
             </p>
             <p 
-              className="text-4xl md:text-5xl font-bold text-reinvent-purple"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold text-reinvent-purple"
               data-testid="final-percentage"
             >
               {percentage}%
@@ -116,7 +116,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
         {allowRetry && onRestart && (
           <motion.button
             onClick={onRestart}
-            className="flex items-center justify-center gap-3 mx-auto bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors duration-300"
+            className="flex items-center justify-center gap-2 sm:gap-3 mx-auto bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-300"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -124,7 +124,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             whileTap={{ scale: 0.95 }}
             data-testid="restart-button"
           >
-            <RotateCcw className="w-6 h-6" />
+            <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" />
             Retake Quiz
           </motion.button>
         )}
@@ -132,7 +132,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
         {/* Message when retry is disabled */}
         {!allowRetry && (
           <motion.p
-            className="text-gray-500 text-lg"
+            className="text-gray-500 text-base sm:text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}

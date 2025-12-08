@@ -112,7 +112,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
   });
 
   const getChoiceClassName = (index: number): string => {
-    const baseClasses = 'w-full p-4 text-left rounded-lg border-2 transition-all duration-200';
+    const baseClasses = 'w-full p-3 sm:p-4 text-left rounded-lg border-2 transition-all duration-200';
     
     // If not answered, timed out, or skipped - show default state
     if (!isAnswered && !isTimedOut && !isSkipped) {
@@ -155,7 +155,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
 
   return (
     <motion.div
-      className="max-w-4xl mx-auto p-8"
+      className="max-w-4xl mx-auto px-4 py-6 sm:p-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -173,19 +173,19 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
       )}
 
       {/* Question */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-white mb-2" data-testid="quiz-question">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2" data-testid="quiz-question">
           {slide.question}
         </h2>
         {slide.relatedAnnouncementId && (
-          <p className="text-sm text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-400">
             Related to: {slide.relatedAnnouncementId}
           </p>
         )}
       </div>
 
       {/* Answer Choices */}
-      <div className="space-y-4 mb-6" data-testid="quiz-choices">
+      <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6" data-testid="quiz-choices">
         {displayChoices.map((choice, index) => (
           <button
             key={index}
@@ -195,11 +195,11 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
             data-testid={`choice-${index}`}
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-lg font-semibold text-reinvent-purple">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <span className="text-base sm:text-lg font-semibold text-reinvent-purple">
                   {index + 1}
                 </span>
-                <span className="text-lg text-white">{choice.text}</span>
+                <span className="text-sm sm:text-base md:text-lg text-white">{choice.text}</span>
               </div>
               {getChoiceIcon(index)}
             </div>
@@ -212,14 +212,14 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className={`p-4 rounded-lg mb-6 ${
+          className={`p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 ${
             isCorrect(selectedIndex!)
               ? 'bg-green-500/20 border-2 border-green-500'
               : 'bg-red-500/20 border-2 border-red-500'
           }`}
           data-testid="quiz-feedback"
         >
-          <p className={`text-lg font-semibold ${
+          <p className={`text-base sm:text-lg font-semibold ${
             isCorrect(selectedIndex!)
               ? 'text-green-400'
               : 'text-red-400'
@@ -236,10 +236,10 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-4 rounded-lg mb-6 bg-red-500/20 border-2 border-red-500"
+          className="p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 bg-red-500/20 border-2 border-red-500"
           data-testid="timeout-message"
         >
-          <p className="text-lg font-semibold text-red-400">
+          <p className="text-base sm:text-lg font-semibold text-red-400">
             ⏱ Time's up! No points awarded.
           </p>
         </motion.div>
@@ -250,10 +250,10 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-4 rounded-lg mb-6 bg-gray-700/50 border-2 border-gray-600"
+          className="p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 bg-gray-700/50 border-2 border-gray-600"
           data-testid="skip-message"
         >
-          <p className="text-lg font-semibold text-gray-400">
+          <p className="text-base sm:text-lg font-semibold text-gray-400">
             ⏭ Question skipped. No points awarded.
           </p>
         </motion.div>
@@ -264,11 +264,11 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 p-6 bg-gray-800/50 rounded-lg border border-gray-700"
+          className="mb-4 sm:mb-6 p-4 sm:p-6 bg-gray-800/50 rounded-lg border border-gray-700"
           data-testid="quiz-explanation"
         >
-          <h3 className="text-xl font-bold text-white mb-3">Explanation</h3>
-          <p className="text-gray-300 leading-relaxed">{slide.explanation}</p>
+          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Explanation</h3>
+          <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{slide.explanation}</p>
         </motion.div>
       )}
 
@@ -284,15 +284,15 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
       )}
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mt-8">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">
         {/* Skip Button - only show if not answered, timed out, or skipped */}
         {!isAnswered && !isTimedOut && !isSkipped && (
           <button
             onClick={handleSkip}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg transition-colors"
             data-testid="skip-button"
           >
-            <SkipForward className="w-5 h-5" />
+            <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
             Skip Question
           </button>
         )}
@@ -303,7 +303,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({ slide, onNext, shuffleEnabled = f
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             onClick={onNext}
-            className="flex-1 px-8 py-4 bg-gradient-to-r from-reinvent-purple to-reinvent-blue hover:from-reinvent-purple/80 hover:to-reinvent-blue/80 text-white text-lg font-semibold rounded-lg transition-all"
+            className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-reinvent-purple to-reinvent-blue hover:from-reinvent-purple/80 hover:to-reinvent-blue/80 text-white text-base sm:text-lg font-semibold rounded-lg transition-all"
             data-testid="next-button"
           >
             Next →

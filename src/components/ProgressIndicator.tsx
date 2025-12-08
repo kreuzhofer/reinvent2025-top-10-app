@@ -22,16 +22,16 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ current, total })
 
   return (
     <div
-      className="fixed top-4 left-4 bg-black/60 backdrop-blur-sm border border-gray-700 rounded-lg px-6 py-3 shadow-lg"
+      className="fixed top-2 left-2 sm:top-4 sm:left-4 bg-black/60 backdrop-blur-sm border border-gray-700 rounded-lg px-3 py-2 sm:px-6 sm:py-3 shadow-lg z-10"
       data-testid="progress-indicator"
     >
-      <div className="flex flex-col gap-2 min-w-[120px]">
+      <div className="flex flex-col gap-2 min-w-[100px] sm:min-w-[120px]">
         {/* Slide Position Text */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-300 uppercase tracking-wide font-semibold">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide font-semibold">
             Progress
           </span>
-          <span className="text-lg font-bold text-white" data-testid="progress-text">
+          <span className="text-base sm:text-lg font-bold text-white" data-testid="progress-text">
             {current} / {total}
           </span>
         </div>
