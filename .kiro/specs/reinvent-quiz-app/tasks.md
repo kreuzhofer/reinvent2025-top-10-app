@@ -7,7 +7,7 @@
   - Set up directory structure (components, context, hooks, types, utils, data)
   - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-- [ ] 2. Define TypeScript interfaces and types
+- [x] 2. Define TypeScript interfaces and types
   - Create quiz.types.ts with all data model interfaces (QuizData, Slide, ContentSlide, QuizSlide, ContentBlock types, QuizChoice)
   - Add new content block interfaces: CalloutBlock, QuoteBlock, GridBlock, GridItem
   - Add QuizConfig and ResourcesConfig interfaces
@@ -18,7 +18,7 @@
   - Export all types for use across the application
   - _Requirements: 9.1, 13.1, 13.2, 13.3, 13.4, 14.1, 15.1_
 
-- [ ] 2.1 Write property test for JSON schema validation
+- [x] 2.1 Write property test for JSON schema validation
   - **Property 8: JSON schema validation**
   - **Validates: Requirements 4.2**
 
