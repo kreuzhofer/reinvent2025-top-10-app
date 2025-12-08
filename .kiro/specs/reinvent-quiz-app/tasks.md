@@ -288,7 +288,7 @@
   - Test help overlay toggle
   - _Requirements: 10.3, 10.4_
 
-- [ ] 19. Build main App component and integrate all pieces
+- [x] 19. Build main App component and integrate all pieces
   - Create App component with routing
   - Integrate ScoreContext provider
   - Load quiz data with useQuizData hook
