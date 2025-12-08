@@ -5,6 +5,7 @@ import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
 import { useScore } from '../context/ScoreContext';
 import { useQuizState } from '../context/QuizStateContext';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
+import { useAudioManager } from '../hooks/useAudioManager';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
 import Header from './Header';
@@ -33,6 +34,14 @@ interface QuizSlideProps {
  * - 2.4: Display correct answer for incorrect selections
  * - 2.5: Provide next button after answer/timeout/skip
  * - 2.6: Provide skip button
+ * - 3.2: Read backgroundMusic property from slide data
+ * - 3.3: Play background music with fade transitions
+ * - 3.4: Continue playing if backgroundMusic matches current track
+ * - 3.6: Continue current music if no backgroundMusic specified
+ * - 9.2: Support backgroundMusic property on questions
+ * - 9.3: Load audio from backgroundMusic property
+ * - 9.4: Compare backgroundMusic with current track
+ * - 9.5: Maintain continuous playback when tracks match
  * - 10.1: Right arrow key to advance slides (when answered)
  * - 10.2: Number keys (1-N) to select quiz answers
  * - 11.4: Handle timer timeout (highlight correct answer, award 0 points)
@@ -53,6 +62,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
 }) => {
   const { addPoints, calculateTimeAdjustedPoints } = useScore();
   const { getAnswerState, setAnswerState, getShuffleOrder, setShuffleOrder } = useQuizState();
+  const { playBackgroundMusic } = useAudioManager();
   
   // Check if this question was already answered
   const savedState = getAnswerState(slide.id);
@@ -100,6 +110,15 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slide.id]);
+
+  // Handle background music for this slide
+  useEffect(() => {
+    // Play background music if specified
+    if (slide.backgroundMusic) {
+      playBackgroundMusic(slide.backgroundMusic);
+    }
+    // If no backgroundMusic property, current music continues playing
+  }, [slide.id, slide.backgroundMusic, playBackgroundMusic]);
 
   const handleAnswerSelect = (index: number) => {
     // Prevent selection if already answered, timed out, or skipped

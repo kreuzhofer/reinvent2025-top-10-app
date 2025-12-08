@@ -1,15 +1,23 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useAudioManager } from '../hooks/useAudioManager';
 
 interface WelcomeScreenProps {
   onStart: () => void;
 }
 
 const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
+  const { playBackgroundMusic } = useAudioManager();
+
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
+  // Play welcome background music on mount
+  useEffect(() => {
+    playBackgroundMusic('background/welcome-bg.mp3');
+  }, [playBackgroundMusic]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {

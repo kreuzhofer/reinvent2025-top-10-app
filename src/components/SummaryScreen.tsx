@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, RotateCcw } from 'lucide-react';
 import Header from './Header';
+import { useAudioManager } from '../hooks/useAudioManager';
 
 interface SummaryScreenProps {
   score: number;
@@ -21,6 +22,7 @@ interface SummaryScreenProps {
  * - 3.2: Display summary screen with total score
  * - 3.3: Show score as both number and percentage
  * - 3.4: Provide option to restart quiz
+ * - 3.5: Play victory music on mount
  * - 15.4: Enable/disable retry option based on allowRetry setting
  */
 const SummaryScreen: React.FC<SummaryScreenProps> = ({ 
@@ -29,10 +31,17 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   onRestart,
   allowRetry = true 
 }) => {
+  const { playBackgroundMusic } = useAudioManager();
+
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
+  // Play victory music on mount
+  useEffect(() => {
+    playBackgroundMusic('background/victory-bg.mp3');
+  }, [playBackgroundMusic]);
 
   const percentage = totalPossible > 0 ? Math.round((score / totalPossible) * 100) : 0;
   

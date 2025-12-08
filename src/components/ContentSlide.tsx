@@ -5,6 +5,7 @@ import type { ContentSlide as ContentSlideType, ContentBlock } from '../types/qu
 import { resolveImagePath, getPlaceholderImage } from '../utils/imageLoader';
 import { getLucideIcon, resolveAWSIconPath } from '../utils/iconMapper';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
+import { useAudioManager } from '../hooks/useAudioManager';
 import CalloutBox from './CalloutBox';
 import QuoteBlock from './QuoteBlock';
 import GridLayout from './GridLayout';
@@ -36,8 +37,17 @@ interface ContentSlideProps {
  * - 1.3: Render text, images, icons, and formatting as specified
  * - 1.4: Provide clear navigation control to proceed
  * - 1.5: Load and display images from designated directory
+ * - 3.2: Read backgroundMusic property from slide data
+ * - 3.3: Play background music with fade transitions
+ * - 3.4: Continue playing if backgroundMusic matches current track
+ * - 3.6: Continue current music if no backgroundMusic specified
+ * - 4.4: Play slide transition sound effect
  * - 5.4: Display placeholder when image fails to load
  * - 8.1: Animate transitions smoothly
+ * - 9.1: Support backgroundMusic property on slides
+ * - 9.3: Load audio from backgroundMusic property
+ * - 9.4: Compare backgroundMusic with current track
+ * - 9.5: Maintain continuous playback when tracks match
  * - 10.1: Right arrow key to advance slides
  * - 13.1: Render callout blocks with specified style
  * - 13.2: Render quote blocks with author attribution
@@ -52,10 +62,24 @@ const ContentSlide: React.FC<ContentSlideProps> = ({
   showProgress = false,
   showScore = false
 }) => {
+  const { playBackgroundMusic, playSFX } = useAudioManager();
+
   // Scroll to top when slide changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slide.id]);
+
+  // Handle background music for this slide
+  useEffect(() => {
+    // Play slide transition sound effect
+    playSFX('effects/slide-transition.mp3');
+
+    // Play background music if specified
+    if (slide.backgroundMusic) {
+      playBackgroundMusic(slide.backgroundMusic);
+    }
+    // If no backgroundMusic property, current music continues playing
+  }, [slide.id, slide.backgroundMusic, playBackgroundMusic, playSFX]);
 
   // Enable keyboard navigation for content slides
   useKeyboardNav({

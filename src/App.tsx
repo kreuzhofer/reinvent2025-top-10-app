@@ -5,6 +5,7 @@ import './App.css';
 import { ScoreProvider, useScore } from './context/ScoreContext';
 import { QuizStateProvider, useQuizState } from './context/QuizStateContext';
 import { QuizConfigProvider } from './context/QuizConfigContext';
+import { AudioProvider } from './context/AudioContext';
 import { useQuizData } from './hooks/useQuizData';
 import { useReducedMotion } from './hooks/useReducedMotion';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -12,6 +13,7 @@ import ContentSlide from './components/ContentSlide';
 import QuizSlide from './components/QuizSlide';
 import SummaryScreen from './components/SummaryScreen';
 import KeyboardHelpOverlay from './components/KeyboardHelpOverlay';
+import { AudioControls } from './components/AudioControls';
 
 /**
  * Welcome Route Component
@@ -248,6 +250,11 @@ function QuizApp() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       
+      {/* Global Audio Controls */}
+      <div className="fixed top-4 right-4 z-50">
+        <AudioControls />
+      </div>
+      
       {/* Global Keyboard Help Overlay */}
       <KeyboardHelpOverlay isOpen={showHelp} onClose={() => setShowHelp(false)} />
     </MotionConfig>
@@ -258,19 +265,23 @@ function QuizApp() {
  * Root App Component with Providers and Router
  * 
  * Requirements:
+ * - 6.1: Wrap application with AudioProvider
+ * - 6.2: Add AudioControls component to UI
  * - 8.4: Add reduced motion support
  * - 9.3: React Router for navigation
  */
 function App() {
   return (
     <BrowserRouter>
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizConfigProvider>
-            <QuizApp />
-          </QuizConfigProvider>
-        </QuizStateProvider>
-      </ScoreProvider>
+      <AudioProvider>
+        <ScoreProvider>
+          <QuizStateProvider>
+            <QuizConfigProvider>
+              <QuizApp />
+            </QuizConfigProvider>
+          </QuizStateProvider>
+        </ScoreProvider>
+      </AudioProvider>
     </BrowserRouter>
   );
 }
