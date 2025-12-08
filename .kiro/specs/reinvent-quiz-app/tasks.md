@@ -41,22 +41,22 @@
   - Test error handling for missing file
   - _Requirements: 4.1, 4.3_
 
-- [ ] 5. Implement ScoreContext and state management
+- [x] 5. Implement ScoreContext and state management
   - Create ScoreContext with score state and methods
   - Implement addPoints, addPossiblePoints, resetScore functions
   - Implement calculateTimeAdjustedPoints function (basePoints - basePoints * 0.10 * elapsedSeconds)
   - Provide context at App level
   - _Requirements: 3.1, 3.5, 11.3, 11.5_
 
-- [ ] 5.1 Write property test for time-adjusted point calculation
+- [x] 5.1 Write property test for time-adjusted point calculation
   - **Property 14: Time-adjusted point calculation**
   - **Validates: Requirements 11.3, 11.5**
 
-- [ ] 5.2 Write property test for score accumulation
+- [x] 5.2 Write property test for score accumulation
   - **Property 3: Score accumulation correctness**
   - **Validates: Requirements 2.3, 11.5**
 
-- [ ] 5.3 Write property test for restart state reset
+- [x] 5.3 Write property test for restart state reset
   - **Property 7: Restart state reset**
   - **Validates: Requirements 3.5**
 
