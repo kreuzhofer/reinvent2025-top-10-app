@@ -275,3 +275,11 @@
   - Test production build locally
   - Create deployment documentation
   - _Requirements: 9.5_
+
+- [ ] 23. Create Docker deployment configuration
+  - Create multi-stage Dockerfile with Node.js build stage and Nginx production stage
+  - Create docker-compose.yml with frontend service configuration
+  - Create Nginx configuration file for SPA routing and static file serving
+  - Add .dockerignore file to exclude unnecessary files from build context
+  - Test Docker build and container startup locally
+  - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5_

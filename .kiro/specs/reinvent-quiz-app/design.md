@@ -664,8 +664,64 @@ Integration tests will verify:
 - Static assets bundled with Vite
 - Output in `dist/` directory
 
+### Docker Deployment
+
+The application is deployed using Docker Compose with the following architecture:
+
+```
+┌─────────────────────────────────────────┐
+│         Docker Host (Web Server)        │
+│  ┌───────────────────────────────────┐  │
+│  │     Nginx Container (Port 80)     │  │
+│  │  ┌─────────────────────────────┐  │  │
+│  │  │   Static Files (dist/)      │  │  │
+│  │  │   - index.html              │  │  │
+│  │  │   - JS bundles              │  │  │
+│  │  │   - CSS                     │  │  │
+│  │  │   - Images & Assets         │  │  │
+│  │  └─────────────────────────────┘  │  │
+│  └───────────────────────────────────┘  │
+└─────────────────────────────────────────┘
+```
+
+#### Docker Configuration
+
+**Multi-stage Dockerfile:**
+1. **Build stage**: Node.js container to build the Vite application
+2. **Production stage**: Nginx container to serve static files
+
+**Docker Compose:**
+- Single service for the frontend application
+- Port mapping: 80:80 (host:container)
+- Volume mounts for development (optional)
+- Restart policy: always
+
+**Nginx Configuration:**
+- Serve static files from `/usr/share/nginx/html`
+- SPA routing: fallback to `index.html` for client-side routes
+- Gzip compression enabled
+- Cache headers for static assets
+
+#### Deployment Workflow
+
+1. **Build**: `docker compose build`
+2. **Start**: `docker compose up -d`
+3. **Update**: After code changes, rebuild with `docker compose up -d --build`
+4. **Logs**: `docker compose logs -f`
+5. **Stop**: `docker compose down`
+
+#### Container Rebuild Requirement
+
+**CRITICAL**: After making code changes, the Docker container MUST be rebuilt to pick up changes:
+```bash
+docker compose up -d --build
+```
+
+Simply restarting the container will NOT pick up code changes because the container uses a compiled version from the build step.
+
 ### Hosting
-- Static site hosting (Netlify, Vercel, S3 + CloudFront)
+- Docker-based deployment on any web server
+- Alternative: Static site hosting (Netlify, Vercel, S3 + CloudFront)
 - No server-side requirements
 - All data bundled with application
 

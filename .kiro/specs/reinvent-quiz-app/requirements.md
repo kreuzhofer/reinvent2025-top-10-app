@@ -151,3 +151,15 @@ The AWS re:Invent 2025 Quiz App is a browser-based, interactive web application 
 3. WHEN the welcome screen is displayed THEN the system SHALL allow the user to press Enter to start
 4. WHEN keyboard shortcuts are available THEN the system SHALL provide a help overlay showing available keys
 5. WHEN keyboard navigation is used THEN the system SHALL provide visual focus indicators
+
+### Requirement 12
+
+**User Story:** As a system administrator, I want to deploy the application using Docker Compose, so that I can host it reliably on a web server with consistent configuration.
+
+#### Acceptance Criteria
+
+1. WHEN the application is deployed THEN the system SHALL use Docker Compose to orchestrate containers
+2. WHEN the Docker container is built THEN the system SHALL use a multi-stage build to optimize image size
+3. WHEN the application runs in production THEN the system SHALL serve static files through Nginx
+4. WHEN the container starts THEN the system SHALL expose the application on port 80
+5. WHEN code changes are made THEN the system SHALL require a container rebuild to pick up changes
