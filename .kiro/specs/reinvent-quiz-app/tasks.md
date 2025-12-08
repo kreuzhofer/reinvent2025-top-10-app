@@ -255,14 +255,14 @@
   - Test restart button renders
   - _Requirements: 3.2, 3.3, 3.4_
 
-- [ ] 17. Implement quiz navigation and routing
+- [x] 17. Implement quiz navigation and routing
   - Set up React Router with routes for welcome, quiz, and summary
   - Create quiz navigation state (currentSlideIndex, goToNext, restart)
   - Implement sequential slide progression logic
   - Handle transition from last slide to summary
   - _Requirements: 1.2, 9.3_
 
-- [ ] 17.1 Write property test for sequential slide progression
+- [x] 17.1 Write property test for sequential slide progression
   - **Property 1: Sequential slide progression**
   - **Validates: Requirements 1.2**
 
