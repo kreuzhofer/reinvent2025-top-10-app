@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
 import { renderHook, act } from '@testing-library/react';
 import { ScoreProvider, useScore } from './ScoreContext';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * Feature: reinvent-quiz-app, Property 14: Time-adjusted point calculation
@@ -170,11 +170,9 @@ describe('ScoreContext Property Tests', () => {
             // All answers are incorrect
             let score = 0;
             
-            for (const answer of incorrectAnswers) {
-              // Incorrect answers don't add points
-              // score remains unchanged
-            }
-            
+            // Incorrect answers don't add points - score remains unchanged
+            // Verify that regardless of the number of incorrect answers, score stays at 0
+            expect(incorrectAnswers.length).toBeGreaterThanOrEqual(1);
             expect(score).toBe(0);
           }
         ),

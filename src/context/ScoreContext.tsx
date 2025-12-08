@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { ScoreContextType } from '../types/quiz.types';
+import React, { createContext, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
+import type { ScoreContextType } from '../types/quiz.types';
 
 const ScoreContext = createContext<ScoreContextType | undefined>(undefined);
 

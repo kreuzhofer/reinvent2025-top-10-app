@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { QuizData } from '../types/quiz.types';
+import type { QuizData } from '../types/quiz.types';
 import { validateQuizData } from '../utils/validateQuizData';
 
 interface UseQuizDataResult {

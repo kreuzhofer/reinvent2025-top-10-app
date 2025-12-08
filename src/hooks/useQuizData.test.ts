@@ -44,10 +44,10 @@ describe('useQuizData', () => {
     };
 
     // Mock fetch to return valid data
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => validQuizData,
-    });
+    }) as any;
 
     const { result } = renderHook(() => useQuizData('/test-data.json'));
 
@@ -68,10 +68,10 @@ describe('useQuizData', () => {
 
   it('should handle missing file error', async () => {
     // Requirements: 4.3 - Test error handling for missing file
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       statusText: 'Not Found',
-    });
+    }) as any;
 
     const { result } = renderHook(() => useQuizData('/missing-file.json'));
 
@@ -99,10 +99,10 @@ describe('useQuizData', () => {
       slides: 'not an array', // Invalid type
     };
 
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => invalidQuizData,
-    });
+    }) as any;
 
     const { result } = renderHook(() => useQuizData('/invalid-data.json'));
 
@@ -117,7 +117,7 @@ describe('useQuizData', () => {
 
   it('should handle network errors', async () => {
     // Requirements: 4.3 - Test error handling
-    global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
+    globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error')) as any;
 
     const { result } = renderHook(() => useQuizData('/test-data.json'));
 
@@ -131,7 +131,7 @@ describe('useQuizData', () => {
 
   it('should handle malformed JSON', async () => {
     // Requirements: 4.3 - Test error handling
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => {
         throw new Error('Unexpected token in JSON');
