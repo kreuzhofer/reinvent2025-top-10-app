@@ -24,6 +24,28 @@ vi.mock('./FunFactDisplay', () => ({
     funFact ? <div data-testid="fun-fact-display">{funFact}</div> : null,
 }));
 
+// Mock the audio manager hook
+const mockPlaySFX = vi.fn().mockResolvedValue(undefined);
+const mockPlayBackgroundMusic = vi.fn().mockResolvedValue(undefined);
+vi.mock('../hooks/useAudioManager', () => ({
+  useAudioManager: () => ({
+    playSFX: mockPlaySFX,
+    playBackgroundMusic: mockPlayBackgroundMusic,
+    isMuted: false,
+    toggleMute: vi.fn(),
+  }),
+}));
+
+// Mock the emoji manager hook
+const mockShowSuccessEmoji = vi.fn();
+const mockShowMissEmoji = vi.fn();
+vi.mock('../hooks/useEmojiManager', () => ({
+  useEmojiManager: () => ({
+    showSuccessEmoji: mockShowSuccessEmoji,
+    showMissEmoji: mockShowMissEmoji,
+  }),
+}));
+
 /**
  * Property-Based Tests for QuizSlide Component
  * 
@@ -64,6 +86,11 @@ describe('QuizSlide Property-Based Tests', () => {
   // Clear localStorage before each test
   beforeEach(() => {
     localStorage.clear();
+    // Clear mock calls
+    mockPlaySFX.mockClear();
+    mockPlayBackgroundMusic.mockClear();
+    mockShowSuccessEmoji.mockClear();
+    mockShowMissEmoji.mockClear();
   });
 
   // Clean up after each test to avoid DOM pollution
@@ -349,6 +376,93 @@ describe('QuizSlide Property-Based Tests', () => {
         }
       ),
       { numRuns: 10 }
+    );
+  });
+
+  /**
+   * Feature: quiz-engagement-enhancements, Property 18: Correct answer sound effect
+   * Validates: Requirements 4.1
+   * 
+   * Property: For any quiz slide, when a user selects the correct answer,
+   * the Audio System should play the correct-answer.mp3 sound effect
+   */
+  it('Property 18: Correct answer sound effect', async () => {
+    fc.assert(
+      fc.asyncProperty(
+        arbitraryQuizSlide(),
+        async (slide) => {
+          const onNext = vi.fn();
+          const user = userEvent.setup({ delay: null });
+
+          render(
+            <ScoreProvider>
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
+            </ScoreProvider>
+          );
+
+          // Select the correct answer
+          const correctChoiceButton = screen.getByTestId(`choice-${slide.correctAnswerIndex}`);
+          await user.click(correctChoiceButton);
+
+          // Property: playSFX should be called with correct-answer.mp3
+          await waitFor(() => {
+            expect(mockPlaySFX).toHaveBeenCalledWith('effects/correct-answer.mp3');
+          });
+
+          // Property: Success emoji should be triggered
+          expect(mockShowSuccessEmoji).toHaveBeenCalled();
+
+          cleanup();
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
+   * Feature: quiz-engagement-enhancements, Property 19: Incorrect answer sound effect
+   * Validates: Requirements 4.2
+   * 
+   * Property: For any quiz slide, when a user selects an incorrect answer,
+   * the Audio System should play the wrong-answer.mp3 sound effect
+   */
+  it('Property 19: Incorrect answer sound effect', async () => {
+    fc.assert(
+      fc.asyncProperty(
+        arbitraryQuizSlide(),
+        async (slide) => {
+          // Find an incorrect answer index
+          const incorrectIndex = slide.correctAnswerIndex === 0 ? 1 : 0;
+          
+          const onNext = vi.fn();
+          const user = userEvent.setup({ delay: null });
+
+          render(
+            <ScoreProvider>
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
+            </ScoreProvider>
+          );
+
+          // Select an incorrect answer
+          const incorrectChoiceButton = screen.getByTestId(`choice-${incorrectIndex}`);
+          await user.click(incorrectChoiceButton);
+
+          // Property: playSFX should be called with wrong-answer.mp3
+          await waitFor(() => {
+            expect(mockPlaySFX).toHaveBeenCalledWith('effects/wrong-answer.mp3');
+          });
+
+          // Property: Miss emoji should be triggered
+          expect(mockShowMissEmoji).toHaveBeenCalled();
+
+          cleanup();
+        }
+      ),
+      { numRuns: 100 }
     );
   });
 });

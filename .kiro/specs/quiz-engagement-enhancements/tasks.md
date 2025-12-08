@@ -194,24 +194,24 @@
     - Play background music with fade transitions
     - _Requirements: 3.2, 3.3, 3.4, 3.6, 9.2, 9.3, 9.4, 9.5_
 
-- [ ] 7. Integrate emoji feedback into QuizSlide
-  - [ ] 7.1 Add EmojiContainer to QuizSlide
+- [x] 7. Integrate emoji feedback into QuizSlide
+  - [x] 7.1 Add EmojiContainer to QuizSlide
     - Import and render EmojiContainer component
     - Position container to overlay quiz content
     - _Requirements: 1.1, 2.1_
 
-  - [ ] 7.2 Trigger emoji animations on answer selection
+  - [x] 7.2 Trigger emoji animations on answer selection
     - Integrate useEmojiManager hook
     - Call showSuccessEmoji on correct answer
     - Call showMissEmoji on incorrect answer
     - _Requirements: 1.1, 2.1_
 
-  - [ ] 7.3 Trigger sound effects on answer selection
+  - [x] 7.3 Trigger sound effects on answer selection
     - Call playSFX with correct-answer.mp3 on correct answer
     - Call playSFX with wrong-answer.mp3 on incorrect answer
     - _Requirements: 4.1, 4.2_
 
-  - [ ] 7.4 Write property tests for answer feedback
+  - [x] 7.4 Write property tests for answer feedback
     - **Property 18: Correct answer sound effect**
     - **Validates: Requirements 4.1**
     - **Property 19: Incorrect answer sound effect**

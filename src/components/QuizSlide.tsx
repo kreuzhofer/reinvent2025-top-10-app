@@ -6,6 +6,7 @@ import { useScore } from '../context/ScoreContext';
 import { useQuizState } from '../context/QuizStateContext';
 import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import { useAudioManager } from '../hooks/useAudioManager';
+import { useEmojiManager } from '../hooks/useEmojiManager';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
 import Header from './Header';
@@ -62,7 +63,8 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
 }) => {
   const { addPoints, calculateTimeAdjustedPoints } = useScore();
   const { getAnswerState, setAnswerState, getShuffleOrder, setShuffleOrder } = useQuizState();
-  const { playBackgroundMusic } = useAudioManager();
+  const { playBackgroundMusic, playSFX } = useAudioManager();
+  const { showSuccessEmoji, showMissEmoji } = useEmojiManager();
   
   // Check if this question was already answered
   const savedState = getAnswerState(slide.id);
@@ -137,6 +139,18 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
       // Calculate time-adjusted points
       pointsAwarded = calculateTimeAdjustedPoints(slide.points, elapsedSeconds);
       addPoints(pointsAwarded);
+      
+      // Trigger success emoji animation and sound effect
+      showSuccessEmoji();
+      playSFX('effects/correct-answer.mp3').catch(() => {
+        // Silently fail if audio doesn't play
+      });
+    } else {
+      // Trigger miss emoji animation and sound effect
+      showMissEmoji();
+      playSFX('effects/wrong-answer.mp3').catch(() => {
+        // Silently fail if audio doesn't play
+      });
     }
 
     // Save answer state to localStorage
