@@ -243,14 +243,14 @@
   - Test default config applies when not specified
   - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
 
-- [ ] 16. Build SummaryScreen component
+- [x] 16. Build SummaryScreen component
   - Create summary screen with final score display
   - Show score as number and percentage
   - Add restart button (conditional on allowRetry config)
   - Style with re:Invent branding and celebratory design
   - _Requirements: 3.2, 3.3, 3.4, 15.4_
 
-- [ ] 16.1 Write unit tests for SummaryScreen
+- [x] 16.1 Write unit tests for SummaryScreen
   - Test score displays as number and percentage
   - Test restart button renders
   - _Requirements: 3.2, 3.3, 3.4_
