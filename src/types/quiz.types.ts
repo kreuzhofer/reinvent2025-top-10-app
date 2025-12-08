@@ -1,5 +1,7 @@
 // Quiz Data Types
 
+import type { AudioConfig } from './audio.types';
+
 export interface QuizData {
   metadata: {
     title: string;
@@ -13,6 +15,7 @@ export interface QuizData {
   slides: Slide[];
   resources?: ResourcesConfig; // Optional resources configuration
   quizConfig?: QuizConfig; // Optional quiz configuration
+  audioConfig?: AudioConfig; // Optional audio configuration
 }
 
 export type Slide = ContentSlide | QuizSlide;
@@ -22,6 +25,7 @@ export interface ContentSlide {
   id: string;
   title: string;
   content: ContentBlock[];
+  backgroundMusic?: string; // Optional background music filename
 }
 
 export type ContentBlock = 
@@ -124,6 +128,7 @@ export interface QuizSlide {
   funFact?: string; // Optional fun fact displayed after explanation
   points: number; // Base points (before time adjustment)
   timeLimit?: number; // Optional, defaults to 10 seconds
+  backgroundMusic?: string; // Optional background music filename
 }
 
 export interface QuizChoice {
