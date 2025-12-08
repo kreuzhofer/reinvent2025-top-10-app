@@ -95,6 +95,12 @@
           "style": "body"
         },
         {
+          "type": "image",
+          "src": "db-savings-plan-matt.jpg",
+          "alt": "Matt Garman announcing db savings plans in his keynote",
+          "size": "medium"
+        },
+        {
           "type": "stat",
           "value": "35%",
           "label": "Cost Reduction",
@@ -436,9 +442,10 @@
         },
         {
           "type": "icon",
-          "iconType": "lucide",
-          "iconName": "chip",
-          "size": "large"
+          "iconType": "aws",
+          "iconName": "ec2",
+          "size": "large",
+          "title": "Amazon EC2"
         },
         {
           "type": "text",
@@ -459,7 +466,7 @@
               ]
             },
             {
-              "icon": "ai-chip",
+              "icon": "cpu",
               "title": "Trainium3",
               "stats": [
                 "First 3nm AI training chip",
@@ -610,6 +617,8 @@
           "columns": 2,
           "items": [
             {
+              "icon": "kiro",
+              "iconType": "aws",
               "title": "Kiro IDE",
               "features": [
                 "Kiro Powers: Unified MCP tools packaging",
@@ -619,6 +628,8 @@
               ]
             },
             {
+              "icon": "strands",
+              "iconType": "aws",
               "title": "Strands SDK",
               "features": [
                 "5+ million downloads",

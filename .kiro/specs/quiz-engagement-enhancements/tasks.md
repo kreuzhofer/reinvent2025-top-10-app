@@ -16,26 +16,26 @@
   - **Property 28: Background music data structure support**
   - **Validates: Requirements 9.1, 9.2**
 
-- [ ] 3. Implement core audio system classes
-  - [ ] 3.1 Implement SFXPlayer class
+- [x] 3. Implement core audio system classes
+  - [x] 3.1 Implement SFXPlayer class
     - Create SFXPlayer with Web Audio API support
     - Implement audio buffer caching
     - Implement concurrent sound playback
     - Implement volume control
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-  - [ ] 3.2 Write property tests for SFXPlayer
+  - [x] 3.2 Write property tests for SFXPlayer
     - **Property 22: Concurrent sound effect playback**
     - **Validates: Requirements 4.5**
 
-  - [ ] 3.3 Implement MusicPlayer class
+  - [x] 3.3 Implement MusicPlayer class
     - Create MusicPlayer with HTML5 Audio support
     - Implement fade in/out functionality
     - Implement track transition with fade
     - Implement volume control and looping
     - _Requirements: 3.3, 3.4, 3.6_
 
-  - [ ] 3.4 Write property tests for MusicPlayer
+  - [x] 3.4 Write property tests for MusicPlayer
     - **Property 15: Background music fade transition**
     - **Validates: Requirements 3.3**
     - **Property 16: Background music continuity**
@@ -43,7 +43,7 @@
     - **Property 17: Background music default behavior**
     - **Validates: Requirements 3.6**
 
-  - [ ] 3.5 Implement AudioManager class
+  - [x] 3.5 Implement AudioManager class
     - Create AudioManager coordinating MusicPlayer and SFXPlayer
     - Implement audio context initialization
     - Implement mute/unmute functionality
@@ -51,7 +51,7 @@
     - Implement error handling for missing files
     - _Requirements: 3.2, 5.1, 5.5, 6.1, 6.3, 6.4, 9.3, 9.4_
 
-  - [ ] 3.6 Write property tests for AudioManager
+  - [x] 3.6 Write property tests for AudioManager
     - **Property 14: Background music property reading**
     - **Validates: Requirements 3.2**
     - **Property 23: Audio file path construction**
