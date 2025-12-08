@@ -298,7 +298,7 @@
   - Add ScoreDisplay and ProgressIndicator to quiz layout (conditional on config)
   - _Requirements: 1.1, 4.1, 4.3, 15.1, 15.3_
 
-- [ ] 20. Create comprehensive quiz data file
+- [x] 20. Create comprehensive quiz data file
   - Use reinvent-2025-quiz-deck.json as the primary quiz data
   - Verify all content blocks are supported (text, images, icons, lists, stats, callouts, quotes, grids)
   - Ensure quizConfig section is present with all settings

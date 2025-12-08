@@ -30,14 +30,14 @@ describe('Image Path Resolution - Property-Based Tests', () => {
           const filename = `${name}.${extension}`;
           const resolvedPath = resolveImagePath(filename);
 
-          // Property: The resolved path should always point to /src/data/images/
-          expect(resolvedPath).toContain('/src/data/images/');
+          // Property: The resolved path should always point to /data/images/
+          expect(resolvedPath).toContain('/data/images/');
           
           // Property: The resolved path should end with the original filename
           expect(resolvedPath).toContain(filename);
           
           // Property: The resolved path should be a valid path format
-          expect(resolvedPath).toMatch(/^\/src\/data\/images\/.+\.(png|jpg|jpeg|svg|gif|webp)$/);
+          expect(resolvedPath).toMatch(/^\/data\/images\/.+\.(png|jpg|jpeg|svg|gif|webp)$/);
         }
       ),
       { numRuns: 100 }
@@ -58,7 +58,7 @@ describe('Image Path Resolution - Property-Based Tests', () => {
           const resolvedPath = resolveImagePath(filenameWithSlashes);
 
           // Property: Leading slashes should be removed, resulting in consistent paths
-          expect(resolvedPath).toBe(`/src/data/images/${filename}`);
+          expect(resolvedPath).toBe(`/data/images/${filename}`);
           
           // Property: No double slashes should appear in the path
           expect(resolvedPath).not.toContain('//');

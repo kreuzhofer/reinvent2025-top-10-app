@@ -26,7 +26,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "aws-logo",
           "size": "large"
         },
@@ -125,7 +125,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "robot-assistant",
           "size": "large"
         },
@@ -192,7 +192,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "microphone",
           "size": "large"
         },
@@ -396,7 +396,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "chip",
           "size": "large"
         },
@@ -551,7 +551,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "code-editor",
           "size": "large"
         },
@@ -621,7 +621,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "factory",
           "size": "large"
         },
@@ -686,7 +686,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "transform",
           "size": "large"
         },
@@ -759,7 +759,7 @@
         },
         {
           "type": "icon",
-          "iconType": "custom",
+          "iconType": "lucide",
           "iconName": "lightbulb",
           "size": "large"
         },

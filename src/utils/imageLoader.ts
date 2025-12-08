@@ -28,8 +28,8 @@ export function resolveImagePath(filename: string): string {
   const cleanFilename = filename.replace(/^\/+/, '');
 
   // Resolve relative to the data/images directory
-  // Using Vite's import.meta.url for proper path resolution
-  return `/src/data/images/${cleanFilename}`;
+  // Files in public/ are served from the root in production
+  return `/data/images/${cleanFilename}`;
 }
 
 /**

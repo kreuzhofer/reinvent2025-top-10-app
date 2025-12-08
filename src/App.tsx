@@ -38,7 +38,7 @@ function WelcomeRoute() {
 function QuizRoute() {
   const { slideIndex } = useParams<{ slideIndex: string }>();
   const navigate = useNavigate();
-  const { data } = useQuizData('/src/data/reinvent-2025-quiz-deck.json');
+  const { data } = useQuizData('/data/reinvent-2025-quiz-deck.json');
 
   const currentSlideIndex = parseInt(slideIndex || '0', 10);
 
@@ -116,7 +116,7 @@ function QuizRoute() {
 function SummaryRoute() {
   const navigate = useNavigate();
   const { score, totalPossible, resetScore } = useScore();
-  const { data } = useQuizData('/src/data/reinvent-2025-quiz-deck.json');
+  const { data } = useQuizData('/data/reinvent-2025-quiz-deck.json');
 
   const quizConfig = data?.quizConfig;
   const allowRetry = quizConfig?.allowRetry ?? true;
@@ -156,7 +156,7 @@ function SummaryRoute() {
  * - 15.5: Apply default configuration when not specified
  */
 function QuizApp() {
-  const { data, loading, error } = useQuizData('/src/data/reinvent-2025-quiz-deck.json');
+  const { data, loading, error } = useQuizData('/data/reinvent-2025-quiz-deck.json');
   const [showHelp, setShowHelp] = useState(false);
 
   // Global keyboard shortcut for help overlay (? key)

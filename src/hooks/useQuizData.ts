@@ -12,7 +12,7 @@ interface UseQuizDataResult {
  * Hook to load and validate quiz data from JSON file
  * Requirements: 4.1, 4.2, 4.3
  */
-export function useQuizData(dataPath: string = '/src/data/quiz-data.json'): UseQuizDataResult {
+export function useQuizData(dataPath: string = '/data/quiz-data.json'): UseQuizDataResult {
   const [data, setData] = useState<QuizData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
