@@ -48,7 +48,7 @@ describe('ScoreDisplay Property-Based Tests', () => {
           fc.integer({ min: 0, max: 1000 }), // points to add
           { minLength: 0, maxLength: 20 }
         ),
-        (pointsSequence) => {
+        (_pointsSequence) => {
           // Property 1: The score display element should be present in the DOM
           const scoreDisplay = screen.queryByTestId('score-display');
           expect(scoreDisplay).toBeInTheDocument();

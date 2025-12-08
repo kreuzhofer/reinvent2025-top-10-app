@@ -224,3 +224,91 @@ docker compose logs -f frontend
 3. Rebuild the appropriate Docker container(s)
 4. Check container logs for build errors or runtime issues
 5. Test the changes in the running containers
+
+## Task Completion Verification
+
+**CRITICAL: Always verify Docker build after completing tasks!**
+
+When implementing tasks from the spec, follow this verification workflow:
+
+### Complete Task Verification Checklist
+
+1. **Write Code**: Implement the feature/component
+2. **Run Tests**: Verify all tests pass locally
+   ```bash
+   npm test -- <path-to-tests>
+   ```
+3. **Verify Docker Build**: ALWAYS rebuild and verify the Docker container builds successfully
+   ```bash
+   docker compose up -d --build
+   ```
+4. **Check Build Output**: Look for TypeScript errors, build failures, or warnings
+5. **Verify Container Status**: Ensure container is running
+   ```bash
+   docker compose ps
+   ```
+6. **Check Logs**: Verify no runtime errors
+   ```bash
+   docker compose logs frontend --tail 20
+   ```
+
+### Common Docker Build Issues
+
+**TypeScript Errors:**
+- Unused variables (prefix with `_` if intentionally unused)
+- Type mismatches
+- Missing imports
+- Incorrect type annotations
+
+**Build Failures:**
+- Missing dependencies
+- Import path errors
+- Syntax errors that tests might not catch
+
+**Why This Matters:**
+- Tests run in development mode with different TypeScript settings
+- Docker build uses production TypeScript config which is stricter
+- Build failures in Docker mean deployment will fail
+- Catching issues early saves time and prevents broken deployments
+
+### Example: Fixing Unused Variable Error
+
+```typescript
+// ❌ WRONG: Causes Docker build to fail
+fc.property(
+  fc.integer(),
+  (unusedValue) => {
+    expect(something).toBe(true);
+  }
+)
+
+// ✅ CORRECT: Prefix with underscore
+fc.property(
+  fc.integer(),
+  (_unusedValue) => {
+    expect(something).toBe(true);
+  }
+)
+```
+
+### Task Completion Template
+
+After completing any task:
+
+```bash
+# 1. Run tests
+npm test -- src/path/to/tests
+
+# 2. Verify Docker build
+docker compose up -d --build
+
+# 3. Check status
+docker compose ps
+
+# 4. Check logs for errors
+docker compose logs frontend --tail 20
+
+# 5. If errors occur, fix and repeat
+```
+
+**Remember:** A task is NOT complete until the Docker build succeeds!

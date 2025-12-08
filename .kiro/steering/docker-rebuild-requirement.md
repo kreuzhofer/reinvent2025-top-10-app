@@ -23,9 +23,46 @@ The application runs inside a Docker container in production mode. The container
 ## Workflow
 
 1. Make code changes
-2. Run `docker compose up -d --build app`
-3. Wait for the build to complete
-4. Test the changes
+2. Run tests locally: `npm test -- <path-to-tests>`
+3. Run `docker compose up -d --build`
+4. Wait for the build to complete
+5. Check for build errors in the output
+6. Verify container is running: `docker compose ps`
+7. Check logs: `docker compose logs frontend --tail 20`
+8. Test the changes
+
+## CRITICAL: Task Completion Verification
+
+**A task is NOT complete until the Docker build succeeds!**
+
+After implementing any feature or fixing any issue:
+
+1. ✅ Tests pass locally
+2. ✅ Docker build completes without errors
+3. ✅ Container starts successfully
+4. ✅ No runtime errors in logs
+
+### Common Build Failures
+
+**TypeScript Errors:**
+- Unused variables (prefix with `_` if intentional)
+- Type errors
+- Missing imports
+
+**Example Fix:**
+```typescript
+// ❌ Fails Docker build
+(unusedParam) => { ... }
+
+// ✅ Passes Docker build
+(_unusedParam) => { ... }
+```
+
+**Why Docker Build Matters:**
+- Production TypeScript config is stricter than development
+- Tests may pass but build may fail
+- Deployment requires successful build
+- Catching errors early prevents production issues
 
 ## Alternative for Development
 
@@ -33,3 +70,5 @@ For faster iteration during development, consider:
 - Running the app locally with `npm run dev` (if available)
 - Using Docker volumes to mount source code (requires Dockerfile changes)
 - Setting up hot-reload in the container
+
+**Note:** Even when developing locally, always verify Docker build before considering a task complete.
