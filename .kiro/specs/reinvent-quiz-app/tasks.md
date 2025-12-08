@@ -180,7 +180,7 @@
   - Test component works without fun fact
   - _Requirements: 14.1, 14.3_
 
-- [ ] 14. Build QuizSlide component
+- [x] 14. Build QuizSlide component
   - Create component to display quiz questions and choices
   - Integrate QuizTimer component
   - Integrate FunFactDisplay component
@@ -194,31 +194,31 @@
   - Add next button after answer/timeout/skip
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 11.4, 11.5, 11.6, 14.1, 14.2, 14.3_
 
-- [ ] 14.1 Write property test for quiz slide rendering
+- [x] 14.1 Write property test for quiz slide rendering
   - **Property 1: Sequential slide progression** (Note: Actually testing quiz question and choices render)
   - **Validates: Requirements 2.1**
 
-- [ ] 14.2 Write property test for quiz feedback
+- [x] 14.2 Write property test for quiz feedback
   - **Property 5: Quiz feedback presence**
   - **Validates: Requirements 2.2**
 
-- [ ] 14.3 Write property test for incorrect answer scoring
+- [x] 14.3 Write property test for incorrect answer scoring
   - **Property 4: Incorrect answer score invariance**
   - **Validates: Requirements 2.4**
 
-- [ ] 14.4 Write property test for timer expiration
+- [x] 14.4 Write property test for timer expiration
   - **Property 15: Timer expiration behavior**
   - **Validates: Requirements 11.4**
 
-- [ ] 14.5 Write property test for skip button presence
+- [x] 14.5 Write property test for skip button presence
   - **Property 16: Skip button presence**
   - **Validates: Requirements 2.6**
 
-- [ ] 14.6 Write property test for skip action scoring
+- [x] 14.6 Write property test for skip action scoring
   - **Property 17: Skip action scoring**
   - **Validates: Requirements 11.6**
 
-- [ ] 14.7 Write unit test for quiz slide components
+- [x] 14.7 Write unit test for quiz slide components
   - Test question and choices render
   - Test skip button renders
   - Test next button appears after answer

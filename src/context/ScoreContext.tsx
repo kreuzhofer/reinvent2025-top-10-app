@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { ScoreContextType } from '../types/quiz.types';
 
@@ -20,25 +20,25 @@ export const ScoreProvider: React.FC<ScoreProviderProps> = ({ children }) => {
   const [score, setScore] = useState(0);
   const [totalPossible, setTotalPossible] = useState(0);
 
-  const addPoints = (points: number) => {
+  const addPoints = useCallback((points: number) => {
     setScore((prevScore) => prevScore + points);
-  };
+  }, []);
 
-  const addPossiblePoints = (points: number) => {
+  const addPossiblePoints = useCallback((points: number) => {
     setTotalPossible((prevTotal) => prevTotal + points);
-  };
+  }, []);
 
-  const resetScore = () => {
+  const resetScore = useCallback(() => {
     setScore(0);
     setTotalPossible(0);
-  };
+  }, []);
 
-  const calculateTimeAdjustedPoints = (basePoints: number, elapsedSeconds: number): number => {
+  const calculateTimeAdjustedPoints = useCallback((basePoints: number, elapsedSeconds: number): number => {
     // Formula: basePoints - basePoints * 0.10 * elapsedSeconds
     // Ensure result is not negative
     const adjustedPoints = basePoints - basePoints * 0.10 * elapsedSeconds;
     return Math.max(0, Math.round(adjustedPoints));
-  };
+  }, []);
 
   const value: ScoreContextType = {
     score,
