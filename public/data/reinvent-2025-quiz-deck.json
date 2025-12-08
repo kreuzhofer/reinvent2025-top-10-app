@@ -2,7 +2,7 @@
   "metadata": {
     "title": "AWS re:Invent 2025: Top 10 Announcements",
     "description": "Discover the most impactful announcements from AWS re:Invent 2025 with interactive quizzes",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "totalSlides": 22,
     "author": "AWS Solutions Architect",
     "date": "December 2025",
@@ -89,11 +89,11 @@
       "choices": [
         { "text": "Polite golf claps 👏" },
         { "text": "Confused silence 🤔" },
-        { "text": "The biggest cheer of the entire conference 🎉" },
+        { "text": "Strong, enthusiastic applause 🎉" },
         { "text": "Standing ovation with tears of joy 😭" }
       ],
       "correctAnswerIndex": 2,
-      "explanation": "Database Savings Plans got the loudest applause - even louder than the AI announcements! Turns out saving money is more exciting than fancy AI agents. Who knew?",
+      "explanation": "Database Savings Plans got enthusiastic applause! Cost optimization resonates strongly with customers managing large-scale database workloads. It shows that practical operational improvements matter just as much as cutting-edge innovation.",
       "points": 100,
       "timeLimit": 15,
       "funFact": "Corey Quinn titled his analysis 'Six Years of Complaining Finally Pays Off' - persistence pays off!"
@@ -372,7 +372,7 @@
         { "text": "Werner has to personally approve each model 👴" }
       ],
       "correctAnswerIndex": 1,
-      "explanation": "Custom models must remain on Amazon Bedrock - you can't take your model weights and leave. It's like Hotel California for AI models: you can check out any time you like, but they can never leave!",
+      "explanation": "Custom models must remain on Amazon Bedrock - you can't export model weights. This is an architectural design decision to ensure optimal integration with Bedrock's governance, security, and scaling capabilities. Consider this when evaluating build vs. buy decisions for frontier models.",
       "points": 100,
       "timeLimit": 15,
       "funFact": "Reddit built their own frontier model with Nova Forge, replacing multiple specialized models. One model to rule them all!"
@@ -748,7 +748,7 @@
       "explanation": "1.5 million lines of code per month! That's roughly equivalent to rewriting Windows 95 every month. Thomson Reuters is doing Windows to Linux migration at massive scale!",
       "points": 100,
       "timeLimit": 15,
-      "funFact": "Air Canada achieved 80% reduction in time and cost. That's faster than most of their flights! ✈️"
+      "funFact": "Air Canada achieved 80% reduction in time and cost modernizing thousands of Lambda functions. That's the power of agentic code transformation at scale!"
     },
     {
       "type": "content",
@@ -807,10 +807,10 @@
         { "text": "Werner's final keynote - emotional! 😢" }
       ],
       "correctAnswerIndex": 1,
-      "explanation": "Database Savings Plans! The crowd went WILD for cost savings. Turns out 35% off databases is more exciting than AI that can code itself. Money talks, AI walks... to the second place podium! 🏆💰",
+      "explanation": "Database Savings Plans! Cost optimization announcements resonate strongly because they deliver immediate, measurable value. This shows that re:Invent balances breakthrough innovation with practical operational improvements that matter to day-to-day operations.",
       "points": 200,
       "timeLimit": 20,
-      "funFact": "This perfectly captures the gap between what vendors want to talk about (AI) vs what customers actually care about (not going bankrupt). Classic re:Invent!"
+      "funFact": "This highlights a key insight: even at a conference showcasing cutting-edge AI innovation, fundamentals like cost optimization remain critically important to customers. The best cloud strategies balance innovation with operational excellence!"
     }
   ],
   "resources": {
