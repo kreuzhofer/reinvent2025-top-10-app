@@ -102,7 +102,7 @@
   - Style with re:Invent colors
   - _Requirements: (implicit from design)_
 
-- [ ] 10. Build QuizTimer component
+- [x] 10. Build QuizTimer component
   - Create countdown timer component (10 seconds)
   - Display remaining time prominently
   - Show current point value based on elapsed time
@@ -111,11 +111,11 @@
   - Call onTick every second with elapsed time
   - _Requirements: 11.1, 11.2, 11.3_
 
-- [ ] 10.1 Write property test for timer initialization
+- [x] 10.1 Write property test for timer initialization
   - **Property 13: Timer initialization**
   - **Validates: Requirements 11.1**
 
-- [ ] 10.2 Write unit test for timer display
+- [x] 10.2 Write unit test for timer display
   - Test timer displays remaining time
   - _Requirements: 11.2_
 
