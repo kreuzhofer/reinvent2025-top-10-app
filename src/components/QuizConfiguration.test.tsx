@@ -160,12 +160,14 @@ describe('Quiz Configuration Features', () => {
 
       render(
         <AudioProvider>
-          <SummaryScreen 
-            score={800} 
-            totalPossible={1000} 
-            onRestart={onRestart}
-            allowRetry={true}
-          />
+          <QuizStateProvider>
+            <SummaryScreen 
+              score={800} 
+              totalPossible={1000} 
+              onRestart={onRestart}
+              allowRetry={true}
+            />
+          </QuizStateProvider>
         </AudioProvider>
       );
 
@@ -178,12 +180,14 @@ describe('Quiz Configuration Features', () => {
 
       render(
         <AudioProvider>
-          <SummaryScreen 
-            score={800} 
-            totalPossible={1000} 
-            onRestart={onRestart}
-            allowRetry={false}
-          />
+          <QuizStateProvider>
+            <SummaryScreen 
+              score={800} 
+              totalPossible={1000} 
+              onRestart={onRestart}
+              allowRetry={false}
+            />
+          </QuizStateProvider>
         </AudioProvider>
       );
 
@@ -195,11 +199,13 @@ describe('Quiz Configuration Features', () => {
     it('displays thank you message when retry is disabled', () => {
       render(
         <AudioProvider>
-          <SummaryScreen 
-            score={700} 
-            totalPossible={1000} 
-            allowRetry={false}
-          />
+          <QuizStateProvider>
+            <SummaryScreen 
+              score={700} 
+              totalPossible={1000} 
+              allowRetry={false}
+            />
+          </QuizStateProvider>
         </AudioProvider>
       );
 
@@ -215,11 +221,13 @@ describe('Quiz Configuration Features', () => {
       render(
         <AudioProvider>
           <QuizConfigProvider>
-            <SummaryScreen 
-              score={850} 
-              totalPossible={1000} 
-              onRestart={onRestart}
-            />
+            <QuizStateProvider>
+              <SummaryScreen 
+                score={850} 
+                totalPossible={1000} 
+                onRestart={onRestart}
+              />
+            </QuizStateProvider>
           </QuizConfigProvider>
         </AudioProvider>
       );

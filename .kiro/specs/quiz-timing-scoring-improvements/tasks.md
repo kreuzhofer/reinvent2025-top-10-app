@@ -128,10 +128,10 @@
   - Verify dynamic deduction rate is tested
   - _Requirements: 1.1, 2.1, 2.3_
 
-- [ ] 8. Checkpoint - Ensure all tests pass
+- [x] 8. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Manual testing and verification
+- [x] 9. Manual testing and verification
   - Test quiz with various point values and time limits
   - Verify minimum 10 points is awarded during countdown
   - Verify 0 points after timeout

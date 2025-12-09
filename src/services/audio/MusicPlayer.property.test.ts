@@ -226,7 +226,7 @@ describe('MusicPlayer Property-Based Tests', () => {
   it('Property 15: Fade out reduces volume to zero over time', async () => {
     await fc.assert(
       fc.asyncProperty(
-        fc.double({ min: 0.5, max: 1 }),
+        fc.double({ min: 0.5, max: 1, noNaN: true }),
         fc.integer({ min: 500, max: 2000 }),
         fc.constantFrom('track1.mp3', 'track2.mp3'),
         async (volume, fadeDuration, trackName) => {
@@ -273,7 +273,7 @@ describe('MusicPlayer Property-Based Tests', () => {
   it('Property 15: Fade in increases volume from zero to target over time', async () => {
     await fc.assert(
       fc.asyncProperty(
-        fc.double({ min: 0.5, max: 1 }),
+        fc.double({ min: 0.5, max: 1, noNaN: true }),
         fc.integer({ min: 500, max: 2000 }),
         fc.constantFrom('track1.mp3', 'track2.mp3'),
         async (volume, fadeDuration, trackName) => {

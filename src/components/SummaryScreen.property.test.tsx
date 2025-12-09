@@ -3,6 +3,7 @@ import { render, screen, cleanup } from '@testing-library/react';
 import * as fc from 'fast-check';
 import SummaryScreen from './SummaryScreen';
 import { AudioProvider } from '../context/AudioContext';
+import { QuizStateProvider } from '../context/QuizStateContext';
 
 /**
  * Property-Based Tests for SummaryScreen Component
@@ -37,11 +38,13 @@ describe('SummaryScreen Property-Based Tests', () => {
           // Render the SummaryScreen with the generated values
           const { container } = render(
             <AudioProvider>
-              <SummaryScreen 
-                score={score} 
-                totalPossible={totalPossible}
-                allowRetry={false}
-              />
+              <QuizStateProvider>
+                <SummaryScreen 
+                  score={score} 
+                  totalPossible={totalPossible}
+                  allowRetry={false}
+                />
+              </QuizStateProvider>
             </AudioProvider>
           );
 
@@ -76,11 +79,13 @@ describe('SummaryScreen Property-Based Tests', () => {
 
           const { container } = render(
             <AudioProvider>
-              <SummaryScreen 
-                score={score} 
-                totalPossible={totalPossible}
-                allowRetry={false}
-              />
+              <QuizStateProvider>
+                <SummaryScreen 
+                  score={score} 
+                  totalPossible={totalPossible}
+                  allowRetry={false}
+                />
+              </QuizStateProvider>
             </AudioProvider>
           );
 
@@ -109,11 +114,13 @@ describe('SummaryScreen Property-Based Tests', () => {
           
           const { container } = render(
             <AudioProvider>
-              <SummaryScreen 
-                score={0} 
-                totalPossible={totalPossible}
-                allowRetry={false}
-              />
+              <QuizStateProvider>
+                <SummaryScreen 
+                  score={0} 
+                  totalPossible={totalPossible}
+                  allowRetry={false}
+                />
+              </QuizStateProvider>
             </AudioProvider>
           );
 
@@ -141,11 +148,13 @@ describe('SummaryScreen Property-Based Tests', () => {
           
           const { container } = render(
             <AudioProvider>
-              <SummaryScreen 
-                score={totalPossible} 
-                totalPossible={totalPossible}
-                allowRetry={false}
-              />
+              <QuizStateProvider>
+                <SummaryScreen 
+                  score={totalPossible} 
+                  totalPossible={totalPossible}
+                  allowRetry={false}
+                />
+              </QuizStateProvider>
             </AudioProvider>
           );
 
@@ -180,11 +189,13 @@ describe('SummaryScreen Property-Based Tests', () => {
           
           const { container } = render(
             <AudioProvider>
-              <SummaryScreen 
-                score={score} 
-                totalPossible={totalPossible}
-                allowRetry={false}
-              />
+              <QuizStateProvider>
+                <SummaryScreen 
+                  score={score} 
+                  totalPossible={totalPossible}
+                  allowRetry={false}
+                />
+              </QuizStateProvider>
             </AudioProvider>
           );
 
