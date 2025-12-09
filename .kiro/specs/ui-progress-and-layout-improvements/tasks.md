@@ -68,7 +68,7 @@
   - Test icon rendering based on mute state
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 4. Refactor Header component to integrate audio controls and remove slide counter
+- [x] 4. Refactor Header component to integrate audio controls and remove slide counter
   - Remove `showProgress`, `currentSlide`, and `totalSlides` props
   - Add `showAudioControls` prop (default: true)
   - Remove slide counter rendering logic
@@ -80,15 +80,15 @@
   - Maintain responsive gap spacing
   - _Requirements: 6.1, 6.2, 7.1, 7.2, 7.3, 8.1, 8.2, 8.3_
 
-- [ ] 4.1 Write property test for header responsive layout
+- [x] 4.1 Write property test for header responsive layout
   - **Property 7: Header responsive layout integrity**
   - **Validates: Requirements 7.4**
 
-- [ ] 4.2 Write property test for header element non-overlap
+- [x] 4.2 Write property test for header element non-overlap
   - **Property 8: Header element non-overlap**
   - **Validates: Requirements 7.5**
 
-- [ ] 4.3 Write unit tests for Header refactoring
+- [x] 4.3 Write unit tests for Header refactoring
   - Test conditional rendering of score and audio controls
   - Test removal of slide counter
   - Test layout structure

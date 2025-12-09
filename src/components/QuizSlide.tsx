@@ -56,9 +56,9 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   slide, 
   onNext, 
   shuffleEnabled = false,
-  currentSlide,
-  totalSlides,
-  showProgress = false,
+  currentSlide: _currentSlide,
+  totalSlides: _totalSlides,
+  showProgress: _showProgress = false,
   showScore = false
 }) => {
   const { addPoints, calculateTimeAdjustedPoints } = useScore();
@@ -260,10 +260,8 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   return (
     <>
       <Header 
-        showProgress={showProgress}
-        currentSlide={currentSlide}
-        totalSlides={totalSlides}
         showScore={showScore}
+        showAudioControls={true}
       />
       <motion.main
         className="max-w-4xl mx-auto px-4 py-6 sm:p-8 pt-20 sm:pt-24"

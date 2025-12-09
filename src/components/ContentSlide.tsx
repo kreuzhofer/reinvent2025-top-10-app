@@ -57,9 +57,9 @@ interface ContentSlideProps {
 const ContentSlide: React.FC<ContentSlideProps> = ({ 
   slide, 
   onNext,
-  currentSlide,
-  totalSlides,
-  showProgress = false,
+  currentSlide: _currentSlide,
+  totalSlides: _totalSlides,
+  showProgress: _showProgress = false,
   showScore = false
 }) => {
   const { playBackgroundMusic, playSFX } = useAudioManager();
@@ -92,10 +92,8 @@ const ContentSlide: React.FC<ContentSlideProps> = ({
   return (
     <>
       <Header 
-        showProgress={showProgress}
-        currentSlide={currentSlide}
-        totalSlides={totalSlides}
         showScore={showScore}
+        showAudioControls={true}
       />
       <motion.main
         initial={{ opacity: 0, x: 50 }}

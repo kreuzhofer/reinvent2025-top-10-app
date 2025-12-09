@@ -1,29 +1,31 @@
 import React from 'react';
 import ScoreDisplay from './ScoreDisplay';
+import { AudioControls } from './AudioControls';
 
 interface HeaderProps {
-  showProgress?: boolean;
-  currentSlide?: number;
-  totalSlides?: number;
   showScore?: boolean;
+  showAudioControls?: boolean;
 }
 
 /**
  * Header Component
  * 
  * Displays the AWS re:Invent logo in the upper left corner.
- * Optionally displays progress indicator and score in the header.
+ * Optionally displays score with trophy icon and audio controls in the header.
  * Used across all quiz pages for consistent branding.
+ * 
+ * Requirements:
+ * - 6.1, 6.2: Integrate audio controls into header
+ * - 7.1, 7.2, 7.3: Clean, organized header layout
+ * - 8.1, 8.2, 8.3: Remove slide counter display
  */
 const Header: React.FC<HeaderProps> = ({ 
-  showProgress = false, 
-  currentSlide = 0, 
-  totalSlides = 0,
-  showScore = false
+  showScore = false,
+  showAudioControls = true
 }) => {
   return (
     <header 
-      className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800"
+      className="fixed top-1 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-gray-800"
       role="banner"
     >
       <div className="px-4 py-3 sm:px-6 sm:py-4 flex items-center justify-between">
@@ -39,23 +41,13 @@ const Header: React.FC<HeaderProps> = ({
           </p>
         </div>
 
-        {/* Right side: Progress and Score */}
+        {/* Right side: Score and Audio Controls */}
         <div className="flex items-center gap-4 sm:gap-6">
-          {/* Progress Indicator */}
-          {showProgress && totalSlides > 0 && (
-            <div className="flex items-center gap-2" aria-label="Quiz progress">
-              <span className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide font-semibold">
-                Progress
-              </span>
-              <span className="text-sm sm:text-base font-bold text-white">
-                {currentSlide} / {totalSlides}
-              </span>
-            </div>
-          )}
-
-          {/* Score Display */}
           {showScore && (
-            <ScoreDisplay inline />
+            <ScoreDisplay inline showMaxPoints={false} showTrophy={true} />
+          )}
+          {showAudioControls && (
+            <AudioControls inline />
           )}
         </div>
       </div>
