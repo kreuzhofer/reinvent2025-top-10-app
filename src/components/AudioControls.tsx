@@ -34,8 +34,11 @@ export const AudioControls: React.FC<AudioControlsProps> = ({ inline = false }) 
     ? "p-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 transition-colors duration-200 flex items-center justify-center"
     : "audio-toggle-button";
 
+  // Don't use the audio-controls wrapper class when inline to avoid fixed positioning
+  const wrapperClasses = inline ? "" : "audio-controls";
+
   return (
-    <div className="audio-controls" data-testid="audio-controls">
+    <div className={wrapperClasses} data-testid="audio-controls">
       <button
         onClick={toggleMute}
         onKeyDown={handleKeyDown}

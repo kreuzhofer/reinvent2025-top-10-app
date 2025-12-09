@@ -61,8 +61,8 @@ describe('ProgressBar Component', () => {
     expect(progressBar).toHaveClass('left-0');
     expect(progressBar).toHaveClass('right-0');
 
-    // Check for thin height (h-1 = 4px in Tailwind)
-    expect(progressBar).toHaveClass('h-1');
+    // Check for thin height (h-1.5 = 6px in Tailwind)
+    expect(progressBar).toHaveClass('h-1.5');
 
     // Check for high z-index to stay on top
     expect(progressBar).toHaveClass('z-50');
