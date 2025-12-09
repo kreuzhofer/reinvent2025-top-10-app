@@ -887,13 +887,19 @@
         {
           "type": "stat",
           "value": "18.3%",
-          "label": "Increase in Weekly Deployments (Q Developer)",
+          "label": "Increase in Weekly Deployments by Q Developer (Amazon)",
+          "color": "green"
+        },
+        {
+          "type": "stat",
+          "value": "30.4%",
+          "label": "reduction in manual interventions (Amazon)",
           "color": "green"
         },
         {
           "type": "stat",
           "value": "87%",
-          "label": "Reduction in Resolution Time (Lyft)",
+          "label": "Reduction in Customer Request Resolution Time (Lyft)",
           "color": "blue"
         },
         {
