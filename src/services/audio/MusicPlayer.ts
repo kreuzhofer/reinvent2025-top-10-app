@@ -7,6 +7,7 @@ import type { MusicPlayerOptions } from '../../types/audio.types';
 export class MusicPlayer {
   private audioContext: AudioContext;
   private currentTrack: HTMLAudioElement | null;
+  private currentSource: MediaElementAudioSourceNode | null;
   private gainNode: GainNode;
   private options: MusicPlayerOptions;
   private currentFilename: string | null;
@@ -15,6 +16,7 @@ export class MusicPlayer {
   constructor(audioContext: AudioContext, options: MusicPlayerOptions) {
     this.audioContext = audioContext;
     this.currentTrack = null;
+    this.currentSource = null;
     this.currentFilename = null;
     this.fadeTimeoutId = null;
     this.options = options;
@@ -41,7 +43,8 @@ export class MusicPlayer {
       // Create new audio element
       const audio = new Audio(path);
       audio.loop = this.options.loop;
-      audio.volume = this.options.volume;
+      // Don't set volume on the audio element - use Web Audio API gain node instead
+      // This is important for iOS compatibility where HTMLAudioElement.volume is ignored
 
       // Wait for audio to be ready
       await new Promise<void>((resolve, reject) => {
@@ -57,6 +60,19 @@ export class MusicPlayer {
       if (this.currentTrack) {
         this.currentTrack.pause();
         this.currentTrack = null;
+        this.currentSource = null;
+      }
+
+      // Connect audio element to Web Audio API for volume control
+      // This works on iOS where HTMLAudioElement.volume doesn't
+      // Note: createMediaElementSource can only be called once per audio element
+      try {
+        this.currentSource = this.audioContext.createMediaElementSource(audio);
+        this.currentSource.connect(this.gainNode);
+      } catch (error) {
+        // Fallback for test environments or browsers that don't support this
+        console.warn('[MusicPlayer] Could not create MediaElementSource, using HTMLAudioElement.volume instead');
+        audio.volume = this.options.volume;
       }
 
       // Start playing new track
@@ -96,7 +112,7 @@ export class MusicPlayer {
       return;
     }
 
-    const startVolume = this.currentTrack.volume;
+    const startVolume = this.currentSource ? this.gainNode.gain.value : this.currentTrack.volume;
     const startTime = Date.now();
 
     return new Promise<void>((resolve) => {
@@ -109,7 +125,13 @@ export class MusicPlayer {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        this.currentTrack.volume = startVolume * (1 - progress);
+        // Use Web Audio API gain node for volume control (works on iOS)
+        // Fall back to HTMLAudioElement.volume for test environments
+        if (this.currentSource) {
+          this.gainNode.gain.value = startVolume * (1 - progress);
+        } else {
+          this.currentTrack.volume = startVolume * (1 - progress);
+        }
 
         if (progress >= 1) {
           this.currentTrack.pause();
@@ -134,7 +156,14 @@ export class MusicPlayer {
 
     const targetVolume = this.options.volume;
     const startTime = Date.now();
-    this.currentTrack.volume = 0;
+    
+    // Use Web Audio API gain node for volume control (works on iOS)
+    // Fall back to HTMLAudioElement.volume for test environments
+    if (this.currentSource) {
+      this.gainNode.gain.value = 0;
+    } else {
+      this.currentTrack.volume = 0;
+    }
 
     // Ensure track is playing
     if (this.currentTrack.paused) {
@@ -151,7 +180,13 @@ export class MusicPlayer {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        this.currentTrack.volume = targetVolume * progress;
+        // Use Web Audio API gain node for volume control (works on iOS)
+        // Fall back to HTMLAudioElement.volume for test environments
+        if (this.currentSource) {
+          this.gainNode.gain.value = targetVolume * progress;
+        } else {
+          this.currentTrack.volume = targetVolume * progress;
+        }
 
         if (progress >= 1) {
           resolve();
@@ -197,7 +232,11 @@ export class MusicPlayer {
   setVolume(volume: number): void {
     this.options.volume = Math.max(0, Math.min(1, volume));
     
-    if (this.currentTrack) {
+    // Use Web Audio API gain node for volume control (works on iOS)
+    // Fall back to HTMLAudioElement.volume for test environments
+    if (this.currentSource) {
+      this.gainNode.gain.value = this.options.volume;
+    } else if (this.currentTrack) {
       this.currentTrack.volume = this.options.volume;
     }
   }
