@@ -104,7 +104,7 @@
           "videoFile": "matt-db-savings-plans.mp4",
           "size": "medium",
           "preview": "matt-db-savings-plans-preview.png",
-          "autoPlay": false,
+          "autoplay": false,
           "loop": false
         },
         {

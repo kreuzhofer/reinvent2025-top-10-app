@@ -18,7 +18,8 @@ import { resolveImagePath } from '../utils/imageLoader';
 
 export interface VideoBlock {
   type: 'video';
-  videoFile: string;
+  videoFile?: string;  // Local file in public/data/video/
+  videoUrl?: string;   // External URL
   preview?: string;
   autoplay?: boolean;
   loop?: boolean;
@@ -45,7 +46,14 @@ export const VideoBlockComponent: React.FC<VideoBlockProps> = ({ block }) => {
   };
 
   const sizeClass = sizeClasses[block.size || 'medium'];
-  const videoSrc = resolveVideoPath(block.videoFile);
+  
+  // Support both local files and external URLs
+  const videoSrc = block.videoUrl 
+    ? block.videoUrl 
+    : block.videoFile 
+      ? resolveVideoPath(block.videoFile)
+      : '';
+  
   const previewSrc = block.preview ? resolveImagePath(block.preview) : undefined;
 
   useEffect(() => {

@@ -121,7 +121,8 @@ export interface GridItem {
 
 export interface VideoBlock {
   type: 'video';
-  videoFile: string; // Filename in public/data/video/ directory
+  videoFile?: string; // Filename in public/data/video/ directory (for local files)
+  videoUrl?: string; // External URL (for hosted videos)
   preview?: string; // Optional preview image filename from public/data/images/
   autoplay?: boolean; // Whether to autoplay video (default: false)
   loop?: boolean; // Whether to loop video (default: false)
