@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import type React from 'react';
 import * as fc from 'fast-check';
 import QuizTimer from './QuizTimer';
+import { ScoreProvider } from '../context/ScoreContext';
 
 /**
  * Property-Based Tests for QuizTimer Component
@@ -21,6 +23,15 @@ describe('QuizTimer Property-Based Tests', () => {
     vi.restoreAllMocks();
   });
 
+  // Helper function to render QuizTimer with ScoreProvider
+  const renderWithProvider = (props: React.ComponentProps<typeof QuizTimer>) => {
+    return render(
+      <ScoreProvider>
+        <QuizTimer {...props} />
+      </ScoreProvider>
+    );
+  };
+
   it('Property 13: Timer initialization - timer starts from specified time limit', () => {
     fc.assert(
       fc.property(
@@ -32,14 +43,12 @@ describe('QuizTimer Property-Based Tests', () => {
           const onTimeout = vi.fn();
           const onTick = vi.fn();
 
-          const { unmount } = render(
-            <QuizTimer 
-              basePoints={basePoints} 
-              onTimeout={onTimeout} 
-              onTick={onTick}
-              timeLimit={timeLimit}
-            />
-          );
+          const { unmount } = renderWithProvider({
+            basePoints,
+            onTimeout,
+            onTick,
+            timeLimit
+          });
 
           // Property: Timer should display the initial time limit
           const remainingTime = screen.getByTestId('timer-remaining');
@@ -74,14 +83,12 @@ describe('QuizTimer Property-Based Tests', () => {
           const onTimeout = vi.fn();
           const onTick = vi.fn();
 
-          const { unmount } = render(
-            <QuizTimer 
-              basePoints={basePoints} 
-              onTimeout={onTimeout} 
-              onTick={onTick}
-              // timeLimit not specified, should default to 10
-            />
-          );
+          const { unmount } = renderWithProvider({
+            basePoints,
+            onTimeout,
+            onTick
+            // timeLimit not specified, should default to 10
+          });
 
           // Property: Timer should display 10 seconds by default
           const remainingTime = screen.getByTestId('timer-remaining');
@@ -104,14 +111,12 @@ describe('QuizTimer Property-Based Tests', () => {
           const onTimeout = vi.fn();
           const onTick = vi.fn();
 
-          const { unmount } = render(
-            <QuizTimer 
-              basePoints={basePoints} 
-              onTimeout={onTimeout} 
-              onTick={onTick}
-              timeLimit={timeLimit}
-            />
-          );
+          const { unmount } = renderWithProvider({
+            basePoints,
+            onTimeout,
+            onTick,
+            timeLimit
+          });
 
           // Property: All required UI elements should be present
           expect(screen.getByTestId('quiz-timer')).toBeInTheDocument();
@@ -121,6 +126,129 @@ describe('QuizTimer Property-Based Tests', () => {
           expect(screen.getByTestId('timer-progress-fill')).toBeInTheDocument();
           expect(screen.getByText('Time Remaining')).toBeInTheDocument();
           expect(screen.getByText('Current Points')).toBeInTheDocument();
+
+          // Cleanup
+          unmount();
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 4: Pre-countdown delay duration
+   * Validates: Requirements 3.1, 3.5
+   * 
+   * Property: For any quiz question display, the countdown should not start for exactly 1 second
+   */
+  it('Property 4: Pre-countdown delay duration - countdown does not start for 1 second', async () => {
+    fc.assert(
+      await fc.asyncProperty(
+        fc.integer({ min: 10, max: 1000 }),
+        fc.integer({ min: 5, max: 30 }),
+        async (basePoints, timeLimit) => {
+          const onTimeout = vi.fn();
+          const onTick = vi.fn();
+
+          const { unmount } = renderWithProvider({
+            basePoints,
+            onTimeout,
+            onTick,
+            timeLimit
+          });
+
+          // Property: Timer should be in pre-countdown phase initially
+          expect(screen.getByTestId('timer-pre-countdown')).toBeInTheDocument();
+          expect(screen.getByTestId('timer-pre-countdown')).toHaveAttribute('data-phase', 'pre-countdown');
+
+          // Property: onTick should not be called during pre-countdown
+          expect(onTick).not.toHaveBeenCalled();
+
+          // Property: After exactly 1 second, countdown should start
+          await vi.advanceTimersByTimeAsync(1000);
+
+          // Property: Timer should now be in countdown phase
+          expect(screen.queryByTestId('timer-pre-countdown')).not.toBeInTheDocument();
+          expect(screen.getByTestId('timer-countdown')).toBeInTheDocument();
+          expect(screen.getByTestId('timer-countdown')).toHaveAttribute('data-phase', 'countdown');
+
+          // Cleanup
+          unmount();
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 5: Pre-countdown points display
+   * Validates: Requirements 3.2, 3.3
+   * 
+   * Property: For any time during the pre-countdown delay, the displayed points should equal the base points value
+   */
+  it('Property 5: Pre-countdown points display - displays full base points during pre-countdown', () => {
+    fc.assert(
+      fc.property(
+        fc.integer({ min: 10, max: 1000 }),
+        fc.integer({ min: 5, max: 30 }),
+        (basePoints, timeLimit) => {
+          const onTimeout = vi.fn();
+          const onTick = vi.fn();
+
+          const { unmount } = renderWithProvider({
+            basePoints,
+            onTimeout,
+            onTick,
+            timeLimit
+          });
+
+          // Property: During pre-countdown, points should equal base points (no deduction)
+          const pointsDisplay = screen.getByTestId('timer-points');
+          expect(pointsDisplay).toHaveTextContent(basePoints.toString());
+
+          // Property: Timer should be in pre-countdown phase
+          expect(screen.getByTestId('timer-pre-countdown')).toBeInTheDocument();
+
+          // Cleanup
+          unmount();
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 6: Pre-countdown tick sound silence
+   * Validates: Requirements 3.4
+   * 
+   * Property: For any time during the pre-countdown delay, the tick sound should not be playing
+   * 
+   * Note: This property will be fully testable once TickSoundPlayer is integrated in task 4.
+   * For now, we verify that the timer is in pre-countdown phase and onTick is not called.
+   */
+  it('Property 6: Pre-countdown tick sound silence - no tick sound during pre-countdown', () => {
+    fc.assert(
+      fc.property(
+        fc.integer({ min: 10, max: 1000 }),
+        fc.integer({ min: 5, max: 30 }),
+        (basePoints, timeLimit) => {
+          const onTimeout = vi.fn();
+          const onTick = vi.fn();
+
+          const { unmount } = renderWithProvider({
+            basePoints,
+            onTimeout,
+            onTick,
+            timeLimit
+          });
+
+          // Property: During pre-countdown, onTick should not be called
+          // (This indicates the countdown hasn't started, so no tick sound should play)
+          expect(onTick).not.toHaveBeenCalled();
+
+          // Property: Timer should be in pre-countdown phase
+          expect(screen.getByTestId('timer-pre-countdown')).toBeInTheDocument();
+          expect(screen.getByTestId('timer-pre-countdown')).toHaveAttribute('data-phase', 'pre-countdown');
 
           // Cleanup
           unmount();

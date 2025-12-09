@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
+import type React from 'react';
 import QuizTimer from './QuizTimer';
+import { ScoreProvider } from '../context/ScoreContext';
 
 /**
  * Unit Tests for QuizTimer Component
@@ -17,18 +19,25 @@ describe('QuizTimer Component', () => {
     vi.restoreAllMocks();
   });
 
+  // Helper function to render QuizTimer with ScoreProvider
+  const renderWithProvider = (props: React.ComponentProps<typeof QuizTimer>) => {
+    return render(
+      <ScoreProvider>
+        <QuizTimer {...props} />
+      </ScoreProvider>
+    );
+  };
+
   it('renders the timer with initial time remaining', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
     const timerDisplay = screen.getByTestId('quiz-timer');
     expect(timerDisplay).toBeInTheDocument();
@@ -41,14 +50,12 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
     const pointsDisplay = screen.getByTestId('timer-points');
     expect(pointsDisplay).toHaveTextContent('100');
@@ -58,13 +65,11 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick
+    });
 
     expect(screen.getByText('Time Remaining')).toBeInTheDocument();
   });
@@ -73,13 +78,11 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick
+    });
 
     expect(screen.getByText('Current Points')).toBeInTheDocument();
   });
@@ -88,13 +91,11 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick
+    });
 
     const progressContainer = screen.getByTestId('timer-progress-container');
     expect(progressContainer).toBeInTheDocument();
@@ -104,13 +105,11 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick
+    });
 
     const progressFill = screen.getByTestId('timer-progress-fill');
     expect(progressFill).toBeInTheDocument();
@@ -120,19 +119,25 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
     // Initially shows 10s
     expect(screen.getByTestId('timer-remaining')).toHaveTextContent('10s');
 
-    // Advance time by 1 second
+    // Advance time by 1 second (pre-countdown delay)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Still shows 10s (pre-countdown just completed)
+    expect(screen.getByTestId('timer-remaining')).toHaveTextContent('10s');
+
+    // Advance time by 1 more second (first countdown second)
     await act(async () => {
       vi.advanceTimersByTime(1000);
     });
@@ -144,24 +149,31 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
-    // Initially shows 100 points
+    // Initially shows 100 points (during pre-countdown)
     expect(screen.getByTestId('timer-points')).toHaveTextContent('100');
 
-    // Advance time by 1 second
+    // Advance time by 1 second (pre-countdown delay)
     await act(async () => {
       vi.advanceTimersByTime(1000);
     });
 
-    // After 1 second: 100 - (100 * 0.10 * 1) = 90
+    // Still shows 100 points (pre-countdown just completed, countdown hasn't started deducting yet)
+    expect(screen.getByTestId('timer-points')).toHaveTextContent('100');
+
+    // Advance time by 1 more second (first countdown second)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // After 1 countdown second: basePoints=100, timeLimit=10, deductionRate=10, elapsed=1
+    // 100 - (10 * 1) = 90
     expect(screen.getByTestId('timer-points')).toHaveTextContent('90');
   });
 
@@ -169,16 +181,22 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
-    // Advance time by 3 seconds
+    // Advance time by 1 second (pre-countdown delay)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // onTick should not be called during pre-countdown
+    expect(onTick).not.toHaveBeenCalled();
+
+    // Advance time by 3 more seconds (countdown)
     await act(async () => {
       vi.advanceTimersByTime(3000);
     });
@@ -193,16 +211,19 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
-    // Advance time by 10 seconds
+    // Advance time by 1 second (pre-countdown delay)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Advance time by 10 seconds (full countdown)
     await act(async () => {
       vi.advanceTimersByTime(10000);
     });
@@ -214,16 +235,19 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
-    // Advance time by 10 seconds
+    // Advance time by 1 second (pre-countdown delay)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Advance time by 10 seconds (full countdown)
     await act(async () => {
       vi.advanceTimersByTime(10000);
     });
@@ -236,16 +260,19 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
-    // Advance time by 7 seconds (3 seconds remaining)
+    // Advance time by 1 second (pre-countdown delay)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Advance time by 7 seconds (countdown) = 3 seconds remaining
     await act(async () => {
       vi.advanceTimersByTime(7000);
     });
@@ -258,14 +285,12 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={15}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 15
+    });
 
     const remainingTime = screen.getByTestId('timer-remaining');
     expect(remainingTime).toHaveTextContent('15s');
@@ -275,36 +300,41 @@ describe('QuizTimer Component', () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={100} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={5}
-      />
-    );
+    renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 5
+    });
 
-    // Advance time by 1 second
+    // Advance time by 1 second (pre-countdown delay)
     await act(async () => {
       vi.advanceTimersByTime(1000);
     });
 
-    // After 1 second: 100 - (100 * 0.10 * 1) = 90
-    expect(screen.getByTestId('timer-points')).toHaveTextContent('90');
+    // Still shows 100 points (pre-countdown just completed)
+    expect(screen.getByTestId('timer-points')).toHaveTextContent('100');
+
+    // Advance time by 1 more second (first countdown second)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // After 1 countdown second: basePoints=100, timeLimit=5, deductionRate=20, elapsed=1
+    // 100 - (20 * 1) = 80
+    expect(screen.getByTestId('timer-points')).toHaveTextContent('80');
   });
 
   it('ensures points never go below zero', async () => {
     const onTimeout = vi.fn();
     const onTick = vi.fn();
 
-    render(
-      <QuizTimer 
-        basePoints={50} 
-        onTimeout={onTimeout} 
-        onTick={onTick}
-        timeLimit={10}
-      />
-    );
+    renderWithProvider({
+      basePoints: 50,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
 
     // Advance time by 10 seconds (would be -50 without max(0, ...))
     await act(async () => {

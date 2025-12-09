@@ -49,7 +49,7 @@
   - Test error handling for missing audio file
   - Test volume is set correctly
 
-- [ ] 3. Update QuizTimer component with pre-countdown delay
+- [x] 3. Update QuizTimer component with pre-countdown delay
   - Add phase state: 'pre-countdown' | 'countdown' | 'expired'
   - Add preCountdownRemaining state initialized to 1
   - Implement pre-countdown interval that counts down from 1 to 0
@@ -58,15 +58,15 @@
   - Do not play tick sound during pre-countdown
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [ ] 3.1 Write property test for pre-countdown delay duration
+- [x] 3.1 Write property test for pre-countdown delay duration
   - **Property 4: Pre-countdown delay duration**
   - **Validates: Requirements 3.1, 3.5**
 
-- [ ] 3.2 Write property test for pre-countdown points display
+- [x] 3.2 Write property test for pre-countdown points display
   - **Property 5: Pre-countdown points display**
   - **Validates: Requirements 3.2, 3.3**
 
-- [ ] 3.3 Write property test for pre-countdown tick sound silence
+- [x] 3.3 Write property test for pre-countdown tick sound silence
   - **Property 6: Pre-countdown tick sound silence**
   - **Validates: Requirements 3.4**
 

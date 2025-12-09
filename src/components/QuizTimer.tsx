@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import { motion } from 'framer-motion';
+import { useScore } from '../context/ScoreContext';
 
 interface QuizTimerProps {
   basePoints: number;
@@ -7,6 +8,12 @@ interface QuizTimerProps {
   onTick: (elapsedSeconds: number) => void;
   timeLimit?: number; // Optional, defaults to 10 seconds
 }
+
+export interface QuizTimerRef {
+  stopTick: () => void;
+}
+
+type TimerPhase = 'pre-countdown' | 'countdown' | 'expired';
 
 /**
  * QuizTimer Component
@@ -18,52 +25,103 @@ interface QuizTimerProps {
  * - 11.1: Start 10-second countdown timer when quiz slide is displayed
  * - 11.2: Display remaining time prominently
  * - 11.3: Show current point value based on elapsed time (10% deduction per second)
+ * - 3.1: Wait 1 second before starting the countdown (pre-countdown delay)
+ * - 3.2: Display full base points during pre-countdown
+ * - 3.3: Do not deduct points during pre-countdown
+ * - 3.4: Do not play tick sound during pre-countdown
  */
-const QuizTimer: React.FC<QuizTimerProps> = ({ 
+const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({ 
   basePoints, 
   onTimeout, 
   onTick,
   timeLimit = 10 
-}) => {
+}, ref) => {
+  const [phase, setPhase] = useState<TimerPhase>('pre-countdown');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(true);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const preCountdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { calculateTimeAdjustedPoints } = useScore();
 
   const remainingTime = timeLimit - elapsedSeconds;
   const progressPercentage = (remainingTime / timeLimit) * 100;
   
-  // Calculate current point value (10% deduction per elapsed second)
-  const currentPoints = Math.max(0, Math.round(basePoints - (basePoints * 0.10 * elapsedSeconds)));
+  // Calculate current point value based on phase
+  // During pre-countdown: show full base points
+  // During countdown: use dynamic deduction calculation
+  const currentPoints = phase === 'pre-countdown' 
+    ? basePoints 
+    : calculateTimeAdjustedPoints(basePoints, elapsedSeconds, timeLimit);
 
+  // Expose stopTick method via ref
+  useImperativeHandle(ref, () => ({
+    stopTick: () => {
+      // Tick sound will be handled in task 4
+      // This method is a placeholder for now
+    }
+  }));
+
+  // Pre-countdown delay logic
   useEffect(() => {
-    // Start the timer
-    intervalRef.current = setInterval(() => {
-      setElapsedSeconds((prev) => {
-        const newElapsed = prev + 1;
-        
-        // Call onTick with the new elapsed time
-        onTick(newElapsed);
-        
-        // Check if time is up
-        if (newElapsed >= timeLimit) {
-          setIsActive(false);
-          if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-          }
-          onTimeout();
+    if (phase === 'pre-countdown') {
+      preCountdownIntervalRef.current = setInterval(() => {
+        setPhase('countdown');
+      }, 1000);
+      
+      return () => {
+        if (preCountdownIntervalRef.current) {
+          clearInterval(preCountdownIntervalRef.current);
         }
-        
-        return newElapsed;
-      });
-    }, 1000);
+      };
+    }
+  }, [phase]);
 
-    // Cleanup on unmount
+  // Countdown logic
+  useEffect(() => {
+    if (phase === 'countdown') {
+      // Start tick sound (will be implemented in task 4)
+      
+      intervalRef.current = setInterval(() => {
+        setElapsedSeconds((prev) => {
+          const newElapsed = prev + 1;
+          
+          // Call onTick with the new elapsed time
+          onTick(newElapsed);
+          
+          // Check if time is up
+          if (newElapsed >= timeLimit) {
+            setPhase('expired');
+            if (intervalRef.current) {
+              clearInterval(intervalRef.current);
+            }
+            // Stop tick sound (will be implemented in task 4)
+            onTimeout();
+          }
+          
+          return newElapsed;
+        });
+      }, 1000);
+
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+        // Stop tick sound on cleanup (will be implemented in task 4)
+      };
+    }
+  }, [phase, timeLimit, onTimeout, onTick]);
+
+  // Cleanup on unmount
+  useEffect(() => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
+      if (preCountdownIntervalRef.current) {
+        clearInterval(preCountdownIntervalRef.current);
+      }
+      // Stop tick sound (will be implemented in task 4)
     };
-  }, [timeLimit, onTimeout, onTick]);
+  }, []);
 
   return (
     <div
@@ -129,7 +187,7 @@ const QuizTimer: React.FC<QuizTimerProps> = ({
       </div>
 
       {/* Status Indicator */}
-      {!isActive && (
+      {phase === 'expired' && (
         <div 
           className="text-xs sm:text-sm text-reinvent-red font-semibold"
           data-testid="timer-expired"
@@ -137,8 +195,28 @@ const QuizTimer: React.FC<QuizTimerProps> = ({
           Time's Up!
         </div>
       )}
+      
+      {/* Pre-countdown indicator (for testing) */}
+      {phase === 'pre-countdown' && (
+        <div 
+          className="hidden"
+          data-testid="timer-pre-countdown"
+          data-phase={phase}
+        />
+      )}
+      
+      {/* Countdown indicator (for testing) */}
+      {phase === 'countdown' && (
+        <div 
+          className="hidden"
+          data-testid="timer-countdown"
+          data-phase={phase}
+        />
+      )}
     </div>
   );
-};
+});
+
+QuizTimer.displayName = 'QuizTimer';
 
 export default QuizTimer;
