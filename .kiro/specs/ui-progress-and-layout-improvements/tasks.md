@@ -190,7 +190,7 @@
   - Test caption rendering
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7_
 
-- [ ] 12. Create LinkBlock component
+- [x] 12. Create LinkBlock component
   - Create new LinkBlock component
   - Implement anchor element with href from url prop
   - Add support for button and text styles
@@ -201,15 +201,15 @@
   - Add Framer Motion animations for button style
   - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7_
 
-- [ ] 12.1 Write property test for link new tab behavior
+- [x] 12.1 Write property test for link new tab behavior
   - **Property 12: Link new tab behavior**
   - **Validates: Requirements 11.4**
 
-- [ ] 12.2 Write property test for link style consistency
+- [x] 12.2 Write property test for link style consistency
   - **Property 13: Link style consistency**
   - **Validates: Requirements 11.6, 11.7**
 
-- [ ] 12.3 Write unit tests for LinkBlock component
+- [x] 12.3 Write unit tests for LinkBlock component
   - Test anchor element with correct href
   - Test button and text styling
   - Test target and rel attributes for new tab
