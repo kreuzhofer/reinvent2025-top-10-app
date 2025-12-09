@@ -159,7 +159,7 @@
 - [x] 10. Checkpoint - Ensure all tests pass for progress bar and header changes
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 11. Create VideoBlock component and utility functions
+- [x] 11. Create VideoBlock component and utility functions
   - Create new VideoBlock component
   - Implement video rendering with HTML5 video element
   - Add support for autoplay, loop, and poster (preview) attributes
@@ -169,19 +169,19 @@
   - Add optional caption support
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7_
 
-- [ ] 11.1 Write property test for video autoplay behavior
+- [x] 11.1 Write property test for video autoplay behavior
   - **Property 9: Video autoplay behavior**
   - **Validates: Requirements 10.2**
 
-- [ ] 11.2 Write property test for video loop behavior
+- [x] 11.2 Write property test for video loop behavior
   - **Property 10: Video loop behavior**
   - **Validates: Requirements 10.3**
 
-- [ ] 11.3 Write property test for video size consistency
+- [x] 11.3 Write property test for video size consistency
   - **Property 11: Video size consistency**
   - **Validates: Requirements 10.6**
 
-- [ ] 11.4 Write unit tests for VideoBlock component
+- [x] 11.4 Write unit tests for VideoBlock component
   - Test video element rendering with correct src
   - Test size class application
   - Test preview image as poster
