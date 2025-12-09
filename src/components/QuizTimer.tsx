@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { useScore } from '../context/ScoreContext';
+import { TickSoundPlayer } from '../services/audio/TickSoundPlayer';
 
 interface QuizTimerProps {
   basePoints: number;
@@ -40,6 +41,7 @@ const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const preCountdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const tickSoundPlayerRef = useRef<TickSoundPlayer | null>(null);
   const { calculateTimeAdjustedPoints } = useScore();
 
   const remainingTime = timeLimit - elapsedSeconds;
@@ -55,8 +57,9 @@ const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({
   // Expose stopTick method via ref
   useImperativeHandle(ref, () => ({
     stopTick: () => {
-      // Tick sound will be handled in task 4
-      // This method is a placeholder for now
+      if (tickSoundPlayerRef.current) {
+        tickSoundPlayerRef.current.stop();
+      }
     }
   }));
 
@@ -78,7 +81,9 @@ const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({
   // Countdown logic
   useEffect(() => {
     if (phase === 'countdown') {
-      // Start tick sound (will be implemented in task 4)
+      // Start tick sound when countdown phase begins
+      tickSoundPlayerRef.current = new TickSoundPlayer();
+      tickSoundPlayerRef.current.start();
       
       intervalRef.current = setInterval(() => {
         setElapsedSeconds((prev) => {
@@ -93,7 +98,10 @@ const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({
             if (intervalRef.current) {
               clearInterval(intervalRef.current);
             }
-            // Stop tick sound (will be implemented in task 4)
+            // Stop tick sound when timer expires
+            if (tickSoundPlayerRef.current) {
+              tickSoundPlayerRef.current.stop();
+            }
             onTimeout();
           }
           
@@ -105,7 +113,10 @@ const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
         }
-        // Stop tick sound on cleanup (will be implemented in task 4)
+        // Stop tick sound on cleanup
+        if (tickSoundPlayerRef.current) {
+          tickSoundPlayerRef.current.stop();
+        }
       };
     }
   }, [phase, timeLimit, onTimeout, onTick]);
@@ -119,7 +130,10 @@ const QuizTimer = forwardRef<QuizTimerRef, QuizTimerProps>(({
       if (preCountdownIntervalRef.current) {
         clearInterval(preCountdownIntervalRef.current);
       }
-      // Stop tick sound (will be implemented in task 4)
+      // Stop tick sound on component unmount
+      if (tickSoundPlayerRef.current) {
+        tickSoundPlayerRef.current.stop();
+      }
     };
   }, []);
 

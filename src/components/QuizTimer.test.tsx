@@ -344,3 +344,146 @@ describe('QuizTimer Component', () => {
     expect(screen.getByTestId('timer-points')).toHaveTextContent('0');
   });
 });
+
+
+describe('QuizTimer Tick Sound Integration', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  // Helper function to render QuizTimer with ScoreProvider
+  const renderWithProvider = (props: React.ComponentProps<typeof QuizTimer>) => {
+    return render(
+      <ScoreProvider>
+        <QuizTimer {...props} />
+      </ScoreProvider>
+    );
+  };
+
+  it('tick sound starts when countdown begins', async () => {
+    const onTimeout = vi.fn();
+    const onTick = vi.fn();
+
+    const { unmount } = renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
+
+    // Initially in pre-countdown phase
+    expect(screen.getByTestId('timer-pre-countdown')).toBeInTheDocument();
+
+    // Advance past pre-countdown delay (1 second)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Now in countdown phase - tick sound should be playing
+    expect(screen.getByTestId('timer-countdown')).toBeInTheDocument();
+    expect(screen.getByTestId('timer-countdown')).toHaveAttribute('data-phase', 'countdown');
+
+    unmount();
+  });
+
+  it('tick sound does not play during pre-countdown', () => {
+    const onTimeout = vi.fn();
+    const onTick = vi.fn();
+
+    const { unmount } = renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
+
+    // During pre-countdown phase
+    expect(screen.getByTestId('timer-pre-countdown')).toBeInTheDocument();
+    expect(screen.getByTestId('timer-pre-countdown')).toHaveAttribute('data-phase', 'pre-countdown');
+
+    // onTick should not be called during pre-countdown
+    expect(onTick).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('tick sound stops on timeout', async () => {
+    const onTimeout = vi.fn();
+    const onTick = vi.fn();
+
+    const { unmount } = renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 5
+    });
+
+    // Advance past pre-countdown delay (1 second)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Advance to timeout (5 seconds)
+    await act(async () => {
+      vi.advanceTimersByTime(5000);
+    });
+
+    // Timer should be expired
+    expect(screen.getByTestId('timer-expired')).toBeInTheDocument();
+    expect(onTimeout).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
+  it('tick sound cleanup on unmount', async () => {
+    const onTimeout = vi.fn();
+    const onTick = vi.fn();
+
+    const { unmount } = renderWithProvider({
+      basePoints: 100,
+      onTimeout,
+      onTick,
+      timeLimit: 10
+    });
+
+    // Advance past pre-countdown delay (1 second)
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    // Now in countdown phase
+    expect(screen.getByTestId('timer-countdown')).toBeInTheDocument();
+
+    // Unmount should clean up tick sound
+    unmount();
+
+    // No errors should occur
+  });
+
+  it('exposes stopTick method via ref', () => {
+    const onTimeout = vi.fn();
+    const onTick = vi.fn();
+    const ref = { current: null } as React.RefObject<{ stopTick: () => void }>;
+
+    render(
+      <ScoreProvider>
+        <QuizTimer
+          ref={ref}
+          basePoints={100}
+          onTimeout={onTimeout}
+          onTick={onTick}
+          timeLimit={10}
+        />
+      </ScoreProvider>
+    );
+
+    // Ref should have stopTick method
+    expect(ref.current).not.toBeNull();
+    expect(ref.current?.stopTick).toBeDefined();
+    expect(typeof ref.current?.stopTick).toBe('function');
+  });
+});

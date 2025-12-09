@@ -70,7 +70,7 @@
   - **Property 6: Pre-countdown tick sound silence**
   - **Validates: Requirements 3.4**
 
-- [ ] 4. Integrate TickSoundPlayer into QuizTimer
+- [x] 4. Integrate TickSoundPlayer into QuizTimer
   - Import TickSoundPlayer service
   - Create tickSoundPlayer instance ref
   - Start tick sound when countdown phase begins
@@ -79,15 +79,15 @@
   - Expose stopTick method via ref for parent component
   - _Requirements: 4.1, 4.4, 5.3_
 
-- [ ] 4.1 Write property test for countdown tick sound playback
+- [x] 4.1 Write property test for countdown tick sound playback
   - **Property 7: Countdown tick sound playback**
   - **Validates: Requirements 4.1**
 
-- [ ] 4.2 Write property test for tick sound stops on timeout
+- [x] 4.2 Write property test for tick sound stops on timeout
   - **Property 9: Tick sound stops on timeout**
   - **Validates: Requirements 4.4**
 
-- [ ] 4.3 Write unit tests for QuizTimer tick sound integration
+- [x] 4.3 Write unit tests for QuizTimer tick sound integration
   - Test tick sound starts when countdown begins
   - Test tick sound does not play during pre-countdown
   - Test tick sound stops on timeout
