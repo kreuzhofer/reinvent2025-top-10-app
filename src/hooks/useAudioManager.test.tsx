@@ -1,8 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
+import type { ReactNode } from 'react';
+
+// Unmock AudioContext for this test file since we need the real implementation
+vi.unmock('../context/AudioContext');
+
+// Import after unmocking
 import { useAudioManager } from './useAudioManager';
 import { AudioProvider } from '../context/AudioContext';
-import type { ReactNode } from 'react';
 
 // Mock AudioManager
 vi.mock('../services/audio/AudioManager', () => {
@@ -13,6 +18,7 @@ vi.mock('../services/audio/AudioManager', () => {
     this.cleanup = vi.fn();
     this.playBackgroundMusic = vi.fn().mockResolvedValue(undefined);
     this.playSFX = vi.fn().mockResolvedValue(undefined);
+    this.getCurrentBackgroundMusic = vi.fn().mockReturnValue(null);
   });
   
   return {

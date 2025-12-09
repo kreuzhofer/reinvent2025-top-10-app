@@ -1,7 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { AudioProvider, useAudioContext } from './AudioContext';
 import { AudioManager } from '../services/audio/AudioManager';
+
+// Unmock AudioContext for this test file since we're testing it directly
+vi.unmock('../context/AudioContext');
+
+// Import after unmocking
+import { AudioProvider, useAudioContext } from './AudioContext';
 
 // Mock AudioManager
 vi.mock('../services/audio/AudioManager', () => {
@@ -12,6 +17,7 @@ vi.mock('../services/audio/AudioManager', () => {
     this.cleanup = vi.fn();
     this.playBackgroundMusic = vi.fn().mockResolvedValue(undefined);
     this.playSFX = vi.fn().mockResolvedValue(undefined);
+    this.getCurrentBackgroundMusic = vi.fn().mockReturnValue(null);
   });
   
   return {
@@ -79,6 +85,7 @@ describe('AudioProvider', () => {
       this.isMuted = vi.fn().mockReturnValue(false);
       this.setMuted = vi.fn();
       this.cleanup = vi.fn();
+      this.getCurrentBackgroundMusic = vi.fn().mockReturnValue(null);
     });
 
     vi.mocked(AudioManager).mockImplementation(MockAudioManager as any);
@@ -103,6 +110,7 @@ describe('AudioProvider', () => {
       this.isMuted = vi.fn().mockReturnValue(true);
       this.setMuted = vi.fn();
       this.cleanup = vi.fn();
+      this.getCurrentBackgroundMusic = vi.fn().mockReturnValue(null);
     });
 
     vi.mocked(AudioManager).mockImplementation(MockAudioManager as any);
@@ -135,6 +143,7 @@ describe('AudioProvider', () => {
       this.isMuted = vi.fn().mockReturnValue(false);
       this.setMuted = vi.fn();
       this.cleanup = mockCleanup;
+      this.getCurrentBackgroundMusic = vi.fn().mockReturnValue(null);
     });
 
     vi.mocked(AudioManager).mockImplementation(MockAudioManager as any);
