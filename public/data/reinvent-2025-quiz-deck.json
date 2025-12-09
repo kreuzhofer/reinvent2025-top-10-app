@@ -394,8 +394,8 @@
       ],
       "correctAnswerIndex": 3,
       "explanation": "One full year! That's enough time to start a business, run a marathon training program, or wait for the next re:Invent. Lambda just got patient!",
-      "points": 100,
-      "timeLimit": 15,
+      "points": 150,
+      "timeLimit": 20,
       "funFact": "Lambda processes over 15 trillion requests monthly. That's about 2,000 requests for every person on Earth!"
     },
     {
@@ -472,7 +472,7 @@
       "correctAnswerIndex": 1,
       "explanation": "Custom models must remain on Amazon Bedrock - you can't export model weights. This is an architectural design decision to ensure optimal integration with Bedrock's governance, security, and scaling capabilities. Consider this when evaluating build vs. buy decisions for frontier models.",
       "points": 100,
-      "timeLimit": 15,
+      "timeLimit": 20,
       "funFact": "Reddit built their own frontier model with Nova Forge, replacing multiple specialized models. One model to rule them all!"
     },
     {
@@ -554,8 +554,8 @@
       ],
       "correctAnswerIndex": 2,
       "explanation": "4.4x more compute performance! That's like upgrading from a bicycle to a Ferrari. And it's 4x more energy efficient too - fast AND eco-friendly!",
-      "points": 100,
-      "timeLimit": 15,
+      "points": 150,
+      "timeLimit": 20,
       "funFact": "AWS has deployed over 1 million Trainium chips. That's enough silicon to make a very expensive beach!"
     },
     {
@@ -632,7 +632,7 @@
       ],
       "correctAnswerIndex": 2,
       "explanation": "1,000% faster (that's 10x)! PGA TOUR also achieved 95% cost reduction. That's what we call a hole-in-one! ⛳",
-      "points": 100,
+      "points": 150,
       "timeLimit": 15,
       "funFact": "MongoDB pushed an agent app to production in 8 weeks instead of months. Even their database is getting faster!"
     },
@@ -776,7 +776,7 @@
       ],
       "correctAnswerIndex": 1,
       "explanation": "Data sovereignty and regulatory compliance! AI Factories let you keep data on-premises while getting AWS managed infrastructure. Perfect for strict GDPR requirements or industries with heavy regulations!",
-      "points": 100,
+      "points": 150,
       "timeLimit": 15,
       "funFact": "Saudi Arabia's HUMAIN is building an AI Zone with up to 150,000 AI chips. That's a LOT of artificial intelligence in one place!"
     },
@@ -855,7 +855,7 @@
       "correctAnswerIndex": 2,
       "explanation": "1.5 million lines of code per month! That's roughly equivalent to rewriting Windows 95 every month. Thomson Reuters is doing Windows to Linux migration at massive scale!",
       "points": 100,
-      "timeLimit": 15,
+      "timeLimit": 20,
       "funFact": "Air Canada achieved 80% reduction in time and cost modernizing thousands of Lambda functions. That's the power of agentic code transformation at scale!"
     },
     {
