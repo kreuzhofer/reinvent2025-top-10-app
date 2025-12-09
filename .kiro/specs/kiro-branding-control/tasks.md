@@ -89,27 +89,6 @@
   - Verify horizontal centering
   - _Requirements: 1.1, 1.4_
 
-- [ ] 3. Update Header component to include KiroBranding
-  - Import KiroBranding component
-  - Restructure right section to use vertical flex layout
-  - Position KiroBranding at top of right section
-  - Place score and audio controls below in horizontal layout
-  - Use 'header' variant
-  - Maintain proper spacing with gap classes
-  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
-
-- [ ] 3.1 Write property test for no overlap in header
-  - **Property 4: Component does not overlap other elements**
-  - **Validates: Requirements 2.5**
-
-- [ ] 3.2 Write property test for positioning consistency
-  - **Property 5: Positioning is consistent across screens**
-  - **Validates: Requirements 3.3**
-
-- [ ] 3.3 Write property test for no overlap on small screens
-  - **Property 18: No overlap on small screens**
-  - **Validates: Requirements 8.5**
-
 - [x] 3.4 Write unit tests for Header integration
   - Verify KiroBranding appears in header
   - Verify positioning above score and audio controls
@@ -117,18 +96,18 @@
   - Test with and without score display
   - _Requirements: 2.3, 2.4, 2.5_
 
-- [ ] 4. Verify SummaryScreen integration
+- [x] 4. Verify SummaryScreen integration
   - Confirm Header component is used in SummaryScreen
   - Verify KiroBranding appears via Header
   - Test positioning above audio controls
   - Ensure no layout issues with final score display
   - _Requirements: 3.1, 3.2, 3.4, 3.5_
 
-- [ ] 4.1 Write property test for quiz state preservation
+- [x] 4.1 Write property test for quiz state preservation
   - **Property 8: Clicking does not interrupt quiz state**
   - **Validates: Requirements 4.5**
 
-- [ ] 4.2 Write unit tests for SummaryScreen integration
+- [x] 4.2 Write unit tests for SummaryScreen integration
   - Verify KiroBranding appears in header
   - Verify positioning consistency with other screens
   - Verify no overlap with score display

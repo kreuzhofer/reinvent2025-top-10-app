@@ -231,6 +231,105 @@ describe('SummaryScreen', () => {
     });
   });
 
+  describe('KiroBranding Integration', () => {
+    /**
+     * Integration tests for KiroBranding in SummaryScreen
+     * 
+     * Requirements:
+     * - 3.1: Display KiroBranding on summary screen
+     * - 3.2: Position KiroBranding in header above audio controls
+     * - 3.4: KiroBranding remains visible with final score
+     * - 3.5: Proper spacing between KiroBranding and other elements
+     */
+    
+    it('should render KiroBranding component', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      // KiroBranding should be present (look for the link to kiro.dev)
+      const kiroBrandingLink = screen.getByRole('link', { name: /visit kiro website/i });
+      expect(kiroBrandingLink).toBeInTheDocument();
+      expect(kiroBrandingLink).toHaveAttribute('href', 'https://kiro.dev');
+    });
+
+    it('should render KiroBranding with correct text content', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      const kiroBrandingLink = screen.getByRole('link', { name: /visit kiro website/i });
+      
+      // Should contain "Made with" and "Kiro" text
+      expect(kiroBrandingLink.textContent).toContain('Made with');
+      expect(kiroBrandingLink.textContent).toContain('Kiro');
+    });
+
+    it('should render KiroBranding without overlapping score display', () => {
+      renderSummaryScreen({ 
+        score: 850, 
+        totalPossible: 1000 
+      });
+
+      const kiroBrandingLink = screen.getByRole('link', { name: /visit kiro website/i });
+      const scoreElement = screen.getByTestId('final-score');
+
+      // Both elements should be present and visible
+      expect(kiroBrandingLink).toBeInTheDocument();
+      expect(scoreElement).toBeInTheDocument();
+      
+      // Verify score is still displaying correctly
+      expect(scoreElement.textContent).toContain('850');
+      expect(scoreElement.textContent).toContain('1000');
+    });
+
+    it('should maintain KiroBranding visibility with different score values', () => {
+      const { rerender } = renderSummaryScreen({ 
+        score: 0, 
+        totalPossible: 1000 
+      });
+
+      // KiroBranding should be visible with zero score
+      let kiroBrandingLink = screen.getByRole('link', { name: /visit kiro website/i });
+      expect(kiroBrandingLink).toBeInTheDocument();
+
+      // Rerender with perfect score
+      rerender(
+        <AudioProvider>
+          <ScoreProvider>
+            <SummaryScreen score={1000} totalPossible={1000} />
+          </ScoreProvider>
+        </AudioProvider>
+      );
+
+      // KiroBranding should still be visible with perfect score
+      kiroBrandingLink = screen.getByRole('link', { name: /visit kiro website/i });
+      expect(kiroBrandingLink).toBeInTheDocument();
+    });
+
+    it('should render KiroBranding with proper spacing from other elements', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      const kiroBrandingLink = screen.getByRole('link', { name: /visit kiro website/i });
+      const scoreElement = screen.getByTestId('final-score');
+      const percentageElement = screen.getByTestId('final-percentage');
+
+      // All elements should be present
+      expect(kiroBrandingLink).toBeInTheDocument();
+      expect(scoreElement).toBeInTheDocument();
+      expect(percentageElement).toBeInTheDocument();
+      
+      // Verify KiroBranding doesn't interfere with score display
+      expect(scoreElement.textContent).toContain('750');
+      expect(percentageElement.textContent).toBe('75%');
+    });
+  });
+
   describe('Integration Tests', () => {
     /**
      * Integration tests for SummaryScreen
