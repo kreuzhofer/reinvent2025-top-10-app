@@ -37,10 +37,10 @@ describe('AudioControls', () => {
     });
   });
 
-  const renderWithProvider = () => {
+  const renderWithProvider = (inline?: boolean) => {
     return render(
       <AudioProvider>
-        <AudioControls />
+        <AudioControls inline={inline} />
       </AudioProvider>
     );
   };
@@ -244,6 +244,87 @@ describe('AudioControls', () => {
 
       // If we get here without errors, the preventDefault worked
       expect(button).toBeInTheDocument();
+    });
+  });
+
+  describe('Inline Mode', () => {
+    it('applies inline styling when inline={true}', () => {
+      renderWithProvider(true);
+
+      const button = screen.getByRole('button');
+      
+      // Check for inline-specific classes
+      expect(button.className).toContain('p-2');
+      expect(button.className).toContain('rounded-lg');
+      expect(button.className).toContain('bg-gray-800');
+      expect(button.className).toContain('border-gray-700');
+    });
+
+    it('applies default styling when inline={false}', () => {
+      renderWithProvider(false);
+
+      const button = screen.getByRole('button');
+      
+      // Check for default class
+      expect(button.className).toContain('audio-toggle-button');
+    });
+
+    it('applies default styling when inline prop is not provided', () => {
+      renderWithProvider();
+
+      const button = screen.getByRole('button');
+      
+      // Check for default class
+      expect(button.className).toContain('audio-toggle-button');
+    });
+
+    it('maintains toggle functionality in inline mode', async () => {
+      const user = userEvent.setup();
+      renderWithProvider(true);
+
+      const button = screen.getByRole('button');
+      const initialLabel = button.getAttribute('aria-label');
+
+      await user.click(button);
+
+      const newLabel = button.getAttribute('aria-label');
+      expect(newLabel).not.toBe(initialLabel);
+    });
+
+    it('maintains keyboard accessibility in inline mode', async () => {
+      const user = userEvent.setup();
+      renderWithProvider(true);
+
+      const button = screen.getByRole('button');
+      button.focus();
+
+      const initialLabel = button.getAttribute('aria-label');
+
+      await user.keyboard('{Enter}');
+
+      const newLabel = button.getAttribute('aria-label');
+      expect(newLabel).not.toBe(initialLabel);
+    });
+
+    it('renders correct icon based on mute state in inline mode', () => {
+      renderWithProvider(true);
+
+      const button = screen.getByRole('button');
+      const svg = button.querySelector('svg');
+      
+      expect(svg).toBeInTheDocument();
+      expect(svg).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('has proper ARIA attributes in inline mode', () => {
+      renderWithProvider(true);
+
+      const button = screen.getByRole('button');
+      
+      expect(button).toHaveAttribute('aria-label');
+      expect(button).toHaveAttribute('aria-pressed');
+      expect(button).toHaveAttribute('title');
+      expect(button).toHaveAttribute('type', 'button');
     });
   });
 });

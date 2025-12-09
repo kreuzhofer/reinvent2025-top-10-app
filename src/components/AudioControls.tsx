@@ -10,8 +10,14 @@ import { useAudioManager } from '../hooks/useAudioManager';
  * - Keyboard accessible (Space and Enter keys)
  * - ARIA labels for screen readers
  * - Integrates with useAudioManager hook
+ * - Supports inline mode for header placement
  */
-export const AudioControls: React.FC = () => {
+
+interface AudioControlsProps {
+  inline?: boolean;  // Whether to render in inline mode (for header)
+}
+
+export const AudioControls: React.FC<AudioControlsProps> = ({ inline = false }) => {
   const { isMuted, toggleMute } = useAudioManager();
 
   /**
@@ -24,12 +30,16 @@ export const AudioControls: React.FC = () => {
     }
   };
 
+  const buttonClasses = inline
+    ? "p-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 transition-colors duration-200 flex items-center justify-center"
+    : "audio-toggle-button";
+
   return (
-    <div className="audio-controls">
+    <div className="audio-controls" data-testid="audio-controls">
       <button
         onClick={toggleMute}
         onKeyDown={handleKeyDown}
-        className="audio-toggle-button"
+        className={buttonClasses}
         aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
         aria-pressed={isMuted}
         title={isMuted ? 'Unmute audio' : 'Mute audio'}

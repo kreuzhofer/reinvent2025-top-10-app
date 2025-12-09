@@ -45,7 +45,7 @@
   - Test handling zero totalPossible
   - _Requirements: 4.1, 4.2, 5.1, 5.2, 9.1, 9.2, 9.3_
 
-- [ ] 3. Update AudioControls component for inline header placement
+- [x] 3. Update AudioControls component for inline header placement
   - Add `inline` prop to AudioControls component
   - Create conditional styling based on inline mode
   - Apply header-appropriate button styling when inline={true}
@@ -53,15 +53,15 @@
   - Ensure keyboard accessibility is preserved
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 3.1 Write property test for audio toggle behavior
+- [x] 3.1 Write property test for audio toggle behavior
   - **Property 5: Audio control state toggle**
   - **Validates: Requirements 6.4**
 
-- [ ] 3.2 Write property test for audio icon synchronization
+- [x] 3.2 Write property test for audio icon synchronization
   - **Property 6: Audio icon synchronization**
   - **Validates: Requirements 6.5**
 
-- [ ] 3.3 Write unit tests for AudioControls inline mode
+- [x] 3.3 Write unit tests for AudioControls inline mode
   - Test inline styling application
   - Test toggle functionality
   - Test keyboard events
