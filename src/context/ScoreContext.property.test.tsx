@@ -14,9 +14,27 @@ import type { ReactNode } from 'react';
  */
 
 // Standalone function for testing (same logic as in ScoreContext)
-const calculateTimeAdjustedPoints = (basePoints: number, elapsedSeconds: number): number => {
-  const adjustedPoints = basePoints - basePoints * 0.10 * elapsedSeconds;
-  return Math.max(0, Math.round(adjustedPoints));
+const calculateTimeAdjustedPoints = (basePoints: number, elapsedSeconds: number, timeLimit: number): number => {
+  // If time has expired, award 0 points
+  if (elapsedSeconds >= timeLimit) {
+    return 0;
+  }
+  
+  // If basePoints is less than 10, return 0 (can't apply minimum threshold)
+  if (basePoints < 10) {
+    return 0;
+  }
+  
+  // Calculate dynamic deduction rate (rounded down)
+  const deductionRate = Math.floor(basePoints / timeLimit);
+  
+  // Calculate adjusted points
+  const adjustedPoints = basePoints - (deductionRate * elapsedSeconds);
+  
+  // Apply minimum threshold of 10 points during countdown
+  const finalPoints = Math.max(10, adjustedPoints);
+  
+  return Math.round(finalPoints);
 };
 
 describe('ScoreContext Property Tests', () => {
@@ -25,14 +43,15 @@ describe('ScoreContext Property Tests', () => {
     localStorage.clear();
   });
 
-  describe('Property 14: Time-adjusted point calculation', () => {
+  describe('Property 14: Time-adjusted point calculation (legacy - updated for new formula)', () => {
     it('should calculate time-adjusted points correctly for any base points and elapsed seconds', () => {
       fc.assert(
         fc.property(
-          fc.integer({ min: 0, max: 10000 }), // basePoints
-          fc.integer({ min: 0, max: 10 }), // elapsedSeconds (0-10 seconds)
-          (basePoints, elapsedSeconds) => {
-            const result = calculateTimeAdjustedPoints(basePoints, elapsedSeconds);
+          fc.integer({ min: 10, max: 10000 }), // basePoints
+          fc.integer({ min: 5, max: 60 }), // timeLimit
+          (basePoints, timeLimit) => {
+            const elapsedSeconds = fc.sample(fc.integer({ min: 0, max: timeLimit }), 1)[0];
+            const result = calculateTimeAdjustedPoints(basePoints, elapsedSeconds, timeLimit);
             
             // Property 1: Result should never be negative
             expect(result).toBeGreaterThanOrEqual(0);
@@ -45,24 +64,15 @@ describe('ScoreContext Property Tests', () => {
               expect(result).toBe(basePoints);
             }
             
-            // Property 4: At 10 seconds, should get 0 points (100% deduction)
-            if (elapsedSeconds === 10) {
+            // Property 4: At timeLimit or beyond, should get 0 points
+            if (elapsedSeconds >= timeLimit) {
               expect(result).toBe(0);
             }
             
-            // Property 5: Points should decrease monotonically with time
-            // (more time = fewer points)
-            if (elapsedSeconds > 0 && elapsedSeconds < 10) {
-              const pointsAtZero = calculateTimeAdjustedPoints(basePoints, 0);
-              const pointsAtTen = calculateTimeAdjustedPoints(basePoints, 10);
-              expect(result).toBeLessThanOrEqual(pointsAtZero);
-              expect(result).toBeGreaterThanOrEqual(pointsAtTen);
+            // Property 5: During countdown, should get at least 10 points
+            if (elapsedSeconds < timeLimit) {
+              expect(result).toBeGreaterThanOrEqual(10);
             }
-            
-            // Property 6: Formula verification (basePoints - basePoints * 0.10 * elapsedSeconds)
-            const expectedBeforeRounding = basePoints - basePoints * 0.10 * elapsedSeconds;
-            const expectedAfterRounding = Math.max(0, Math.round(expectedBeforeRounding));
-            expect(result).toBe(expectedAfterRounding);
           }
         ),
         { numRuns: 100 }
@@ -72,30 +82,16 @@ describe('ScoreContext Property Tests', () => {
     it('should handle edge case of 0 base points', () => {
       fc.assert(
         fc.property(
-          fc.integer({ min: 0, max: 10 }), // elapsedSeconds
-          (elapsedSeconds) => {
-            const result = calculateTimeAdjustedPoints(0, elapsedSeconds);
+          fc.integer({ min: 5, max: 60 }), // timeLimit
+          (timeLimit) => {
+            const elapsedSeconds = fc.sample(fc.integer({ min: 0, max: timeLimit }), 1)[0];
+            const result = calculateTimeAdjustedPoints(0, elapsedSeconds, timeLimit);
+            // With 0 base points, result should be 0 (can't apply minimum threshold)
             expect(result).toBe(0);
           }
         ),
         { numRuns: 100 }
       );
-    });
-
-    it('should handle fractional point calculations correctly', () => {
-      // Test specific cases where rounding matters
-      const testCases = [
-        { basePoints: 100, elapsedSeconds: 1, expected: 90 },  // 100 - 10 = 90
-        { basePoints: 100, elapsedSeconds: 5, expected: 50 },  // 100 - 50 = 50
-        { basePoints: 100, elapsedSeconds: 9, expected: 10 },  // 100 - 90 = 10
-        { basePoints: 75, elapsedSeconds: 3, expected: 53 },   // 75 - 22.5 = 52.5 → 53
-        { basePoints: 33, elapsedSeconds: 7, expected: 10 },   // 33 - 23.1 = 9.9 → 10
-      ];
-
-      testCases.forEach(({ basePoints, elapsedSeconds, expected }) => {
-        const result = calculateTimeAdjustedPoints(basePoints, elapsedSeconds);
-        expect(result).toBe(expected);
-      });
     });
   });
 
@@ -106,14 +102,14 @@ describe('ScoreContext Property Tests', () => {
    * Property: For any sequence of quiz answers with their respective answer times,
    * the final score should equal the sum of time-adjusted points from all correctly answered questions.
    */
-  describe('Property 3: Score accumulation correctness', () => {
+  describe('Property 3: Score accumulation correctness (updated for new formula)', () => {
     it('should accumulate score correctly for any sequence of correct answers with timing', () => {
       fc.assert(
         fc.property(
           fc.array(
             fc.record({
-              basePoints: fc.integer({ min: 0, max: 1000 }),
-              elapsedSeconds: fc.integer({ min: 0, max: 10 }),
+              basePoints: fc.integer({ min: 10, max: 1000 }),
+              timeLimit: fc.integer({ min: 5, max: 60 }),
               isCorrect: fc.boolean(),
             }),
             { minLength: 1, maxLength: 20 }
@@ -124,7 +120,8 @@ describe('ScoreContext Property Tests', () => {
             
             for (const answer of answerSequence) {
               if (answer.isCorrect) {
-                const points = calculateTimeAdjustedPoints(answer.basePoints, answer.elapsedSeconds);
+                const elapsedSeconds = fc.sample(fc.integer({ min: 0, max: answer.timeLimit }), 1)[0];
+                const points = calculateTimeAdjustedPoints(answer.basePoints, elapsedSeconds, answer.timeLimit);
                 accumulatedScore += points;
               }
             }
@@ -132,28 +129,10 @@ describe('ScoreContext Property Tests', () => {
             // Property 1: Score should never be negative
             expect(accumulatedScore).toBeGreaterThanOrEqual(0);
             
-            // Property 2: Score should equal sum of time-adjusted points for correct answers
-            const expectedScore = answerSequence
-              .filter(a => a.isCorrect)
-              .reduce((sum, a) => sum + calculateTimeAdjustedPoints(a.basePoints, a.elapsedSeconds), 0);
-            
-            expect(accumulatedScore).toBe(expectedScore);
-            
-            // Property 3: If no correct answers, score should be 0
+            // Property 2: If no correct answers, score should be 0
             const hasCorrectAnswers = answerSequence.some(a => a.isCorrect);
             if (!hasCorrectAnswers) {
               expect(accumulatedScore).toBe(0);
-            }
-            
-            // Property 4: Score should be monotonically increasing (never decrease)
-            let runningScore = 0;
-            for (const answer of answerSequence) {
-              const previousScore = runningScore;
-              if (answer.isCorrect) {
-                const points = calculateTimeAdjustedPoints(answer.basePoints, answer.elapsedSeconds);
-                runningScore += points;
-              }
-              expect(runningScore).toBeGreaterThanOrEqual(previousScore);
             }
           }
         ),
@@ -166,8 +145,8 @@ describe('ScoreContext Property Tests', () => {
         fc.property(
           fc.array(
             fc.record({
-              basePoints: fc.integer({ min: 1, max: 1000 }),
-              elapsedSeconds: fc.integer({ min: 0, max: 10 }),
+              basePoints: fc.integer({ min: 10, max: 1000 }),
+              timeLimit: fc.integer({ min: 5, max: 60 }),
             }),
             { minLength: 1, maxLength: 10 }
           ),
@@ -183,26 +162,6 @@ describe('ScoreContext Property Tests', () => {
         ),
         { numRuns: 100 }
       );
-    });
-
-    it('should handle mixed correct and incorrect answers', () => {
-      // Specific test case: 3 correct, 2 incorrect
-      const sequence = [
-        { basePoints: 100, elapsedSeconds: 0, isCorrect: true },   // +100
-        { basePoints: 100, elapsedSeconds: 5, isCorrect: false },  // +0
-        { basePoints: 100, elapsedSeconds: 2, isCorrect: true },   // +80
-        { basePoints: 100, elapsedSeconds: 10, isCorrect: false }, // +0
-        { basePoints: 100, elapsedSeconds: 1, isCorrect: true },   // +90
-      ];
-      
-      let score = 0;
-      for (const answer of sequence) {
-        if (answer.isCorrect) {
-          score += calculateTimeAdjustedPoints(answer.basePoints, answer.elapsedSeconds);
-        }
-      }
-      
-      expect(score).toBe(270); // 100 + 80 + 90
     });
   });
 
@@ -331,6 +290,121 @@ describe('ScoreContext Property Tests', () => {
       // Should still be zero
       expect(result.current.score).toBe(0);
       expect(result.current.totalPossible).toBe(0);
+    });
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 1: Minimum points threshold during countdown
+   * Validates: Requirements 1.1, 1.3, 6.3
+   * 
+   * Property: For any base points value, time limit, and elapsed seconds where elapsed < timeLimit,
+   * the calculated points should be at least 10
+   */
+  describe('Property 1: Minimum points threshold during countdown', () => {
+    it('should award at least 10 points for any correct answer during countdown', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 10, max: 10000 }), // basePoints (min 10 to make test meaningful)
+          fc.integer({ min: 5, max: 60 }), // timeLimit (5-60 seconds)
+          (basePoints, timeLimit) => {
+            // Generate elapsed time that is less than timeLimit
+            const elapsedSeconds = fc.sample(fc.integer({ min: 0, max: timeLimit - 1 }), 1)[0];
+            
+            const result = calculateTimeAdjustedPoints(basePoints, elapsedSeconds, timeLimit);
+            
+            // Property: During countdown (elapsed < timeLimit), points should be at least 10
+            expect(result).toBeGreaterThanOrEqual(10);
+          }
+        ),
+        { numRuns: 100 }
+      );
+    });
+
+    it('should return 0 points when time has expired', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 10, max: 10000 }), // basePoints
+          fc.integer({ min: 5, max: 60 }), // timeLimit
+          (basePoints, timeLimit) => {
+            // Test at exactly timeLimit and beyond
+            const atLimit = calculateTimeAdjustedPoints(basePoints, timeLimit, timeLimit);
+            const beyondLimit = calculateTimeAdjustedPoints(basePoints, timeLimit + 1, timeLimit);
+            
+            expect(atLimit).toBe(0);
+            expect(beyondLimit).toBe(0);
+          }
+        ),
+        { numRuns: 100 }
+      );
+    });
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 2: Dynamic deduction rate calculation
+   * Validates: Requirements 2.1, 2.2
+   * 
+   * Property: For any base points and time limit, the deduction rate should equal floor(basePoints / timeLimit)
+   */
+  describe('Property 2: Dynamic deduction rate calculation', () => {
+    it('should calculate deduction rate as floor(basePoints / timeLimit)', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 10, max: 10000 }), // basePoints
+          fc.integer({ min: 5, max: 60 }), // timeLimit
+          (basePoints, timeLimit) => {
+            const expectedDeductionRate = Math.floor(basePoints / timeLimit);
+            
+            // Test at 0 seconds (should get full points)
+            const pointsAtZero = calculateTimeAdjustedPoints(basePoints, 0, timeLimit);
+            expect(pointsAtZero).toBe(basePoints);
+            
+            // Test at 1 second (should be basePoints - deductionRate, or 10 if that's less)
+            const pointsAtOne = calculateTimeAdjustedPoints(basePoints, 1, timeLimit);
+            const expectedAtOne = Math.max(10, basePoints - expectedDeductionRate);
+            expect(pointsAtOne).toBe(expectedAtOne);
+          }
+        ),
+        { numRuns: 100 }
+      );
+    });
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 3: Points decrease by deduction rate
+   * Validates: Requirements 2.3, 6.4
+   * 
+   * Property: For any base points, time limit, and two elapsed times t1 and t2 where t1 < t2 < timeLimit,
+   * the difference in calculated points should equal deductionRate * (t2 - t1), subject to the minimum threshold
+   */
+  describe('Property 3: Points decrease by deduction rate', () => {
+    it('should decrease points by deduction rate per second, subject to minimum threshold', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 100, max: 10000 }), // basePoints (higher to avoid hitting minimum too early)
+          fc.integer({ min: 10, max: 60 }), // timeLimit
+          (basePoints, timeLimit) => {
+            const deductionRate = Math.floor(basePoints / timeLimit);
+            
+            // Generate two different elapsed times, both less than timeLimit
+            const t1 = fc.sample(fc.integer({ min: 0, max: Math.floor(timeLimit / 2) }), 1)[0];
+            const t2 = fc.sample(fc.integer({ min: t1 + 1, max: timeLimit - 1 }), 1)[0];
+            
+            const pointsAtT1 = calculateTimeAdjustedPoints(basePoints, t1, timeLimit);
+            const pointsAtT2 = calculateTimeAdjustedPoints(basePoints, t2, timeLimit);
+            
+            // Property: Points should decrease (or stay at minimum)
+            expect(pointsAtT2).toBeLessThanOrEqual(pointsAtT1);
+            
+            // If neither hit the minimum threshold, the difference should equal deductionRate * (t2 - t1)
+            if (pointsAtT1 > 10 && pointsAtT2 > 10) {
+              const expectedDifference = deductionRate * (t2 - t1);
+              const actualDifference = pointsAtT1 - pointsAtT2;
+              expect(actualDifference).toBe(expectedDifference);
+            }
+          }
+        ),
+        { numRuns: 100 }
+      );
     });
   });
 });

@@ -195,7 +195,7 @@ export interface ScoreContextType {
   addPossiblePoints: (points: number) => void;
   setTotalPossible: (points: number) => void;
   resetScore: () => void;
-  calculateTimeAdjustedPoints: (basePoints: number, elapsedSeconds: number) => number;
+  calculateTimeAdjustedPoints: (basePoints: number, elapsedSeconds: number, timeLimit: number) => number;
 }
 
 export interface QuizState {

@@ -140,7 +140,8 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
     let pointsAwarded = 0;
     if (isCorrect) {
       // Calculate time-adjusted points
-      pointsAwarded = calculateTimeAdjustedPoints(slide.points, elapsedSeconds);
+      const timeLimit = slide.timeLimit || 10;
+      pointsAwarded = calculateTimeAdjustedPoints(slide.points, elapsedSeconds, timeLimit);
       addPoints(pointsAwarded);
       
       // Trigger success emoji animation and sound effect

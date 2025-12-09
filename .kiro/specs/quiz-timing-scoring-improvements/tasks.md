@@ -1,25 +1,25 @@
 # Implementation Plan
 
-- [ ] 1. Update scoring calculation in ScoreContext
+- [x] 1. Update scoring calculation in ScoreContext
   - Modify the `calculateTimeAdjustedPoints` function to accept three parameters: basePoints, elapsedSeconds, and timeLimit
   - Implement dynamic deduction rate calculation: `Math.floor(basePoints / timeLimit)`
   - Apply minimum 10-point threshold during countdown (when elapsed < timeLimit)
   - Return 0 points when elapsed >= timeLimit
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 6.2, 6.3, 6.4_
 
-- [ ] 1.1 Write property test for minimum points threshold
+- [x] 1.1 Write property test for minimum points threshold
   - **Property 1: Minimum points threshold during countdown**
   - **Validates: Requirements 1.1, 1.3, 6.3**
 
-- [ ] 1.2 Write property test for dynamic deduction rate
+- [x] 1.2 Write property test for dynamic deduction rate
   - **Property 2: Dynamic deduction rate calculation**
   - **Validates: Requirements 2.1, 2.2**
 
-- [ ] 1.3 Write property test for points decrease rate
+- [x] 1.3 Write property test for points decrease rate
   - **Property 3: Points decrease by deduction rate**
   - **Validates: Requirements 2.3, 6.4**
 
-- [ ] 1.4 Write unit tests for scoring edge cases
+- [x] 1.4 Write unit tests for scoring edge cases
   - Test last second answer (elapsed = timeLimit - 1, should return 10 points)
   - Test expired timer (elapsed >= timeLimit, should return 0 points)
   - Test specific examples: 100 points / 15 seconds = 6 deduction rate

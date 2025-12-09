@@ -60,11 +60,27 @@ export const ScoreProvider: React.FC<ScoreProviderProps> = ({ children }) => {
     localStorage.removeItem(TOTAL_POSSIBLE_STORAGE_KEY);
   }, []);
 
-  const calculateTimeAdjustedPoints = useCallback((basePoints: number, elapsedSeconds: number): number => {
-    // Formula: basePoints - basePoints * 0.10 * elapsedSeconds
-    // Ensure result is not negative
-    const adjustedPoints = basePoints - basePoints * 0.10 * elapsedSeconds;
-    return Math.max(0, Math.round(adjustedPoints));
+  const calculateTimeAdjustedPoints = useCallback((basePoints: number, elapsedSeconds: number, timeLimit: number): number => {
+    // If time has expired, award 0 points
+    if (elapsedSeconds >= timeLimit) {
+      return 0;
+    }
+    
+    // If basePoints is less than 10, return 0 (can't apply minimum threshold)
+    if (basePoints < 10) {
+      return 0;
+    }
+    
+    // Calculate dynamic deduction rate (rounded down)
+    const deductionRate = Math.floor(basePoints / timeLimit);
+    
+    // Calculate adjusted points
+    const adjustedPoints = basePoints - (deductionRate * elapsedSeconds);
+    
+    // Apply minimum threshold of 10 points during countdown
+    const finalPoints = Math.max(10, adjustedPoints);
+    
+    return Math.round(finalPoints);
   }, []);
 
   const value: ScoreContextType = {
