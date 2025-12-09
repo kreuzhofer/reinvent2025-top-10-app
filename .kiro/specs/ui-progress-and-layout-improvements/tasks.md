@@ -127,12 +127,12 @@
   - Test Header integration
   - _Requirements: 1.2, 3.3, 3.5_
 
-- [ ] 7. Update WelcomeScreen to ensure no ProgressBar
+- [x] 7. Update WelcomeScreen to ensure no ProgressBar
   - Verify WelcomeScreen does not render ProgressBar
   - Ensure Header is rendered without score display
   - _Requirements: 3.1, 4.4_
 
-- [ ] 7.1 Write integration tests for WelcomeScreen
+- [x] 7.1 Write integration tests for WelcomeScreen
   - Test ProgressBar is not rendered
   - Test score is not displayed
   - _Requirements: 3.1, 4.4_
