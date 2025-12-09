@@ -260,32 +260,69 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           </div>
         </motion.div>
 
-        {/* Restart Button - Conditional based on allowRetry */}
-        {allowRetry && onRestart && (
+        {/* Action Buttons Container */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.7,
+            ease: 'easeOut'
+          }}
+        >
+          {/* Restart Button - Conditional based on allowRetry */}
+          {allowRetry && onRestart && (
+            <motion.button
+              onClick={onRestart}
+              className="flex items-center justify-center gap-2 sm:gap-3 bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200"
+              aria-label="Restart the quiz and try again"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.3,
+                delay: 0.75,
+                ease: 'easeOut'
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              data-testid="restart-button"
+            >
+              <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
+              Retake Quiz
+            </motion.button>
+          )}
+
+          {/* Share on Slack Button */}
           <motion.button
-            onClick={onRestart}
-            className="flex items-center justify-center gap-2 sm:gap-3 mx-auto bg-reinvent-purple hover:bg-purple-600 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200"
-            aria-label="Restart the quiz and try again"
+            onClick={handleShareOnSlack}
+            className="flex items-center justify-center gap-2 sm:gap-3 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200 border border-gray-600"
+            aria-label="Share your quiz results on Slack"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ 
               duration: 0.3,
-              delay: 0.7,
+              delay: 0.8,
               ease: 'easeOut'
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            data-testid="restart-button"
+            data-testid="share-slack-button"
           >
-            <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
-            Retake Quiz
+            <img 
+              src="/data/icons/slack.svg" 
+              alt="Slack logo" 
+              className="w-5 h-5 sm:w-6 sm:h-6" 
+              aria-hidden="true"
+            />
+            Share on Slack
           </motion.button>
-        )}
+        </motion.div>
 
         {/* Message when retry is disabled */}
         {!allowRetry && (
           <motion.p
-            className="text-gray-500 text-base sm:text-lg"
+            className="text-gray-500 text-base sm:text-lg mt-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ 
@@ -298,31 +335,6 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             Thank you for completing the quiz!
           </motion.p>
         )}
-
-        {/* Share on Slack Button */}
-        <motion.button
-          onClick={handleShareOnSlack}
-          className="flex items-center justify-center gap-2 sm:gap-3 mx-auto mt-4 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200 border border-gray-600"
-          aria-label="Share your quiz results on Slack"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
-            duration: 0.3,
-            delay: 0.75,
-            ease: 'easeOut'
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          data-testid="share-slack-button"
-        >
-          <img 
-            src="/data/icons/slack.svg" 
-            alt="Slack logo" 
-            className="w-5 h-5 sm:w-6 sm:h-6" 
-            aria-hidden="true"
-          />
-          Share on Slack
-        </motion.button>
 
         {/* Kiro Branding */}
         <motion.div
