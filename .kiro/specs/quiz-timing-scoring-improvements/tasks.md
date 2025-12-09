@@ -26,7 +26,7 @@
   - Test specific examples: 50 points / 10 seconds = 5 deduction rate
   - _Requirements: 1.2, 1.4, 2.4, 2.5_
 
-- [ ] 2. Create TickSoundPlayer service
+- [x] 2. Create TickSoundPlayer service
   - Create new file `src/services/audio/TickSoundPlayer.ts`
   - Implement using HTML Audio Element with loop property
   - Add `start()` method to begin playing tick.mp3
@@ -35,15 +35,15 @@
   - Handle audio loading errors gracefully
   - _Requirements: 4.1, 4.2, 4.3, 5.4, 5.5_
 
-- [ ] 2.1 Write property test for tick sound audio isolation
+- [x] 2.1 Write property test for tick sound audio isolation
   - **Property 8: Tick sound audio isolation**
   - **Validates: Requirements 4.2, 4.3**
 
-- [ ] 2.2 Write property test for tick sound cleanup isolation
+- [x] 2.2 Write property test for tick sound cleanup isolation
   - **Property 12: Tick sound cleanup isolation**
   - **Validates: Requirements 5.4, 5.5**
 
-- [ ] 2.3 Write unit tests for TickSoundPlayer
+- [x] 2.3 Write unit tests for TickSoundPlayer
   - Test start() method initializes and plays audio
   - Test stop() method pauses and resets audio
   - Test error handling for missing audio file
