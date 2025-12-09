@@ -10,6 +10,7 @@ import { useEmojiManager } from '../hooks/useEmojiManager';
 import QuizTimer from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
 import Header from './Header';
+import ProgressBar from './ProgressBar';
 import { shuffleChoices } from '../utils/shuffleChoices';
 
 interface QuizSlideProps {
@@ -56,9 +57,9 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   slide, 
   onNext, 
   shuffleEnabled = false,
-  currentSlide: _currentSlide,
-  totalSlides: _totalSlides,
-  showProgress: _showProgress = false,
+  currentSlide,
+  totalSlides,
+  showProgress = false,
   showScore = false
 }) => {
   const { addPoints, calculateTimeAdjustedPoints } = useScore();
@@ -259,6 +260,9 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
 
   return (
     <>
+      {showProgress && currentSlide && totalSlides && (
+        <ProgressBar current={currentSlide} total={totalSlides} />
+      )}
       <Header 
         showScore={showScore}
         showAudioControls={true}

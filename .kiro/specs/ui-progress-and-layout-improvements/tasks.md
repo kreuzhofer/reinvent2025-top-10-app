@@ -113,7 +113,7 @@
   - Test Header integration
   - _Requirements: 1.1, 3.3, 3.5_
 
-- [ ] 6. Update QuizSlide to use ProgressBar and new Header
+- [x] 6. Update QuizSlide to use ProgressBar and new Header
   - Add ProgressBar component before Header
   - Conditionally render ProgressBar based on showProgress prop
   - Update Header usage to remove slide counter props
@@ -121,7 +121,7 @@
   - Ensure proper z-index layering
   - _Requirements: 1.2, 3.3, 3.5_
 
-- [ ] 6.1 Write integration tests for QuizSlide updates
+- [x] 6.1 Write integration tests for QuizSlide updates
   - Test ProgressBar renders when showProgress={true}
   - Test ProgressBar doesn't render when showProgress={false}
   - Test Header integration

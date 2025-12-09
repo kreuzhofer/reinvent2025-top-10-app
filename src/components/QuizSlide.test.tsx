@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import QuizSlide from './QuizSlide';
+import { AudioProvider } from '../context/AudioContext';
+import { EmojiProvider } from '../context/EmojiContext';
 import { ScoreProvider } from '../context/ScoreContext';
 import { QuizStateProvider } from '../context/QuizStateContext';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
@@ -32,6 +34,21 @@ vi.mock('./FunFactDisplay', () => ({
  * - 2.6: Test skip button renders
  */
 
+// Helper function to render QuizSlide with required providers
+const renderQuizSlide = (props: React.ComponentProps<typeof QuizSlide>) => {
+  return render(
+    <AudioProvider>
+      <EmojiProvider>
+        <ScoreProvider>
+          <QuizStateProvider>
+            <QuizSlide {...props} />
+          </QuizStateProvider>
+        </ScoreProvider>
+      </EmojiProvider>
+    </AudioProvider>
+  );
+};
+
 const mockQuizSlide: QuizSlideType = {
   type: 'quiz',
   id: 'test-quiz-1',
@@ -58,13 +75,7 @@ describe('QuizSlide Component', () => {
   it('renders question and all choices', () => {
     const onNext = vi.fn();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Question should be visible
     expect(screen.getByTestId('quiz-question')).toHaveTextContent(
@@ -81,13 +92,7 @@ describe('QuizSlide Component', () => {
   it('renders skip button initially', () => {
     const onNext = vi.fn();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Skip button should be present
     const skipButton = screen.getByTestId('skip-button');
@@ -99,13 +104,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click skip button
     const skipButton = screen.getByTestId('skip-button');
@@ -120,13 +119,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Trigger timeout using the mocked timer
     const timeoutButton = screen.getByTestId('mock-timeout');
@@ -141,13 +134,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click correct answer (index 2)
     const correctChoice = screen.getByTestId('choice-2');
@@ -164,13 +151,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click incorrect answer (index 0)
     const incorrectChoice = screen.getByTestId('choice-0');
@@ -187,13 +168,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click an answer
     const choice = screen.getByTestId('choice-0');
@@ -211,13 +186,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click an answer
     const choice = screen.getByTestId('choice-0');
@@ -240,13 +209,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={slideWithoutFunFact} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: slideWithoutFunFact, onNext });
 
     // Click an answer
     const choice = screen.getByTestId('choice-0');
@@ -265,13 +228,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click first answer
     const firstChoice = screen.getByTestId('choice-0');
@@ -288,13 +245,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Answer the question
     const choice = screen.getByTestId('choice-0');
@@ -317,13 +268,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Trigger timeout using the mocked timer
     const timeoutButton = screen.getByTestId('mock-timeout');
@@ -337,13 +282,7 @@ describe('QuizSlide Component', () => {
   it('shows timer initially', () => {
     const onNext = vi.fn();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Timer should be visible
     expect(screen.getByTestId('quiz-timer')).toBeInTheDocument();
@@ -353,13 +292,7 @@ describe('QuizSlide Component', () => {
     const onNext = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <ScoreProvider>
-        <QuizStateProvider>
-          <QuizSlide slide={mockQuizSlide} onNext={onNext} />
-        </QuizStateProvider>
-      </ScoreProvider>
-    );
+    renderQuizSlide({ slide: mockQuizSlide, onNext });
 
     // Click an answer
     const choice = screen.getByTestId('choice-0');
@@ -367,5 +300,106 @@ describe('QuizSlide Component', () => {
 
     // Timer should no longer be visible
     expect(screen.queryByTestId('quiz-timer')).not.toBeInTheDocument();
+  });
+
+  // Integration tests for ProgressBar and Header
+  describe('ProgressBar Integration', () => {
+    it('renders ProgressBar when showProgress is true', () => {
+      const onNext = vi.fn();
+
+      renderQuizSlide({
+        slide: mockQuizSlide,
+        onNext,
+        showProgress: true,
+        currentSlide: 3,
+        totalSlides: 10,
+      });
+
+      // ProgressBar should be visible
+      const progressBar = screen.getByTestId('progress-bar');
+      expect(progressBar).toBeInTheDocument();
+      expect(progressBar).toHaveAttribute('aria-valuenow', '3');
+      expect(progressBar).toHaveAttribute('aria-valuemax', '10');
+    });
+
+    it('does not render ProgressBar when showProgress is false', () => {
+      const onNext = vi.fn();
+
+      renderQuizSlide({
+        slide: mockQuizSlide,
+        onNext,
+        showProgress: false,
+        currentSlide: 3,
+        totalSlides: 10,
+      });
+
+      // ProgressBar should not be visible
+      expect(screen.queryByTestId('progress-bar')).not.toBeInTheDocument();
+    });
+
+    it('does not render ProgressBar when currentSlide is missing', () => {
+      const onNext = vi.fn();
+
+      renderQuizSlide({
+        slide: mockQuizSlide,
+        onNext,
+        showProgress: true,
+        totalSlides: 10,
+      });
+
+      // ProgressBar should not be visible
+      expect(screen.queryByTestId('progress-bar')).not.toBeInTheDocument();
+    });
+
+    it('does not render ProgressBar when totalSlides is missing', () => {
+      const onNext = vi.fn();
+
+      renderQuizSlide({
+        slide: mockQuizSlide,
+        onNext,
+        showProgress: true,
+        currentSlide: 3,
+      });
+
+      // ProgressBar should not be visible
+      expect(screen.queryByTestId('progress-bar')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Header Integration', () => {
+    it('renders Header with score when showScore is true', () => {
+      const onNext = vi.fn();
+
+      renderQuizSlide({
+        slide: mockQuizSlide,
+        onNext,
+        showScore: true,
+      });
+
+      // Header should be visible
+      const header = screen.getByRole('banner');
+      expect(header).toBeInTheDocument();
+      
+      // Score display should be visible
+      const scoreDisplay = screen.getByTestId('score-display');
+      expect(scoreDisplay).toBeInTheDocument();
+    });
+
+    it('renders Header without score when showScore is false', () => {
+      const onNext = vi.fn();
+
+      renderQuizSlide({
+        slide: mockQuizSlide,
+        onNext,
+        showScore: false,
+      });
+
+      // Header should be visible
+      const header = screen.getByRole('banner');
+      expect(header).toBeInTheDocument();
+      
+      // Score display should not be visible
+      expect(screen.queryByTestId('score-display')).not.toBeInTheDocument();
+    });
   });
 });
