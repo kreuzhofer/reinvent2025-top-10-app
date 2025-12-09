@@ -14,7 +14,6 @@ import ContentSlide from './components/ContentSlide';
 import QuizSlide from './components/QuizSlide';
 import SummaryScreen from './components/SummaryScreen';
 import KeyboardHelpOverlay from './components/KeyboardHelpOverlay';
-import { AudioControls } from './components/AudioControls';
 
 /**
  * Welcome Route Component
@@ -251,11 +250,6 @@ function QuizApp() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       
-      {/* Global Audio Controls */}
-      <div className="fixed top-4 right-4 z-50">
-        <AudioControls />
-      </div>
-      
       {/* Global Keyboard Help Overlay */}
       <KeyboardHelpOverlay isOpen={showHelp} onClose={() => setShowHelp(false)} />
     </MotionConfig>
@@ -267,7 +261,6 @@ function QuizApp() {
  * 
  * Requirements:
  * - 6.1: Wrap application with AudioProvider
- * - 6.2: Add AudioControls component to UI
  * - 8.4: Add reduced motion support
  * - 9.3: React Router for navigation
  */

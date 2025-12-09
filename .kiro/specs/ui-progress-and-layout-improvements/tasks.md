@@ -150,7 +150,7 @@
   - Test percentage is calculated correctly
   - _Requirements: 3.2, 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 9. Remove fixed AudioControls from App.tsx
+- [x] 9. Remove fixed AudioControls from App.tsx
   - Remove the fixed AudioControls component from App.tsx
   - Verify AudioControls are now only rendered via Header component
   - Clean up any related imports if no longer needed
