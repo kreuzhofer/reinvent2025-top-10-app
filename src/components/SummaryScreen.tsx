@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, RotateCcw } from 'lucide-react';
 import Header from './Header';
 import { KiroBranding } from './KiroBranding';
 import { useAudioManager } from '../hooks/useAudioManager';
+import { useQuizData } from '../hooks/useQuizData';
+import { useQuizState } from '../context/QuizStateContext';
 
 interface SummaryScreenProps {
   score: number;
@@ -35,6 +37,8 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   allowRetry = true 
 }) => {
   const { playBackgroundMusic } = useAudioManager();
+  const { data } = useQuizData('/data/reinvent-2025-quiz-deck.json');
+  const { getAnswerState } = useQuizState();
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -45,6 +49,27 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   useEffect(() => {
     playBackgroundMusic('victory-bg.mp3');
   }, [playBackgroundMusic]);
+
+  // Calculate the number of correctly answered questions
+  const correctAnswersCount = useMemo(() => {
+    if (!data || !data.slides) return 0;
+    
+    return data.slides
+      .filter(slide => slide.type === 'quiz')
+      .reduce((count, slide) => {
+        if (slide.type === 'quiz') {
+          const answerState = getAnswerState(slide.id);
+          return count + (answerState?.isCorrect ? 1 : 0);
+        }
+        return count;
+      }, 0);
+  }, [data, getAnswerState]);
+
+  // Calculate total number of quiz questions
+  const totalQuestions = useMemo(() => {
+    if (!data || !data.slides) return 0;
+    return data.slides.filter(slide => slide.type === 'quiz').length;
+  }, [data]);
 
   const percentage = totalPossible > 0 ? Math.round((score / totalPossible) * 100) : 0;
   
@@ -58,6 +83,32 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
   };
 
   const performance = getPerformanceMessage();
+
+  // Handle Share on Slack
+  const handleShareOnSlack = async () => {
+    // Get the base URL from the current browser location
+    const baseUrl = `${window.location.protocol}//${window.location.host}`;
+    
+    // Create an engaging message
+    const message = `🎉 I just completed the AWS re:Invent 2025 Quiz!\n\n` +
+      `📊 My Results:\n` +
+      `✅ Correct Answers: ${correctAnswersCount}/${totalQuestions}\n` +
+      `🎯 Score: ${score}/${totalPossible} points (${percentage}%)\n` +
+      `${performance.emoji} ${performance.text}\n\n` +
+      `Try it yourself: ${baseUrl}`;
+    
+    try {
+      // Copy message to clipboard
+      await navigator.clipboard.writeText(message);
+      
+      // Show success message
+      alert('✅ Message copied to clipboard!\n\nNow open Slack and paste (Cmd+V or Ctrl+V) to share your results.');
+    } catch (err) {
+      // Fallback if clipboard API fails
+      console.error('Failed to copy message:', err);
+      prompt('Copy this message to share on Slack:', message);
+    }
+  };
 
   return (
     <>
@@ -163,7 +214,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
               transition={{ duration: 0.2, delay: 0.5 }}
               className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2"
             >
-              Percentage
+              Percentage of achievable score
             </motion.p>
             <motion.p 
               initial={{ scale: 0.8, opacity: 0 }}
@@ -180,6 +231,33 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
               {percentage}%
             </motion.p>
           </div>
+
+          {/* Correct Answers Count */}
+          <div className="pt-4 sm:pt-6 border-t border-gray-700">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2, delay: 0.6 }}
+              className="text-gray-400 text-xs sm:text-sm uppercase tracking-wide mb-2"
+            >
+              Correct Answers
+            </motion.p>
+            <motion.p 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ 
+                duration: 0.4,
+                delay: 0.65,
+                type: 'spring',
+                stiffness: 200
+              }}
+              className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-400"
+              data-testid="correct-answers-count"
+            >
+              {correctAnswersCount}
+              <span className="text-xl sm:text-2xl text-gray-500"> / {totalQuestions}</span>
+            </motion.p>
+          </div>
         </motion.div>
 
         {/* Restart Button - Conditional based on allowRetry */}
@@ -192,7 +270,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ 
               duration: 0.3,
-              delay: 0.6,
+              delay: 0.7,
               ease: 'easeOut'
             }}
             whileHover={{ scale: 1.05 }}
@@ -212,7 +290,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             animate={{ opacity: 1 }}
             transition={{ 
               duration: 0.3,
-              delay: 0.6,
+              delay: 0.7,
               ease: 'easeOut'
             }}
             data-testid="no-retry-message"
@@ -221,18 +299,55 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
           </motion.p>
         )}
 
+        {/* Share on Slack Button */}
+        <motion.button
+          onClick={handleShareOnSlack}
+          className="flex items-center justify-center gap-2 sm:gap-3 mx-auto mt-4 bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-lg text-base sm:text-lg md:text-xl transition-colors duration-200 border border-gray-600"
+          aria-label="Share your quiz results on Slack"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.75,
+            ease: 'easeOut'
+          }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          data-testid="share-slack-button"
+        >
+          <img 
+            src="/data/icons/slack.svg" 
+            alt="Slack logo" 
+            className="w-5 h-5 sm:w-6 sm:h-6" 
+            aria-hidden="true"
+          />
+          Share on Slack
+        </motion.button>
+
         {/* Kiro Branding */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ 
             duration: 0.3,
-            delay: 0.7,
+            delay: 0.8,
             ease: 'easeOut'
           }}
           className="mt-8 sm:mt-12 flex justify-center"
         >
           <KiroBranding variant="welcome" />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.9,
+            ease: 'easeOut'
+          }}
+          className="mt-8 sm:mt-12 flex justify-center"
+        >by dkreuz@
         </motion.div>
       </motion.div>
     </div>

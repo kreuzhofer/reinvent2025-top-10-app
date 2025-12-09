@@ -1,9 +1,10 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SummaryScreen from './SummaryScreen';
 import { AudioProvider } from '../context/AudioContext';
 import { ScoreProvider } from '../context/ScoreContext';
+import { QuizStateProvider } from '../context/QuizStateContext';
 
 /**
  * Unit tests for SummaryScreen component
@@ -14,16 +15,39 @@ import { ScoreProvider } from '../context/ScoreContext';
  * - 3.4: Provide option to restart quiz
  */
 
+// Mock the useQuizData hook
+vi.mock('../hooks/useQuizData', () => ({
+  useQuizData: () => ({
+    data: {
+      slides: [
+        { id: 'q1', type: 'quiz', points: 100 },
+        { id: 'q2', type: 'quiz', points: 100 },
+        { id: 'q3', type: 'quiz', points: 100 },
+        { id: 'c1', type: 'content' },
+      ],
+    },
+    loading: false,
+    error: null,
+  }),
+}));
+
 // Helper function to render SummaryScreen with required providers
 const renderSummaryScreen = (props: React.ComponentProps<typeof SummaryScreen>) => {
   return render(
     <AudioProvider>
       <ScoreProvider>
-        <SummaryScreen {...props} />
+        <QuizStateProvider>
+          <SummaryScreen {...props} />
+        </QuizStateProvider>
       </ScoreProvider>
     </AudioProvider>
   );
 };
+
+// Mock localStorage
+beforeEach(() => {
+  localStorage.clear();
+});
 
 describe('SummaryScreen', () => {
   describe('Score Display', () => {
@@ -50,6 +74,38 @@ describe('SummaryScreen', () => {
       expect(percentageElement.textContent).toBe('75%');
     });
 
+    it('should display correct answers count', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      const correctAnswersElement = screen.getByTestId('correct-answers-count');
+      expect(correctAnswersElement).toBeInTheDocument();
+      // Should show "0 / 3" since no answers are marked as correct in localStorage
+      expect(correctAnswersElement.textContent).toContain('0');
+      expect(correctAnswersElement.textContent).toContain('3');
+    });
+
+    it('should display correct answers count based on quiz state', () => {
+      // Set up localStorage with some correct answers
+      localStorage.setItem('quiz-answer-states', JSON.stringify({
+        'q1': { selectedIndex: 0, isCorrect: true, pointsAwarded: 100, isSkipped: false, isTimedOut: false },
+        'q2': { selectedIndex: 1, isCorrect: false, pointsAwarded: 0, isSkipped: false, isTimedOut: false },
+        'q3': { selectedIndex: 0, isCorrect: true, pointsAwarded: 100, isSkipped: false, isTimedOut: false },
+      }));
+
+      renderSummaryScreen({ 
+        score: 200, 
+        totalPossible: 300 
+      });
+
+      const correctAnswersElement = screen.getByTestId('correct-answers-count');
+      // Should show "2 / 3" (2 correct out of 3 total questions)
+      expect(correctAnswersElement.textContent).toContain('2');
+      expect(correctAnswersElement.textContent).toContain('3');
+    });
+
     it('should calculate percentage correctly for different scores', () => {
       const { rerender } = renderSummaryScreen({ 
         score: 500, 
@@ -61,7 +117,9 @@ describe('SummaryScreen', () => {
       rerender(
         <AudioProvider>
           <ScoreProvider>
-            <SummaryScreen score={900} totalPossible={1000} />
+            <QuizStateProvider>
+              <SummaryScreen score={900} totalPossible={1000} />
+            </QuizStateProvider>
           </ScoreProvider>
         </AudioProvider>
       );
@@ -71,7 +129,9 @@ describe('SummaryScreen', () => {
       rerender(
         <AudioProvider>
           <ScoreProvider>
-            <SummaryScreen score={333} totalPossible={1000} />
+            <QuizStateProvider>
+              <SummaryScreen score={333} totalPossible={1000} />
+            </QuizStateProvider>
           </ScoreProvider>
         </AudioProvider>
       );
@@ -97,6 +157,40 @@ describe('SummaryScreen', () => {
 
       // 667/1000 = 66.7%, should round to 67%
       expect(screen.getByTestId('final-percentage').textContent).toBe('67%');
+    });
+  });
+
+  describe('Share on Slack Button', () => {
+    it('should render share on slack button', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      const shareButton = screen.getByTestId('share-slack-button');
+      expect(shareButton).toBeInTheDocument();
+      expect(shareButton).toHaveTextContent('Share on Slack');
+    });
+
+    it('should have correct aria-label for accessibility', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      const shareButton = screen.getByTestId('share-slack-button');
+      expect(shareButton).toHaveAttribute('aria-label', 'Share your quiz results on Slack');
+    });
+
+    it('should display Slack logo', () => {
+      renderSummaryScreen({ 
+        score: 750, 
+        totalPossible: 1000 
+      });
+
+      const slackLogo = screen.getByAltText('Slack logo');
+      expect(slackLogo).toBeInTheDocument();
+      expect(slackLogo).toHaveAttribute('src', '/data/icons/slack.svg');
     });
   });
 
@@ -210,7 +304,9 @@ describe('SummaryScreen', () => {
       rerender(
         <AudioProvider>
           <ScoreProvider>
-            <SummaryScreen score={850} totalPossible={1000} />
+            <QuizStateProvider>
+              <SummaryScreen score={850} totalPossible={1000} />
+            </QuizStateProvider>
           </ScoreProvider>
         </AudioProvider>
       );
@@ -221,7 +317,9 @@ describe('SummaryScreen', () => {
       rerender(
         <AudioProvider>
           <ScoreProvider>
-            <SummaryScreen score={750} totalPossible={1000} />
+            <QuizStateProvider>
+              <SummaryScreen score={750} totalPossible={1000} />
+            </QuizStateProvider>
           </ScoreProvider>
         </AudioProvider>
       );
@@ -299,7 +397,9 @@ describe('SummaryScreen', () => {
       rerender(
         <AudioProvider>
           <ScoreProvider>
-            <SummaryScreen score={1000} totalPossible={1000} />
+            <QuizStateProvider>
+              <SummaryScreen score={1000} totalPossible={1000} />
+            </QuizStateProvider>
           </ScoreProvider>
         </AudioProvider>
       );
