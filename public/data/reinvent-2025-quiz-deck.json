@@ -12,8 +12,13 @@
     {
       "type": "content",
       "id": "overview",
-      "title": "AWS re:Invent 2025: Top 10",
+      "title": "Think you can keep up with re:Invent?",
       "content": [
+        {
+          "type": "text",
+          "text": "10 announcements. 11 questions. Points for speed AND accuracy.",
+          "style": "heading"
+        },
         {
           "type": "icon",
           "iconType": "lucide",
@@ -21,24 +26,45 @@
           "size": "large"
         },
         {
-          "type": "text",
-          "text": "Let's recap a few of the best announcements:",
-          "style": "heading"
+          "type": "callout",
+          "text": "🎯 The Challenge: Each announcement has a quiz. Answer correctly AND quickly to maximize your score. 1,200 points possible. Can you reach 70% to pass?",
+          "style": "info"
         },
         {
-          "type": "list",
+          "type": "text",
+          "text": "Top 3 You Can't Miss:",
+          "style": "body"
+        },
+        {
+          "type": "grid",
+          "columns": 3,
           "items": [
-            "Database Savings Plans – proving cost optimization can excite customers as much as GenAI",
-            "Frontier Agents – AI that works independently for days, not minutes",
-            "Werner Vogels' Final Keynote – 14 years of AWS philosophy, one mic drop",
-            "Lambda Durable Functions – serverless that remembers state for up to a year",
-            "Nova Model Family & Nova Forge – build your own frontier model for $100K/year",
-            "Graviton5 & Trainium3 Silicon – why AWS bets on custom chips over commodity hardware",
-            "Bedrock AgentCore Updates – making AI agents production-safe, not just production-ready",
-            "Kiro IDE & Strands SDK – eliminating 90% of traditional agent framework overhead",
-            "AWS AI Factories – bringing managed AWS AI infrastructure to your data center",
-            "AWS Transform – turning technical debt into cloud-native code with AI agents"
+            {
+              "icon": "trophy",
+              "title": "Werner's Farewell",
+              "description": "14 years. One mic drop. The most emotional moment of the conference."
+            },
+            {
+              "icon": "zap",
+              "title": "Frontier Agents",
+              "description": "AI that works independently for days, not minutes. Autonomous. Actually autonomous."
+            },
+            {
+              "icon": "dollar-sign",
+              "title": "Database Savings",
+              "description": "Proving cost optimization can steal the show from GenAI announcements."
+            }
           ]
+        },
+        {
+          "type": "callout",
+          "text": "⏱️ Speed matters! You have 15-20 seconds per question. Think fast, click faster.",
+          "style": "warning"
+        },
+        {
+          "type": "text",
+          "text": "Ready to test your re:Invent knowledge?",
+          "style": "body"
         }
       ]
     },
