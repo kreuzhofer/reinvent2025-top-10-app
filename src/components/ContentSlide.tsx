@@ -11,6 +11,8 @@ import QuoteBlock from './QuoteBlock';
 import GridLayout from './GridLayout';
 import Header from './Header';
 import ProgressBar from './ProgressBar';
+import { VideoBlockComponent } from './VideoBlock';
+import LinkBlock from './LinkBlock';
 
 interface ContentSlideProps {
   slide: ContentSlideType;
@@ -200,6 +202,10 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
       return <QuoteBlock text={block.text} author={block.author} />;
     case 'grid':
       return <GridLayout columns={block.columns} items={block.items} />;
+    case 'video':
+      return <VideoBlockComponent block={block} />;
+    case 'link':
+      return <LinkBlock url={block.url} text={block.text} newTab={block.newTab} style={block.style} />;
     default:
       return null;
   }

@@ -107,8 +107,11 @@
         },
         {
           "type": "video",
+          "videoFile": "",
           "size": "medium",
-          "preview": ""
+          "preview": "",
+          "autoPlay": false,
+          "loop": false
         },
         {
           "type": "stat",

@@ -223,13 +223,13 @@
   - Update ContentBlock union type to include VideoBlock and LinkBlock
   - _Requirements: 10.1, 11.1_
 
-- [ ] 14. Update ContentSlide to render VideoBlock and LinkBlock
+- [x] 14. Update ContentSlide to render VideoBlock and LinkBlock
   - Add VideoBlock case to ContentBlockRenderer switch statement
   - Add LinkBlock case to ContentBlockRenderer switch statement
   - Import VideoBlock and LinkBlock components
   - _Requirements: 10.1, 11.1_
 
-- [ ] 14.1 Write integration tests for new content blocks
+- [x] 14.1 Write integration tests for new content blocks
   - Test ContentSlide renders VideoBlock correctly
   - Test ContentSlide renders LinkBlock correctly
   - Test integration with existing content blocks

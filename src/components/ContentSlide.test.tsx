@@ -522,4 +522,111 @@ describe('ContentSlide Component', () => {
     const header = container.querySelector('header');
     expect(header).toBeInTheDocument();
   });
+
+  /**
+   * Integration Test: ContentSlide renders VideoBlock correctly
+   * Requirements: 10.1
+   */
+  it('renders VideoBlock correctly', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide with Video',
+      content: [
+        {
+          type: 'video',
+          videoFile: 'demo.mp4',
+          preview: 'demo-preview.jpg',
+          autoplay: false,
+          loop: true,
+          size: 'large',
+          caption: 'Demo video',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    renderContentSlide({ slide, onNext: mockOnNext });
+
+    // VideoBlock should be rendered
+    expect(screen.getByTestId('video-block')).toBeInTheDocument();
+    expect(screen.getByTestId('video-element')).toBeInTheDocument();
+    expect(screen.getByTestId('video-caption')).toHaveTextContent('Demo video');
+  });
+
+  /**
+   * Integration Test: ContentSlide renders LinkBlock correctly
+   * Requirements: 11.1
+   */
+  it('renders LinkBlock correctly', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide with Link',
+      content: [
+        {
+          type: 'link',
+          url: 'https://aws.amazon.com/reinvent/',
+          text: 'Learn more about re:Invent',
+          newTab: true,
+          style: 'button',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    renderContentSlide({ slide, onNext: mockOnNext });
+
+    // LinkBlock should be rendered
+    const linkElement = screen.getByTestId('link-block');
+    expect(linkElement).toBeInTheDocument();
+    expect(linkElement).toHaveAttribute('href', 'https://aws.amazon.com/reinvent/');
+    expect(linkElement).toHaveTextContent('Learn more about re:Invent');
+    expect(linkElement).toHaveAttribute('target', '_blank');
+    expect(linkElement).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  /**
+   * Integration Test: ContentSlide renders multiple new content blocks together
+   * Requirements: 10.1, 11.1
+   */
+  it('renders VideoBlock and LinkBlock with existing content blocks', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide with Mixed Content',
+      content: [
+        {
+          type: 'text',
+          text: 'Introduction text',
+          style: 'body',
+        },
+        {
+          type: 'video',
+          videoFile: 'demo.mp4',
+          size: 'medium',
+        },
+        {
+          type: 'link',
+          url: 'https://example.com',
+          text: 'Click here',
+          style: 'text',
+        },
+        {
+          type: 'stat',
+          value: '100%',
+          label: 'Success Rate',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    const { container } = renderContentSlide({ slide, onNext: mockOnNext });
+
+    // All content blocks should be rendered
+    expect(container.textContent).toContain('Introduction text');
+    expect(screen.getByTestId('video-block')).toBeInTheDocument();
+    expect(screen.getByTestId('link-block')).toBeInTheDocument();
+    expect(screen.getByTestId('stat-block-value')).toHaveTextContent('100%');
+  });
 });
