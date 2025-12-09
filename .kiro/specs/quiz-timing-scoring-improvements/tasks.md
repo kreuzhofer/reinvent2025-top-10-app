@@ -115,7 +115,7 @@
   - Test tick sound stops on navigation
   - Test integration with new scoring function
 
-- [ ] 6. Add tick.mp3 audio file
+- [x] 6. Add tick.mp3 audio file
   - Create or obtain tick sound effect file
   - Place file at `public/data/sfx/effects/tick.mp3`
   - Test audio file loads and plays correctly
