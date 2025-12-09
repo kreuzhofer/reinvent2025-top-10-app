@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { QuizConfigProvider } from '../context/QuizConfigContext';
 import { ScoreProvider } from '../context/ScoreContext';
 import { QuizStateProvider } from '../context/QuizStateContext';
+import { AudioProvider } from '../context/AudioContext';
+import { EmojiProvider } from '../context/EmojiContext';
 import QuizSlide from './QuizSlide';
 import ProgressIndicator from './ProgressIndicator';
 import SummaryScreen from './SummaryScreen';
@@ -42,11 +44,15 @@ describe('Quiz Configuration Features', () => {
       const onNext = vi.fn();
 
       render(
-        <ScoreProvider>
-          <QuizStateProvider>
-            <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={false} />
-          </QuizStateProvider>
-        </ScoreProvider>
+        <AudioProvider>
+          <EmojiProvider>
+            <ScoreProvider>
+              <QuizStateProvider>
+                <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={false} />
+              </QuizStateProvider>
+            </ScoreProvider>
+          </EmojiProvider>
+        </AudioProvider>
       );
 
       const choices = screen.getAllByRole('radio').filter(btn => 
@@ -64,11 +70,15 @@ describe('Quiz Configuration Features', () => {
       const onNext = vi.fn();
 
       render(
-        <ScoreProvider>
-          <QuizStateProvider>
-            <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={true} />
-          </QuizStateProvider>
-        </ScoreProvider>
+        <AudioProvider>
+          <EmojiProvider>
+            <ScoreProvider>
+              <QuizStateProvider>
+                <QuizSlide slide={mockQuizSlide} onNext={onNext} shuffleEnabled={true} />
+              </QuizStateProvider>
+            </ScoreProvider>
+          </EmojiProvider>
+        </AudioProvider>
       );
 
       const choices = screen.getAllByRole('radio').filter(btn => 
@@ -149,12 +159,14 @@ describe('Quiz Configuration Features', () => {
       const onRestart = vi.fn();
 
       render(
-        <SummaryScreen 
-          score={800} 
-          totalPossible={1000} 
-          onRestart={onRestart}
-          allowRetry={true}
-        />
+        <AudioProvider>
+          <SummaryScreen 
+            score={800} 
+            totalPossible={1000} 
+            onRestart={onRestart}
+            allowRetry={true}
+          />
+        </AudioProvider>
       );
 
       expect(screen.getByTestId('restart-button')).toBeInTheDocument();
@@ -165,12 +177,14 @@ describe('Quiz Configuration Features', () => {
       const onRestart = vi.fn();
 
       render(
-        <SummaryScreen 
-          score={800} 
-          totalPossible={1000} 
-          onRestart={onRestart}
-          allowRetry={false}
-        />
+        <AudioProvider>
+          <SummaryScreen 
+            score={800} 
+            totalPossible={1000} 
+            onRestart={onRestart}
+            allowRetry={false}
+          />
+        </AudioProvider>
       );
 
       expect(screen.queryByTestId('restart-button')).not.toBeInTheDocument();
@@ -180,11 +194,13 @@ describe('Quiz Configuration Features', () => {
 
     it('displays thank you message when retry is disabled', () => {
       render(
-        <SummaryScreen 
-          score={700} 
-          totalPossible={1000} 
-          allowRetry={false}
-        />
+        <AudioProvider>
+          <SummaryScreen 
+            score={700} 
+            totalPossible={1000} 
+            allowRetry={false}
+          />
+        </AudioProvider>
       );
 
       expect(screen.getByText('Thank you for completing the quiz!')).toBeInTheDocument();
@@ -197,13 +213,15 @@ describe('Quiz Configuration Features', () => {
       const onRestart = vi.fn();
 
       render(
-        <QuizConfigProvider>
-          <SummaryScreen 
-            score={850} 
-            totalPossible={1000} 
-            onRestart={onRestart}
-          />
-        </QuizConfigProvider>
+        <AudioProvider>
+          <QuizConfigProvider>
+            <SummaryScreen 
+              score={850} 
+              totalPossible={1000} 
+              onRestart={onRestart}
+            />
+          </QuizConfigProvider>
+        </AudioProvider>
       );
 
       // Default allowRetry is true, so restart button should appear

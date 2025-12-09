@@ -276,30 +276,40 @@ describe('ScoreContext Property Tests', () => {
           fc.integer({ min: 1, max: 1000 }), // initial points
           fc.integer({ min: 1, max: 1000 }), // points after reset
           (initialPoints, pointsAfterReset) => {
-            const { result } = renderHook(() => useScore(), { wrapper });
+            // Clear localStorage before each property test run to ensure clean state
+            localStorage.clear();
             
-            // Add initial points
-            act(() => {
-              result.current.addPoints(initialPoints);
-            });
+            // Create a fresh hook instance for each property test run
+            const { result, unmount } = renderHook(() => useScore(), { wrapper });
             
-            expect(result.current.score).toBe(initialPoints);
-            
-            // Reset
-            act(() => {
-              result.current.resetScore();
-            });
-            
-            expect(result.current.score).toBe(0);
-            
-            // Add points after reset
-            act(() => {
-              result.current.addPoints(pointsAfterReset);
-            });
-            
-            // Property: Score after reset should only reflect new points
-            expect(result.current.score).toBe(pointsAfterReset);
-            expect(result.current.score).not.toBe(initialPoints + pointsAfterReset);
+            try {
+              // Add initial points
+              act(() => {
+                result.current.addPoints(initialPoints);
+              });
+              
+              expect(result.current.score).toBe(initialPoints);
+              
+              // Reset
+              act(() => {
+                result.current.resetScore();
+              });
+              
+              expect(result.current.score).toBe(0);
+              
+              // Add points after reset
+              act(() => {
+                result.current.addPoints(pointsAfterReset);
+              });
+              
+              // Property: Score after reset should only reflect new points
+              expect(result.current.score).toBe(pointsAfterReset);
+              expect(result.current.score).not.toBe(initialPoints + pointsAfterReset);
+            } finally {
+              // Clean up the hook instance and localStorage after each test run
+              unmount();
+              localStorage.clear();
+            }
           }
         ),
         { numRuns: 100 }

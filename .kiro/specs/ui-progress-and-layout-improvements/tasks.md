@@ -156,7 +156,7 @@
   - Clean up any related imports if no longer needed
   - _Requirements: 6.1, 8.1_
 
-- [ ] 10. Checkpoint - Ensure all tests pass for progress bar and header changes
+- [x] 10. Checkpoint - Ensure all tests pass for progress bar and header changes
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 11. Create VideoBlock component and utility functions
