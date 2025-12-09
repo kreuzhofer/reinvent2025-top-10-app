@@ -217,7 +217,7 @@
   - Test keyboard navigation
   - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7_
 
-- [ ] 13. Update quiz.types.ts to include VideoBlock and LinkBlock types
+- [x] 13. Update quiz.types.ts to include VideoBlock and LinkBlock types
   - Add VideoBlock interface definition
   - Add LinkBlock interface definition
   - Update ContentBlock union type to include VideoBlock and LinkBlock

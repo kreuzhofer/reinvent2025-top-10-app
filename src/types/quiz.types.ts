@@ -37,7 +37,9 @@ export type ContentBlock =
   | StatBlock
   | CalloutBlock
   | QuoteBlock
-  | GridBlock;
+  | GridBlock
+  | VideoBlock
+  | LinkBlock;
 
 export interface TextBlock {
   type: 'text';
@@ -115,6 +117,24 @@ export interface GridItem {
   features?: string[]; // Array of feature strings
   stat?: string; // Single stat value
   color?: string; // Color for the item
+}
+
+export interface VideoBlock {
+  type: 'video';
+  videoFile: string; // Filename in public/data/video/ directory
+  preview?: string; // Optional preview image filename from public/data/images/
+  autoplay?: boolean; // Whether to autoplay video (default: false)
+  loop?: boolean; // Whether to loop video (default: false)
+  size?: 'small' | 'medium' | 'large' | 'full'; // Size class (default: 'medium')
+  caption?: string; // Optional caption text
+}
+
+export interface LinkBlock {
+  type: 'link';
+  url: string; // Target URL
+  text: string; // Display text for the link
+  newTab?: boolean; // Open in new tab (default: true)
+  style?: 'button' | 'text'; // Visual style (default: 'button')
 }
 
 export interface QuizSlide {
