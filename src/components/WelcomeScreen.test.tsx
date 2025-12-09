@@ -141,4 +141,25 @@ describe('WelcomeScreen', () => {
       expect(wrapper).toHaveClass('justify-center');
     });
   });
+
+  // AudioControls integration tests
+  describe('AudioControls Integration', () => {
+    it('renders AudioControls in upper right corner', () => {
+      const onStart = vi.fn();
+      renderWelcomeScreen({ onStart });
+      
+      // AudioControls has data-testid="audio-controls"
+      const audioControls = screen.getByTestId('audio-controls');
+      expect(audioControls).toBeInTheDocument();
+    });
+
+    it('renders AudioControls with inline mode', () => {
+      const onStart = vi.fn();
+      renderWelcomeScreen({ onStart });
+      
+      // In inline mode, the button should have specific classes
+      const muteButton = screen.getByRole('button', { name: /mute audio|unmute audio/i });
+      expect(muteButton).toBeInTheDocument();
+    });
+  });
 });

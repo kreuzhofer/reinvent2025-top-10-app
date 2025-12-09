@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudioManager } from '../hooks/useAudioManager';
 import { KiroBranding } from './KiroBranding';
+import { AudioControls } from './AudioControls';
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -33,6 +34,20 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Audio Controls - Upper Right Corner */}
+      <motion.div
+        className="absolute top-4 right-4 z-20"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          duration: 0.3,
+          delay: 0.2,
+          ease: 'easeOut'
+        }}
+      >
+        <AudioControls inline={true} />
+      </motion.div>
+
       {/* Animated Background Video */}
       <video
         autoPlay
