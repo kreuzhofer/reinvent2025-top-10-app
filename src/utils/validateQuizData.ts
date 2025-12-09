@@ -214,7 +214,7 @@ function validateContentBlock(block: unknown, path: string, errors: ValidationEr
   }
 
   const blockObj = block as Record<string, unknown>;
-  const validTypes = ['text', 'image', 'icon', 'iconList', 'list', 'stat', 'callout', 'quote', 'grid'];
+  const validTypes = ['text', 'image', 'icon', 'iconList', 'list', 'stat', 'callout', 'quote', 'grid', 'video', 'link'];
 
   if (!validTypes.includes(blockObj.type as string)) {
     errors.push({ path: `${path}.type`, message: `content block type must be one of: ${validTypes.join(', ')}` });
@@ -317,6 +317,40 @@ function validateContentBlock(block: unknown, path: string, errors: ValidationEr
             }
           }
         });
+      }
+      break;
+    case 'video':
+      if (typeof blockObj.videoFile !== 'string') {
+        errors.push({ path: `${path}.videoFile`, message: 'videoFile must be a string' });
+      }
+      if (blockObj.preview !== undefined && typeof blockObj.preview !== 'string') {
+        errors.push({ path: `${path}.preview`, message: 'preview must be a string if provided' });
+      }
+      if (blockObj.autoplay !== undefined && typeof blockObj.autoplay !== 'boolean') {
+        errors.push({ path: `${path}.autoplay`, message: 'autoplay must be a boolean if provided' });
+      }
+      if (blockObj.loop !== undefined && typeof blockObj.loop !== 'boolean') {
+        errors.push({ path: `${path}.loop`, message: 'loop must be a boolean if provided' });
+      }
+      if (blockObj.size !== undefined && !['small', 'medium', 'large', 'full'].includes(blockObj.size as string)) {
+        errors.push({ path: `${path}.size`, message: 'size must be "small", "medium", "large", or "full" if provided' });
+      }
+      if (blockObj.caption !== undefined && typeof blockObj.caption !== 'string') {
+        errors.push({ path: `${path}.caption`, message: 'caption must be a string if provided' });
+      }
+      break;
+    case 'link':
+      if (typeof blockObj.url !== 'string') {
+        errors.push({ path: `${path}.url`, message: 'url must be a string' });
+      }
+      if (typeof blockObj.text !== 'string') {
+        errors.push({ path: `${path}.text`, message: 'text must be a string' });
+      }
+      if (blockObj.newTab !== undefined && typeof blockObj.newTab !== 'boolean') {
+        errors.push({ path: `${path}.newTab`, message: 'newTab must be a boolean if provided' });
+      }
+      if (blockObj.style !== undefined && !['button', 'text'].includes(blockObj.style as string)) {
+        errors.push({ path: `${path}.style`, message: 'style must be "button" or "text" if provided' });
       }
       break;
   }

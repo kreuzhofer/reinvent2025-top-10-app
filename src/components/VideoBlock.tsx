@@ -12,6 +12,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
+import { Play } from 'lucide-react';
 import { resolveVideoPath } from '../utils/videoLoader';
 import { resolveImagePath } from '../utils/imageLoader';
 
@@ -32,6 +33,8 @@ interface VideoBlockProps {
 export const VideoBlockComponent: React.FC<VideoBlockProps> = ({ block }) => {
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showPlayButton, setShowPlayButton] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const sizeClasses = {
@@ -51,12 +54,32 @@ export const VideoBlockComponent: React.FC<VideoBlockProps> = ({ block }) => {
       videoRef.current.play().catch(() => {
         // Autoplay blocked by browser, silently fail
       });
+      setIsPlaying(true);
+      setShowPlayButton(false);
     }
   }, [block.autoplay]);
 
+  const handlePlayClick = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setIsPlaying(true);
+      setShowPlayButton(false);
+    }
+  };
+
+  const handleVideoPlay = () => {
+    setIsPlaying(true);
+    setShowPlayButton(false);
+  };
+
+  const handleVideoPause = () => {
+    setIsPlaying(false);
+    setShowPlayButton(true);
+  };
+
   return (
     <figure className={`${sizeClass} mx-auto my-4 sm:my-6`} data-testid="video-block">
-      <div className="relative rounded-lg overflow-hidden bg-gray-900">
+      <div className="relative rounded-lg overflow-hidden bg-gray-900 group">
         {!videoLoaded && !videoError && (
           <div className="absolute inset-0 bg-gray-800 animate-pulse" />
         )}
@@ -69,20 +92,38 @@ export const VideoBlockComponent: React.FC<VideoBlockProps> = ({ block }) => {
             data-testid="video-fallback-image"
           />
         ) : (
-          <video
-            ref={videoRef}
-            src={videoSrc}
-            poster={previewSrc}
-            controls
-            loop={block.loop}
-            onError={() => setVideoError(true)}
-            onLoadedData={() => setVideoLoaded(true)}
-            className="w-full h-auto"
-            data-testid="video-element"
-            aria-label={block.caption || 'Video content'}
-          >
-            Your browser does not support the video tag.
-          </video>
+          <>
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              poster={previewSrc}
+              controls
+              loop={block.loop}
+              onError={() => setVideoError(true)}
+              onLoadedData={() => setVideoLoaded(true)}
+              onPlay={handleVideoPlay}
+              onPause={handleVideoPause}
+              className="w-full h-auto"
+              data-testid="video-element"
+              aria-label={block.caption || 'Video content'}
+            >
+              Your browser does not support the video tag.
+            </video>
+            
+            {/* Custom large play button overlay */}
+            {showPlayButton && !isPlaying && (
+              <button
+                onClick={handlePlayClick}
+                className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors duration-200 cursor-pointer"
+                aria-label="Play video"
+                data-testid="video-play-button"
+              >
+                <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-reinvent-purple/90 hover:bg-reinvent-purple flex items-center justify-center shadow-2xl transform hover:scale-110 transition-transform duration-200">
+                  <Play className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-white ml-1" fill="white" />
+                </div>
+              </button>
+            )}
+          </>
         )}
       </div>
       

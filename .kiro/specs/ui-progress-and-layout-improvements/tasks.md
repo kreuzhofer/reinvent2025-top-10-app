@@ -235,7 +235,7 @@
   - Test integration with existing content blocks
   - _Requirements: 10.1, 11.1_
 
-- [ ] 15. Create public/data/video directory and README
+- [x] 15. Create public/data/video directory and README
   - Create public/data/video directory for video files
   - Add README.md explaining video file requirements and usage
   - Document supported video formats (mp4, webm)

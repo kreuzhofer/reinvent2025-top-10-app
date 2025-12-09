@@ -107,9 +107,9 @@
         },
         {
           "type": "video",
-          "videoFile": "",
+          "videoFile": "matt-db-savings.mp4",
           "size": "medium",
-          "preview": "",
+          "preview": "matt-db-savings-preview.png",
           "autoPlay": false,
           "loop": false
         },
@@ -252,8 +252,21 @@
         },
         {
           "type": "text",
-          "text": "Amazon CTO Werner Vogels delivered his 14th and final re:Invent keynote, ending with a literal mic drop",
+          "text": "Amazon CTO Werner Vogels delivered his 14th and final re:Invent keynote, ending with a literal mic drop (play the quiz to the end to see it 😉)",
           "style": "body"
+        },
+        {
+          "type": "video",
+          "videoFile": "werner-concepts.mp4",
+          "size": "medium",
+          "preview": "werner-concepts-preview.png",
+          "autoPlay": false,
+          "loop": false
+        },
+        {
+          "type": "link",
+          "text": "Werner Vogels' complete keynote on YouTube",
+          "url": "https://youtu.be/3Y1G9najGiI?si=unGlgWh0WAUjsYQL"
         },
         {
           "type": "callout",
@@ -273,12 +286,6 @@
             "Emphasized the need for proper oversight of AI-generated code",
             "Created viral moment across Twitter and LinkedIn"
           ]
-        },
-        {
-          "type": "image",
-          "src": "werner-keynote.jpg",
-          "alt": "Werner Vogels final keynote",
-          "size": "medium"
         }
       ]
     },
@@ -895,6 +902,31 @@
       "points": 200,
       "timeLimit": 20,
       "funFact": "Werner Vogels has been the voice of AWS technical philosophy since the beginning. His 'Renaissance Developer' concept and focus on builder culture shaped how millions of developers think about cloud architecture. After 14 keynotes, his final appearance reminded everyone that behind the technology are people who genuinely care about the craft."
+    },
+    {
+      "type": "content",
+      "id": "final-mic-drop",
+      "title": "Werner Out!",
+      "content": [
+        {
+          "type": "text",
+          "text": "Thanks for playing this quiz, you're amazing!",
+          "style": "body"
+        },
+        {
+          "type": "video",
+          "videoFile": "werner-out.mp4",
+          "size": "medium",
+          "preview": "werner-out-preview.png",
+          "autoPlay": false,
+          "loop": false
+        },
+        {
+          "type": "link",
+          "text": "Werner Vogels' complete keynote on YouTube",
+          "url": "https://youtu.be/3Y1G9najGiI?si=unGlgWh0WAUjsYQL"
+        }
+      ]      
     }
   ],
   "resources": {
