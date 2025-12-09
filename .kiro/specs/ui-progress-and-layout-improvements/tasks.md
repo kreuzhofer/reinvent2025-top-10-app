@@ -95,7 +95,7 @@
   - Test responsive spacing
   - _Requirements: 6.1, 6.2, 7.1, 7.2, 7.3, 8.3_
 
-- [ ] 5. Update ContentSlide to use ProgressBar and new Header
+- [x] 5. Update ContentSlide to use ProgressBar and new Header
   - Add ProgressBar component before Header
   - Conditionally render ProgressBar based on showProgress prop
   - Update Header usage to remove slide counter props
@@ -103,11 +103,11 @@
   - Ensure proper z-index layering (ProgressBar z-50, Header z-40)
   - _Requirements: 1.1, 3.3, 3.5_
 
-- [ ] 5.1 Write property test for progress bar visibility across slide types
+- [x] 5.1 Write property test for progress bar visibility across slide types
   - **Property 2: Progress bar visibility maintained across slide types**
   - **Validates: Requirements 3.5**
 
-- [ ] 5.2 Write integration tests for ContentSlide updates
+- [x] 5.2 Write integration tests for ContentSlide updates
   - Test ProgressBar renders when showProgress={true}
   - Test ProgressBar doesn't render when showProgress={false}
   - Test Header integration

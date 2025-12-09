@@ -31,6 +31,93 @@ describe('ContentSlide Property-Based Tests', () => {
   });
 
   /**
+   * Feature: ui-progress-and-layout-improvements, Property 2: Progress bar visibility maintained across slide types
+   * Validates: Requirements 3.5
+   * 
+   * For any navigation between Content Slides, the progress bar should remain visible throughout the transition
+   */
+  it('Property 2: should maintain progress bar visibility across content slide transitions', () => {
+    fc.assert(
+      fc.property(
+        // Generate two different content slides to simulate navigation
+        fc.tuple(
+          fc.record({
+            type: fc.constant('content' as const),
+            id: fc.string({ minLength: 1, maxLength: 20 }),
+            title: fc.string({ minLength: 1, maxLength: 100 }),
+            content: fc.array(
+              fc.record({
+                type: fc.constant('text' as const),
+                text: fc.string({ minLength: 1, maxLength: 200 }),
+              }),
+              { minLength: 1, maxLength: 5 }
+            ),
+          }),
+          fc.record({
+            type: fc.constant('content' as const),
+            id: fc.string({ minLength: 1, maxLength: 20 }),
+            title: fc.string({ minLength: 1, maxLength: 100 }),
+            content: fc.array(
+              fc.record({
+                type: fc.constant('text' as const),
+                text: fc.string({ minLength: 1, maxLength: 200 }),
+              }),
+              { minLength: 1, maxLength: 5 }
+            ),
+          }),
+          fc.integer({ min: 1, max: 100 }), // current slide
+          fc.integer({ min: 1, max: 100 })  // total slides
+        ),
+        ([slide1, slide2, currentSlide, totalSlides]) => {
+          // Ensure currentSlide doesn't exceed totalSlides
+          const validCurrentSlide = Math.min(currentSlide, totalSlides);
+          
+          // Render first slide with showProgress=true
+          const { container: container1, unmount: unmount1 } = render(
+            <ScoreProvider>
+              <ContentSlide
+                slide={slide1}
+                onNext={vi.fn()}
+                currentSlide={validCurrentSlide}
+                totalSlides={totalSlides}
+                showProgress={true}
+                showScore={true}
+              />
+            </ScoreProvider>
+          );
+
+          // Verify progress bar is present on first slide
+          const progressBar1 = container1.querySelector('[data-testid="progress-bar"]');
+          expect(progressBar1).toBeTruthy();
+
+          unmount1();
+
+          // Render second slide with showProgress=true (simulating navigation)
+          const { container: container2, unmount: unmount2 } = render(
+            <ScoreProvider>
+              <ContentSlide
+                slide={slide2}
+                onNext={vi.fn()}
+                currentSlide={validCurrentSlide}
+                totalSlides={totalSlides}
+                showProgress={true}
+                showScore={true}
+              />
+            </ScoreProvider>
+          );
+
+          // Verify progress bar is still present on second slide
+          const progressBar2 = container2.querySelector('[data-testid="progress-bar"]');
+          expect(progressBar2).toBeTruthy();
+
+          unmount2();
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
    * Feature: quiz-engagement-enhancements, Property 21: Slide transition sound effect
    * Validates: Requirements 4.4
    * 

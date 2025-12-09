@@ -10,6 +10,7 @@ import CalloutBox from './CalloutBox';
 import QuoteBlock from './QuoteBlock';
 import GridLayout from './GridLayout';
 import Header from './Header';
+import ProgressBar from './ProgressBar';
 
 interface ContentSlideProps {
   slide: ContentSlideType;
@@ -57,9 +58,9 @@ interface ContentSlideProps {
 const ContentSlide: React.FC<ContentSlideProps> = ({ 
   slide, 
   onNext,
-  currentSlide: _currentSlide,
-  totalSlides: _totalSlides,
-  showProgress: _showProgress = false,
+  currentSlide,
+  totalSlides,
+  showProgress = false,
   showScore = false
 }) => {
   const { playBackgroundMusic, playSFX } = useAudioManager();
@@ -91,6 +92,9 @@ const ContentSlide: React.FC<ContentSlideProps> = ({
 
   return (
     <>
+      {showProgress && currentSlide && totalSlides && (
+        <ProgressBar current={currentSlide} total={totalSlides} />
+      )}
       <Header 
         showScore={showScore}
         showAudioControls={true}

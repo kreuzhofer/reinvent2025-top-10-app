@@ -3,12 +3,25 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ContentSlide from './ContentSlide';
 import type { ContentSlide as ContentSlideType } from '../types/quiz.types';
+import { AudioProvider } from '../context/AudioContext';
+import { ScoreProvider } from '../context/ScoreContext';
 
 /**
  * Unit Tests for ContentSlide Component
  * 
  * Tests specific examples and edge cases for content slide rendering.
  */
+
+// Helper function to render ContentSlide with required providers
+const renderContentSlide = (props: React.ComponentProps<typeof ContentSlide>) => {
+  return render(
+    <AudioProvider>
+      <ScoreProvider>
+        <ContentSlide {...props} />
+      </ScoreProvider>
+    </AudioProvider>
+  );
+};
 
 describe('ContentSlide Component', () => {
   /**
@@ -31,7 +44,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     // Get the image element
     const img = screen.getByTestId('image-block-img') as HTMLImageElement;
@@ -67,7 +80,7 @@ describe('ContentSlide Component', () => {
 
     const mockOnNext = vi.fn();
     const user = userEvent.setup();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     const nextButton = screen.getByTestId('next-button');
     expect(nextButton).toBeInTheDocument();
@@ -89,7 +102,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('content-slide-title')).toHaveTextContent('AWS re:Invent 2025 Announcement');
   });
@@ -123,7 +136,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    const { container } = render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    const { container } = renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(container.textContent).toContain('This is a heading');
     expect(container.textContent).toContain('This is body text');
@@ -149,7 +162,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     const listItems = screen.getByTestId('list-block-items');
     expect(listItems.textContent).toContain('First item');
@@ -177,7 +190,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('list-block-title')).toHaveTextContent('Key Features');
   });
@@ -202,7 +215,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('stat-block-value')).toHaveTextContent('10x');
     expect(screen.getByTestId('stat-block-label')).toHaveTextContent('Faster Performance');
@@ -229,7 +242,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('icon-block')).toBeInTheDocument();
     expect(screen.getByTestId('icon-block-label')).toHaveTextContent('Success');
@@ -256,7 +269,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('icon-block')).toBeInTheDocument();
     expect(screen.getByTestId('icon-block-label')).toHaveTextContent('AWS Lambda');
@@ -281,7 +294,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('callout-box')).toBeInTheDocument();
     expect(screen.getByTestId('callout-text')).toHaveTextContent('This is an important callout');
@@ -306,7 +319,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('quote-block')).toBeInTheDocument();
     expect(screen.getByTestId('quote-text')).toHaveTextContent('This is a great quote');
@@ -335,7 +348,7 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(screen.getByTestId('grid-layout')).toBeInTheDocument();
     const gridItems = screen.getAllByTestId('grid-item');
@@ -372,10 +385,141 @@ describe('ContentSlide Component', () => {
     };
 
     const mockOnNext = vi.fn();
-    const { container } = render(<ContentSlide slide={slide} onNext={mockOnNext} />);
+    const { container } = renderContentSlide({ slide, onNext: mockOnNext });
 
     expect(container.textContent).toContain('Introduction text');
     expect(screen.getByTestId('stat-block-value')).toHaveTextContent('99.99%');
     expect(screen.getByTestId('list-block-title')).toHaveTextContent('Features');
+  });
+
+  /**
+   * Integration Test: ProgressBar renders when showProgress is true
+   * Requirements: 1.1, 3.3, 3.5
+   */
+  it('renders ProgressBar when showProgress is true', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide',
+      content: [
+        {
+          type: 'text',
+          text: 'Test content',
+          style: 'body',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    const { container } = renderContentSlide({
+      slide,
+      onNext: mockOnNext,
+      currentSlide: 3,
+      totalSlides: 10,
+      showProgress: true,
+    });
+
+    const progressBar = container.querySelector('[data-testid="progress-bar"]');
+    expect(progressBar).toBeInTheDocument();
+  });
+
+  /**
+   * Integration Test: ProgressBar does not render when showProgress is false
+   * Requirements: 1.1, 3.3, 3.5
+   */
+  it('does not render ProgressBar when showProgress is false', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide',
+      content: [
+        {
+          type: 'text',
+          text: 'Test content',
+          style: 'body',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    const { container } = renderContentSlide({
+      slide,
+      onNext: mockOnNext,
+      currentSlide: 3,
+      totalSlides: 10,
+      showProgress: false,
+    });
+
+    const progressBar = container.querySelector('[data-testid="progress-bar"]');
+    expect(progressBar).not.toBeInTheDocument();
+  });
+
+  /**
+   * Integration Test: ProgressBar does not render when currentSlide or totalSlides is missing
+   * Requirements: 1.1, 3.3, 3.5
+   */
+  it('does not render ProgressBar when currentSlide or totalSlides is missing', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide',
+      content: [
+        {
+          type: 'text',
+          text: 'Test content',
+          style: 'body',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    
+    // Test without currentSlide
+    const { container: container1 } = renderContentSlide({
+      slide,
+      onNext: mockOnNext,
+      totalSlides: 10,
+      showProgress: true,
+    });
+    expect(container1.querySelector('[data-testid="progress-bar"]')).not.toBeInTheDocument();
+
+    // Test without totalSlides
+    const { container: container2 } = renderContentSlide({
+      slide,
+      onNext: mockOnNext,
+      currentSlide: 3,
+      showProgress: true,
+    });
+    expect(container2.querySelector('[data-testid="progress-bar"]')).not.toBeInTheDocument();
+  });
+
+  /**
+   * Integration Test: Header is rendered with correct props
+   * Requirements: 1.1, 3.3, 3.5
+   */
+  it('renders Header with showScore and showAudioControls props', () => {
+    const slide: ContentSlideType = {
+      type: 'content',
+      id: 'test-slide',
+      title: 'Test Slide',
+      content: [
+        {
+          type: 'text',
+          text: 'Test content',
+          style: 'body',
+        },
+      ],
+    };
+
+    const mockOnNext = vi.fn();
+    const { container } = renderContentSlide({
+      slide,
+      onNext: mockOnNext,
+      showScore: true,
+    });
+
+    // Header should be present
+    const header = container.querySelector('header');
+    expect(header).toBeInTheDocument();
   });
 });
