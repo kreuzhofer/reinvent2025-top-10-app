@@ -101,11 +101,16 @@
         },
         {
           "type": "video",
-          "videoFile": "matt-db-savings-plans.mp4",
+          "videoUrl": "https://main.d36am06ompjinf.amplifyapp.com/matt-db-savings-plans.mp4",
           "size": "medium",
           "preview": "matt-db-savings-plans-preview.png",
           "autoplay": false,
           "loop": false
+        },
+        {
+          "type": "link",
+          "text": "Matt Garman's complete keynote on YouTube",
+          "url": "https://youtu.be/q3Sb9PemsSo?si=86sYxdmUSjgaCm6A"
         },
         {
           "type": "stat",
@@ -251,7 +256,7 @@
         },
         {
           "type": "video",
-          "videoFile": "werner-concepts.mp4",
+          "videoUrl": "https://main.d36am06ompjinf.amplifyapp.com/werner-concepts.mp4",
           "size": "medium",
           "preview": "werner-concepts-preview.png",
           "autoPlay": false,
@@ -909,7 +914,7 @@
         },
         {
           "type": "video",
-          "videoFile": "werner-out.mp4",
+          "videoUrl": "https://main.d36am06ompjinf.amplifyapp.com/werner-out.mp4",
           "size": "medium",
           "preview": "werner-out-preview.png",
           "autoPlay": false,
