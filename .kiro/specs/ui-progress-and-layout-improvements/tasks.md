@@ -19,7 +19,7 @@
   - Test CSS classes and positioning
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.5_
 
-- [ ] 2. Update ScoreDisplay component to support trophy icon and conditional max points
+- [x] 2. Update ScoreDisplay component to support trophy icon and conditional max points
   - Add `showTrophy` prop to ScoreDisplay component
   - Add `showMaxPoints` prop to control visibility of max points
   - Import Trophy icon from lucide-react
@@ -29,15 +29,15 @@
   - Update inline mode to conditionally show/hide max points
   - _Requirements: 4.1, 4.2, 4.3, 5.1, 5.2, 5.3, 9.1, 9.2, 9.3, 9.4, 9.5_
 
-- [ ] 2.1 Write property test for score display updates
+- [x] 2.1 Write property test for score display updates
   - **Property 3: Score display updates with score changes**
   - **Validates: Requirements 4.3**
 
-- [ ] 2.2 Write property test for summary percentage calculation
+- [x] 2.2 Write property test for summary percentage calculation
   - **Property 4: Summary percentage calculation accuracy**
   - **Validates: Requirements 5.4**
 
-- [ ] 2.3 Write unit tests for ScoreDisplay updates
+- [x] 2.3 Write unit tests for ScoreDisplay updates
   - Test showing only current points when showMaxPoints={false}
   - Test showing both current and max when showMaxPoints={true}
   - Test trophy icon rendering when showTrophy={true}

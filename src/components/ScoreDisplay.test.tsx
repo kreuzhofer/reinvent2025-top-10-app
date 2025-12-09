@@ -74,4 +74,95 @@ describe('ScoreDisplay Component', () => {
 
     expect(screen.getByText('Score')).toBeInTheDocument();
   });
+
+  it('shows only current points when showMaxPoints={false}', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showMaxPoints={false} />
+      </ScoreProvider>
+    );
+
+    const scoreValue = screen.getByTestId('score-value');
+    expect(scoreValue).toHaveTextContent('0');
+    
+    // Max points should not be displayed
+    expect(screen.queryByTestId('score-total')).not.toBeInTheDocument();
+  });
+
+  it('shows both current and max when showMaxPoints={true}', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showMaxPoints={true} />
+      </ScoreProvider>
+    );
+
+    const scoreValue = screen.getByTestId('score-value');
+    expect(scoreValue).toHaveTextContent('0');
+    
+    // Max points should not be displayed when totalPossible is 0
+    expect(screen.queryByTestId('score-total')).not.toBeInTheDocument();
+  });
+
+  it('renders trophy icon when showTrophy={true}', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showTrophy={true} />
+      </ScoreProvider>
+    );
+
+    const trophyIcon = screen.getByTestId('trophy-icon');
+    expect(trophyIcon).toBeInTheDocument();
+    expect(trophyIcon).toHaveClass('text-reinvent-yellow');
+  });
+
+  it('does not render trophy icon when showTrophy={false}', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showTrophy={false} />
+      </ScoreProvider>
+    );
+
+    expect(screen.queryByTestId('trophy-icon')).not.toBeInTheDocument();
+  });
+
+  it('applies bordered container styling when trophy is shown', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showTrophy={true} />
+      </ScoreProvider>
+    );
+
+    const scoreDisplay = screen.getByTestId('score-display');
+    expect(scoreDisplay).toHaveClass('border-2');
+    expect(scoreDisplay).toHaveClass('border-gray-700');
+    expect(scoreDisplay).toHaveClass('rounded-lg');
+    expect(scoreDisplay).toHaveClass('bg-gray-900/50');
+  });
+
+  it('does not apply bordered container when trophy is not shown', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showTrophy={false} />
+      </ScoreProvider>
+    );
+
+    const scoreDisplay = screen.getByTestId('score-display');
+    expect(scoreDisplay).not.toHaveClass('border-2');
+    expect(scoreDisplay).not.toHaveClass('bg-gray-900/50');
+  });
+
+  it('handles zero totalPossible without errors', () => {
+    render(
+      <ScoreProvider>
+        <ScoreDisplay inline showMaxPoints={true} />
+      </ScoreProvider>
+    );
+
+    // Should render without errors
+    const scoreDisplay = screen.getByTestId('score-display');
+    expect(scoreDisplay).toBeInTheDocument();
+    
+    // Max points should not be shown when totalPossible is 0
+    expect(screen.queryByTestId('score-total')).not.toBeInTheDocument();
+  });
 });

@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Trophy } from 'lucide-react';
 import { useScore } from '../context/ScoreContext';
 
 interface ScoreDisplayProps {
   inline?: boolean;
+  showMaxPoints?: boolean;
+  showTrophy?: boolean;
 }
 
 /**
@@ -18,8 +21,15 @@ interface ScoreDisplayProps {
  * - 3.1: Display score prominently while viewing any slide
  * - 8.3: Animate score updates
  * - 10.5: Screen reader announcements for score changes
+ * - 4.1, 4.2: Show only current points during gameplay
+ * - 5.1, 5.2, 5.3: Show both current and max points on summary
+ * - 9.1, 9.2, 9.3, 9.4, 9.5: Trophy icon with bordered container
  */
-const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ inline = false }) => {
+const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ 
+  inline = false,
+  showMaxPoints = true,
+  showTrophy = false
+}) => {
   const { score, totalPossible } = useScore();
   const previousScoreRef = useRef(score);
   const announcementRef = useRef<HTMLDivElement>(null);
@@ -37,6 +47,37 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ inline = false }) => {
 
   if (inline) {
     // Inline version for header
+    const content = (
+      <>
+        {showTrophy && (
+          <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-reinvent-yellow" aria-hidden="true" data-testid="trophy-icon" />
+        )}
+        <span className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide font-semibold">
+          Score
+        </span>
+        <motion.span
+          key={score}
+          className="text-lg sm:text-xl font-bold text-white"
+          initial={{ scale: 1.2, color: '#8B5CF6' }}
+          animate={{ scale: 1, color: '#FFFFFF' }}
+          transition={{ 
+            duration: 0.3,
+            type: 'spring',
+            stiffness: 200,
+            damping: 15
+          }}
+          data-testid="score-value"
+        >
+          {score}
+        </motion.span>
+        {showMaxPoints && totalPossible > 0 && (
+          <span className="text-xs text-gray-400" data-testid="score-total">
+            / {totalPossible}
+          </span>
+        )}
+      </>
+    );
+
     return (
       <>
         {/* Screen reader announcement region */}
@@ -48,35 +89,19 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ inline = false }) => {
           aria-atomic="true"
         />
         
-        <div
-          className="flex items-center gap-2"
-          data-testid="score-display"
-          aria-label="Current quiz score"
-        >
-          <span className="text-xs sm:text-sm text-gray-400 uppercase tracking-wide font-semibold">
-            Score
-          </span>
-          <motion.span
-            key={score}
-            className="text-lg sm:text-xl font-bold text-white"
-            initial={{ scale: 1.2, color: '#8B5CF6' }}
-            animate={{ scale: 1, color: '#FFFFFF' }}
-            transition={{ 
-              duration: 0.3,
-              type: 'spring',
-              stiffness: 200,
-              damping: 15
-            }}
-            data-testid="score-value"
+        {showTrophy ? (
+          <div 
+            className="flex items-center gap-2 px-3 py-2 border-2 border-gray-700 rounded-lg bg-gray-900/50"
+            data-testid="score-display" 
+            aria-label="Current quiz score"
           >
-            {score}
-          </motion.span>
-          {totalPossible > 0 && (
-            <span className="text-xs text-gray-400" data-testid="score-total">
-              / {totalPossible}
-            </span>
-          )}
-        </div>
+            {content}
+          </div>
+        ) : (
+          <div className="flex items-center gap-2" data-testid="score-display" aria-label="Current quiz score">
+            {content}
+          </div>
+        )}
       </>
     );
   }
@@ -125,7 +150,7 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ inline = false }) => {
           >
             {score}
           </motion.span>
-          {totalPossible > 0 && (
+          {showMaxPoints && totalPossible > 0 && (
             <span className="text-xs text-gray-400 mt-1" data-testid="score-total" aria-label={`out of ${totalPossible} total points`}>
               of {totalPossible}
             </span>

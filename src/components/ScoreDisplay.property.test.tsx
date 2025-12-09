@@ -84,10 +84,6 @@ describe('ScoreDisplay Property-Based Tests', () => {
    * in the DOM and continue to show valid numeric values.
    */
   it('Property: Score display persists across score updates', () => {
-    const wrapper = ({ children }: { children: ReactNode }) => (
-      <ScoreProvider>{children}</ScoreProvider>
-    );
-
     fc.assert(
       fc.property(
         fc.array(
@@ -95,6 +91,13 @@ describe('ScoreDisplay Property-Based Tests', () => {
           { minLength: 1, maxLength: 10 }
         ),
         (pointsToAdd) => {
+          // Clear localStorage before each property test iteration
+          localStorage.clear();
+          
+          const wrapper = ({ children }: { children: ReactNode }) => (
+            <ScoreProvider>{children}</ScoreProvider>
+          );
+          
           const { result } = renderHook(() => useScore(), { wrapper });
 
           // Initial score should be 0
@@ -165,4 +168,52 @@ describe('ScoreDisplay Property-Based Tests', () => {
       { numRuns: 100 }
     );
   });
+});
+
+/**
+ * Property 3: Score display updates with score changes
+ * 
+ * Feature: ui-progress-and-layout-improvements, Property 3: Score display updates with score changes
+ * Validates: Requirements 4.3
+ * 
+ * For any score change during gameplay, the displayed current points value
+ * should immediately reflect the new score value.
+ */
+it('Property 3: Score display updates with score changes', () => {
+  fc.assert(
+    fc.property(
+      fc.array(
+        fc.integer({ min: 1, max: 100 }),
+        { minLength: 1, maxLength: 20 }
+      ),
+      (pointsSequence) => {
+        // Clear localStorage before each property test iteration
+        localStorage.clear();
+        
+        const wrapper = ({ children }: { children: ReactNode }) => (
+          <ScoreProvider>{children}</ScoreProvider>
+        );
+        
+        const { result } = renderHook(() => useScore(), { wrapper });
+
+        // Initial score should be 0
+        expect(result.current.score).toBe(0);
+
+        // Track expected score
+        let expectedScore = 0;
+
+        // For each score change, verify the display updates immediately
+        for (const points of pointsSequence) {
+          act(() => {
+            result.current.addPoints(points);
+          });
+          expectedScore += points;
+
+          // Property: The displayed score should immediately match the new score
+          expect(result.current.score).toBe(expectedScore);
+        }
+      }
+    ),
+    { numRuns: 100 }
+  );
 });

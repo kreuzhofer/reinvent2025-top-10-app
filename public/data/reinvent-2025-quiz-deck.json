@@ -12,7 +12,7 @@
     {
       "type": "content",
       "id": "overview",
-      "title": "AWS re:Invent 2025: Top 10 Announcements",
+      "title": "AWS re:Invent 2025: Top 10",
       "content": [
         {
           "type": "icon",
@@ -21,18 +21,23 @@
           "size": "large"
         },
         {
+          "type": "text",
+          "text": "Let's recap a few of the best announcements:",
+          "style": "heading"
+        },
+        {
           "type": "list",
           "items": [
-            "Database Savings Plans",
-            "Frontier Agents (Kiro, Security, DevOps)",
-            "Werner Vogels' Final Keynote",
-            "Lambda Durable Functions",
-            "Nova Model Family & Nova Forge",
-            "Graviton5 & Trainium3 Silicon",
-            "Bedrock AgentCore Updates",
-            "Kiro IDE & Strands SDK",
-            "AWS AI Factories",
-            "AWS Transform"
+            "Database Savings Plans – proving cost optimization can excite customers as much as GenAI",
+            "Frontier Agents – AI that works independently for days, not minutes",
+            "Werner Vogels' Final Keynote – 14 years of AWS philosophy, one mic drop",
+            "Lambda Durable Functions – serverless that remembers state for up to a year",
+            "Nova Model Family & Nova Forge – build your own frontier model for $100K/year",
+            "Graviton5 & Trainium3 Silicon – why AWS bets on custom chips over commodity hardware",
+            "Bedrock AgentCore Updates – making AI agents production-safe, not just production-ready",
+            "Kiro IDE & Strands SDK – eliminating 90% of traditional agent framework overhead",
+            "AWS AI Factories – bringing managed AWS AI infrastructure to your data center",
+            "AWS Transform – turning technical debt into cloud-native code with AI agents"
           ]
         }
       ]
@@ -146,7 +151,7 @@
       "explanation": "Database Savings Plans got enthusiastic applause! Cost optimization resonates strongly with customers managing large-scale database workloads. It shows that practical operational improvements matter just as much as cutting-edge innovation.",
       "points": 100,
       "timeLimit": 15,
-      "funFact": "Corey Quinn titled his analysis 'Six Years of Complaining Finally Pays Off' - persistence pays off!"
+      "funFact": "Corey Quinn (Chief Cloud Economist, Duckbill Group) titled his analysis 'Six Years of Complaining Finally Pays Off' - persistence pays off!"
     },
     {
       "type": "content",
