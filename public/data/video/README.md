@@ -30,13 +30,21 @@ This directory contains video files referenced in the quiz data file.
 
 ## Adding Videos to Quiz
 
-To add videos to the quiz:
+You can add videos in two ways:
+
+### Option 1: Local Files (Stored in Repository)
 
 1. Place video files in this directory
 2. (Optional) Add a preview image to `public/data/images/`
-3. Reference the video in the quiz data JSON using a VideoBlock
+3. Reference the video using `videoFile` property
 
-### Example VideoBlock in Quiz Data
+### Option 2: External URLs (Hosted Elsewhere)
+
+1. Host your video on a CDN, cloud storage, or video hosting service
+2. (Optional) Add a preview image to `public/data/images/`
+3. Reference the video using `videoUrl` property
+
+### Example VideoBlock with Local File
 
 ```json
 {
@@ -50,9 +58,25 @@ To add videos to the quiz:
 }
 ```
 
+### Example VideoBlock with External URL
+
+```json
+{
+  "type": "video",
+  "videoUrl": "https://cdn.example.com/videos/product-demo.mp4",
+  "preview": "product-demo-preview.jpg",
+  "autoplay": false,
+  "loop": false,
+  "size": "large",
+  "caption": "Product demonstration video"
+}
+```
+
 ### VideoBlock Properties
 
-- **videoFile** (required): Filename of the video in this directory
+- **videoFile** (optional): Filename of the video in this directory (for local files)
+- **videoUrl** (optional): External URL (for hosted videos)
+- **Note**: You must provide either `videoFile` OR `videoUrl` (not both)
 - **preview** (optional): Preview image filename from `public/data/images/`
 - **autoplay** (optional): Whether to autoplay video when slide loads (default: false)
 - **loop** (optional): Whether to loop video playback (default: false)

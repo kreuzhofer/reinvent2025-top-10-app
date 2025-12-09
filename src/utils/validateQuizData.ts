@@ -320,8 +320,15 @@ function validateContentBlock(block: unknown, path: string, errors: ValidationEr
       }
       break;
     case 'video':
-      if (typeof blockObj.videoFile !== 'string') {
-        errors.push({ path: `${path}.videoFile`, message: 'videoFile must be a string' });
+      // Require either videoFile or videoUrl (but not both)
+      if (!blockObj.videoFile && !blockObj.videoUrl) {
+        errors.push({ path: `${path}`, message: 'video block must have either videoFile or videoUrl' });
+      }
+      if (blockObj.videoFile !== undefined && typeof blockObj.videoFile !== 'string') {
+        errors.push({ path: `${path}.videoFile`, message: 'videoFile must be a string if provided' });
+      }
+      if (blockObj.videoUrl !== undefined && typeof blockObj.videoUrl !== 'string') {
+        errors.push({ path: `${path}.videoUrl`, message: 'videoUrl must be a string if provided' });
       }
       if (blockObj.preview !== undefined && typeof blockObj.preview !== 'string') {
         errors.push({ path: `${path}.preview`, message: 'preview must be a string if provided' });
