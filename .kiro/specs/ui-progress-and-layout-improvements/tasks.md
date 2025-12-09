@@ -137,14 +137,14 @@
   - Test score is not displayed
   - _Requirements: 3.1, 4.4_
 
-- [ ] 8. Update SummaryScreen to show max points and ensure no ProgressBar
+- [x] 8. Update SummaryScreen to show max points and ensure no ProgressBar
   - Verify SummaryScreen does not render ProgressBar
   - Ensure final score display shows both current and max points
   - Verify percentage calculation is displayed
   - Update Header to not show score in header (score shown in main content)
   - _Requirements: 3.2, 3.4, 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 8.1 Write integration tests for SummaryScreen
+- [x] 8.1 Write integration tests for SummaryScreen
   - Test ProgressBar is not rendered
   - Test max points are displayed
   - Test percentage is calculated correctly

@@ -58,7 +58,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
 
   return (
     <>
-      <Header />
+      <Header showScore={false} showAudioControls={true} />
       <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8 pt-20 sm:pt-24">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
