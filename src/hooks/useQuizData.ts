@@ -23,8 +23,9 @@ export function useQuizData(dataPath: string = '/data/quiz-data.json'): UseQuizD
         setLoading(true);
         setError(null);
 
-        // Fetch the JSON file
-        const response = await fetch(dataPath);
+        // Fetch the JSON file with cache-busting in development
+        const cacheBuster = import.meta.env.DEV ? `?t=${Date.now()}` : '';
+        const response = await fetch(`${dataPath}${cacheBuster}`);
         
         if (!response.ok) {
           throw new Error(`Failed to load quiz data: ${response.statusText}`);

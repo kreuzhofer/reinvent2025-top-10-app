@@ -34,7 +34,7 @@ export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const [audioManager] = useState<AudioManager>(() => {
     // Create AudioManager instance with default options
     return new AudioManager({
-      musicVolume: 0.5,
+      musicVolume: 0.1,
       sfxVolume: 0.7,
       fadeDuration: 1000,
     });

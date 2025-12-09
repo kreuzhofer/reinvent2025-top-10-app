@@ -100,16 +100,10 @@
           "style": "body"
         },
         {
-          "type": "image",
-          "src": "db-savings-plan-matt.jpg",
-          "alt": "Matt Garman announcing db savings plans in his keynote",
-          "size": "medium"
-        },
-        {
           "type": "video",
-          "videoFile": "matt-db-savings.mp4",
+          "videoFile": "matt-db-savings-plans.mp4",
           "size": "medium",
-          "preview": "matt-db-savings-preview.png",
+          "preview": "matt-db-savings-plans-preview.png",
           "autoPlay": false,
           "loop": false
         },
