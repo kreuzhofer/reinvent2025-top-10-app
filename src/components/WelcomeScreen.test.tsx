@@ -98,4 +98,47 @@ describe('WelcomeScreen', () => {
       expect(scoreValue).not.toBeInTheDocument();
     });
   });
+
+  // KiroBranding integration tests - Requirements 1.1, 1.4
+  describe('KiroBranding Integration', () => {
+    it('renders KiroBranding component below start prompt', () => {
+      const onStart = vi.fn();
+      renderWelcomeScreen({ onStart });
+      
+      // Verify KiroBranding appears (using aria-label)
+      const kiroBranding = screen.getByRole('link', { name: /visit kiro website/i });
+      expect(kiroBranding).toBeInTheDocument();
+      
+      // Verify it appears after the "Press Enter to start" text
+      const startPrompt = screen.getByText(/press enter to start/i);
+      const startPromptPosition = startPrompt.compareDocumentPosition(kiroBranding);
+      
+      // DOCUMENT_POSITION_FOLLOWING (4) means kiroBranding comes after startPrompt
+      expect(startPromptPosition & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+
+    it('uses welcome variant for KiroBranding', () => {
+      const onStart = vi.fn();
+      renderWelcomeScreen({ onStart });
+      
+      const kiroBranding = screen.getByRole('link', { name: /visit kiro website/i });
+      
+      // Welcome variant uses larger text and padding
+      // Check for welcome-specific classes (text-base, p-3)
+      expect(kiroBranding).toHaveClass('text-base');
+      expect(kiroBranding).toHaveClass('p-3');
+    });
+
+    it('centers KiroBranding horizontally', () => {
+      const onStart = vi.fn();
+      renderWelcomeScreen({ onStart });
+      
+      const kiroBranding = screen.getByRole('link', { name: /visit kiro website/i });
+      const wrapper = kiroBranding.parentElement;
+      
+      // Verify the wrapper has centering classes
+      expect(wrapper).toHaveClass('flex');
+      expect(wrapper).toHaveClass('justify-center');
+    });
+  });
 });

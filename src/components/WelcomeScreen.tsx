@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudioManager } from '../hooks/useAudioManager';
+import { KiroBranding } from './KiroBranding';
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -139,6 +140,20 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         >
           Press Enter to start
         </motion.p>
+
+        {/* Kiro Branding */}
+        <motion.div
+          className="mt-6 flex justify-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.5,
+            ease: 'easeOut'
+          }}
+        >
+          <KiroBranding variant="welcome" />
+        </motion.div>
       </motion.div>
     </div>
   );

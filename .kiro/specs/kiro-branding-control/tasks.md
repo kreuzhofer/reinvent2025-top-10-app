@@ -75,7 +75,7 @@
   - Test click behavior (link navigation)
   - _Requirements: 1.2, 4.2, 4.3, 7.5_
 
-- [ ] 2. Integrate KiroBranding into WelcomeScreen
+- [x] 2. Integrate KiroBranding into WelcomeScreen
   - Import KiroBranding component
   - Add KiroBranding below "Press Enter to start" text
   - Apply Framer Motion animation for entrance
@@ -83,7 +83,7 @@
   - Center horizontally with appropriate spacing
   - _Requirements: 1.1, 1.4_
 
-- [ ] 2.1 Write unit test for WelcomeScreen integration
+- [x] 2.1 Write unit test for WelcomeScreen integration
   - Verify KiroBranding appears below start prompt
   - Verify correct variant is used
   - Verify horizontal centering
