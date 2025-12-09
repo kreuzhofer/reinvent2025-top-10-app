@@ -1,7 +1,6 @@
 import React from 'react';
 import ScoreDisplay from './ScoreDisplay';
 import { AudioControls } from './AudioControls';
-import { KiroBranding } from './KiroBranding';
 
 interface HeaderProps {
   showScore?: boolean;
@@ -12,12 +11,10 @@ interface HeaderProps {
  * Header Component
  * 
  * Displays the AWS re:Invent logo in the upper left corner.
- * Displays Kiro branding in the upper right corner.
  * Optionally displays score with trophy icon and audio controls in the header.
  * Used across all quiz pages for consistent branding.
  * 
  * Requirements:
- * - 2.1, 2.2, 2.3, 2.4, 2.5: Integrate Kiro branding into header
  * - 6.1, 6.2: Integrate audio controls into header
  * - 7.1, 7.2, 7.3: Clean, organized header layout
  * - 8.1, 8.2, 8.3: Remove slide counter display
@@ -44,17 +41,14 @@ const Header: React.FC<HeaderProps> = ({
           </p>
         </div>
 
-        {/* Right side: Kiro Branding, Score and Audio Controls */}
-        <div className="flex flex-col items-end gap-2">
-          <KiroBranding variant="header" />
-          <div className="flex items-center gap-4 sm:gap-6">
-            {showScore && (
-              <ScoreDisplay inline showMaxPoints={false} showTrophy={true} />
-            )}
-            {showAudioControls && (
-              <AudioControls inline />
-            )}
-          </div>
+        {/* Right side: Score and Audio Controls */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {showScore && (
+            <ScoreDisplay inline showMaxPoints={false} showTrophy={true} />
+          )}
+          {showAudioControls && (
+            <AudioControls inline />
+          )}
         </div>
       </div>
     </header>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, RotateCcw } from 'lucide-react';
 import Header from './Header';
+import { KiroBranding } from './KiroBranding';
 import { useAudioManager } from '../hooks/useAudioManager';
 
 interface SummaryScreenProps {
@@ -17,8 +18,10 @@ interface SummaryScreenProps {
  * Displays the final score and statistics at the end of the quiz.
  * Shows score as both a number and percentage.
  * Conditionally displays restart button based on allowRetry configuration.
+ * Displays Kiro branding at the bottom of the screen.
  * 
  * Requirements:
+ * - 3.1, 3.2, 3.4, 3.5: Display Kiro branding on summary screen
  * - 3.2: Display summary screen with total score
  * - 3.3: Show score as both number and percentage
  * - 3.4: Provide option to restart quiz
@@ -81,7 +84,7 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             stiffness: 200,
             damping: 15
           }}
-          className="mb-6 sm:mb-8"
+          className="mb-6 sm:mb-8 mt-8 sm:mt-12"
         >
           <Trophy className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto text-reinvent-yellow" />
         </motion.div>
@@ -217,6 +220,20 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
             Thank you for completing the quiz!
           </motion.p>
         )}
+
+        {/* Kiro Branding */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.3,
+            delay: 0.7,
+            ease: 'easeOut'
+          }}
+          className="mt-8 sm:mt-12 flex justify-center"
+        >
+          <KiroBranding variant="welcome" />
+        </motion.div>
       </motion.div>
     </div>
     </>

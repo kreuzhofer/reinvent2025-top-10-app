@@ -89,7 +89,7 @@
   - Verify horizontal centering
   - _Requirements: 1.1, 1.4_
 
-- [x] 3. Update Header component to include KiroBranding
+- [ ] 3. Update Header component to include KiroBranding
   - Import KiroBranding component
   - Restructure right section to use vertical flex layout
   - Position KiroBranding at top of right section
@@ -98,15 +98,15 @@
   - Maintain proper spacing with gap classes
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [x] 3.1 Write property test for no overlap in header
+- [ ] 3.1 Write property test for no overlap in header
   - **Property 4: Component does not overlap other elements**
   - **Validates: Requirements 2.5**
 
-- [x] 3.2 Write property test for positioning consistency
+- [ ] 3.2 Write property test for positioning consistency
   - **Property 5: Positioning is consistent across screens**
   - **Validates: Requirements 3.3**
 
-- [x] 3.3 Write property test for no overlap on small screens
+- [ ] 3.3 Write property test for no overlap on small screens
   - **Property 18: No overlap on small screens**
   - **Validates: Requirements 8.5**
 
