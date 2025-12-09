@@ -121,7 +121,7 @@
   - Test audio file loads and plays correctly
   - _Requirements: 4.1_
 
-- [ ] 7. Update ScoreContext property tests
+- [x] 7. Update ScoreContext property tests
   - Update existing property tests to use new function signature
   - Ensure tests pass timeLimit parameter
   - Verify minimum threshold is tested
