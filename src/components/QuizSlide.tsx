@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, SkipForward, ChevronRight } from 'lucide-react';
 import type { QuizSlide as QuizSlideType } from '../types/quiz.types';
@@ -8,6 +8,7 @@ import { useKeyboardNav } from '../hooks/useKeyboardNav';
 import { useAudioManager } from '../hooks/useAudioManager';
 import { useEmojiManager } from '../hooks/useEmojiManager';
 import QuizTimer from './QuizTimer';
+import type { QuizTimerRef } from './QuizTimer';
 import FunFactDisplay from './FunFactDisplay';
 import Header from './Header';
 import ProgressBar from './ProgressBar';
@@ -67,6 +68,9 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
   const { playBackgroundMusic, playSFX } = useAudioManager();
   const { showSuccessEmoji, showMissEmoji } = useEmojiManager();
   
+  // Ref to access QuizTimer's stopTick method
+  const timerRef = useRef<QuizTimerRef>(null);
+  
   // Check if this question was already answered
   const savedState = getAnswerState(slide.id);
   
@@ -114,6 +118,15 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slide.id]);
 
+  // Cleanup: stop tick sound on component unmount (navigation)
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        timerRef.current.stopTick();
+      }
+    };
+  }, []);
+
   // Handle background music for this slide
   useEffect(() => {
     // Play background music if specified on the slide
@@ -131,6 +144,11 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
       return;
     }
 
+    // Stop tick sound immediately when user selects an answer
+    if (timerRef.current) {
+      timerRef.current.stopTick();
+    }
+
     setSelectedIndex(index);
     setIsAnswered(true);
 
@@ -139,7 +157,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
 
     let pointsAwarded = 0;
     if (isCorrect) {
-      // Calculate time-adjusted points
+      // Calculate time-adjusted points with timeLimit parameter
       const timeLimit = slide.timeLimit || 10;
       pointsAwarded = calculateTimeAdjustedPoints(slide.points, elapsedSeconds, timeLimit);
       addPoints(pointsAwarded);
@@ -284,6 +302,7 @@ const QuizSlide: React.FC<QuizSlideProps> = ({
       {/* Timer - only show if not answered, timed out, or skipped */}
       {!isAnswered && !isTimedOut && !isSkipped && (
         <QuizTimer
+          ref={timerRef}
           basePoints={slide.points}
           onTimeout={handleTimeout}
           onTick={handleTick}

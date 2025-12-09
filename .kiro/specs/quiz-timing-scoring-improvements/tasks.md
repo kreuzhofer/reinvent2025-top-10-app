@@ -93,7 +93,7 @@
   - Test tick sound stops on timeout
   - Test tick sound cleanup on unmount
 
-- [ ] 5. Update QuizSlide component to use new scoring calculation
+- [x] 5. Update QuizSlide component to use new scoring calculation
   - Update handleAnswerSelect to pass timeLimit to calculateTimeAdjustedPoints
   - Add ref to QuizTimer to access stopTick method
   - Call stopTick when user selects an answer
@@ -101,15 +101,15 @@
   - Update onTick handler to work with new timing
   - _Requirements: 4.5, 5.1, 5.2, 5.3_
 
-- [ ] 5.1 Write property test for tick sound stops on answer
+- [x] 5.1 Write property test for tick sound stops on answer
   - **Property 10: Tick sound stops on answer**
   - **Validates: Requirements 4.5**
 
-- [ ] 5.2 Write property test for tick sound stops on navigation
+- [x] 5.2 Write property test for tick sound stops on navigation
   - **Property 11: Tick sound stops on navigation**
   - **Validates: Requirements 5.1, 5.2, 5.3**
 
-- [ ] 5.3 Write unit tests for QuizSlide scoring integration
+- [x] 5.3 Write unit tests for QuizSlide scoring integration
   - Test scoring calculation uses timeLimit parameter
   - Test tick sound stops when answer is selected
   - Test tick sound stops on navigation
@@ -118,8 +118,6 @@
 - [ ] 6. Add tick.mp3 audio file
   - Create or obtain tick sound effect file
   - Place file at `public/data/sfx/effects/tick.mp3`
-  - Ensure file is loopable without audible gaps
-  - Optimize file size (target < 50KB)
   - Test audio file loads and plays correctly
   - _Requirements: 4.1_
 

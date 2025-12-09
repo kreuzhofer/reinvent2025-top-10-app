@@ -466,3 +466,140 @@ describe('QuizSlide Property-Based Tests', () => {
     );
   });
 });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 10: Tick sound stops on answer
+   * Validates: Requirements 4.5
+   * 
+   * Property: For any quiz slide, when a user selects an answer,
+   * the tick sound should stop playing immediately
+   */
+  it('Property 10: Tick sound stops on answer', async () => {
+    fc.assert(
+      fc.asyncProperty(
+        arbitraryQuizSlide(),
+        fc.integer({ min: 0, max: 5 }),
+        async (slide, choiceOffset) => {
+          // Ensure we have a valid choice index
+          const selectedIndex = choiceOffset % slide.choices.length;
+          const onNext = vi.fn();
+          const user = userEvent.setup({ delay: null });
+
+          // Mock QuizTimer with ref support
+          const mockStopTick = vi.fn();
+          const MockQuizTimerWithRef = vi.fn().mockImplementation(
+            ({ basePoints, onTimeout, onTick }: any, ref: any) => {
+              // Expose stopTick via ref
+              if (ref) {
+                if (typeof ref === 'function') {
+                  ref({ stopTick: mockStopTick });
+                } else if (ref && 'current' in ref) {
+                  ref.current = { stopTick: mockStopTick };
+                }
+              }
+              return (
+                <div data-testid="quiz-timer">
+                  <div data-testid="timer-base-points">{basePoints}</div>
+                  <button data-testid="mock-timeout" onClick={onTimeout}>Trigger Timeout</button>
+                  <button data-testid="mock-tick" onClick={() => onTick(1)}>Trigger Tick</button>
+                </div>
+              );
+            }
+          );
+          MockQuizTimerWithRef.displayName = 'QuizTimer';
+
+          // Temporarily replace the mock
+          const QuizTimerModule = await import('./QuizTimer');
+          const originalDefault = QuizTimerModule.default;
+          vi.mocked(QuizTimerModule).default = MockQuizTimerWithRef as any;
+
+          render(
+            <ScoreProvider>
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
+            </ScoreProvider>
+          );
+
+          // Select an answer
+          const choiceButton = screen.getByTestId(`choice-${selectedIndex}`);
+          await user.click(choiceButton);
+
+          // Property: stopTick should be called when answer is selected
+          await waitFor(() => {
+            expect(mockStopTick).toHaveBeenCalled();
+          });
+
+          // Restore original mock
+          vi.mocked(QuizTimerModule).default = originalDefault;
+          cleanup();
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
+   * Feature: quiz-timing-scoring-improvements, Property 11: Tick sound stops on navigation
+   * Validates: Requirements 5.1, 5.2, 5.3
+   * 
+   * Property: For any quiz slide, when the component unmounts (navigation),
+   * the tick sound should stop playing
+   */
+  it('Property 11: Tick sound stops on navigation', async () => {
+    fc.assert(
+      fc.asyncProperty(
+        arbitraryQuizSlide(),
+        async (slide) => {
+          const onNext = vi.fn();
+
+          // Mock QuizTimer with ref support
+          const mockStopTick = vi.fn();
+          const MockQuizTimerWithRef = vi.fn().mockImplementation(
+            ({ basePoints, onTimeout, onTick }: any, ref: any) => {
+              // Expose stopTick via ref
+              if (ref) {
+                if (typeof ref === 'function') {
+                  ref({ stopTick: mockStopTick });
+                } else if (ref && 'current' in ref) {
+                  ref.current = { stopTick: mockStopTick };
+                }
+              }
+              return (
+                <div data-testid="quiz-timer">
+                  <div data-testid="timer-base-points">{basePoints}</div>
+                  <button data-testid="mock-timeout" onClick={onTimeout}>Trigger Timeout</button>
+                  <button data-testid="mock-tick" onClick={() => onTick(1)}>Trigger Tick</button>
+                </div>
+              );
+            }
+          );
+          MockQuizTimerWithRef.displayName = 'QuizTimer';
+
+          // Temporarily replace the mock
+          const QuizTimerModule = await import('./QuizTimer');
+          const originalDefault = QuizTimerModule.default;
+          vi.mocked(QuizTimerModule).default = MockQuizTimerWithRef as any;
+
+          const { unmount } = render(
+            <ScoreProvider>
+              <QuizStateProvider>
+                <QuizSlide slide={slide} onNext={onNext} />
+              </QuizStateProvider>
+            </ScoreProvider>
+          );
+
+          // Property: Unmounting the component should call stopTick
+          unmount();
+
+          await waitFor(() => {
+            expect(mockStopTick).toHaveBeenCalled();
+          });
+
+          // Restore original mock
+          vi.mocked(QuizTimerModule).default = originalDefault;
+        }
+      ),
+      { numRuns: 100 }
+    );
+  });
