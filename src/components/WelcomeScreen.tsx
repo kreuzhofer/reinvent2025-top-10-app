@@ -34,6 +34,34 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Diagonal Banner - AWS Internal Use Only */}
+      <motion.div
+        className="absolute pointer-events-none z-30"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ 
+          duration: 0.5,
+          delay: 0.6,
+          ease: 'easeOut'
+        }}
+        style={{
+          top: '80px',
+          left: '-120px',
+        }}
+      >
+        <div 
+          className="bg-red-600/90 text-white font-bold text-sm md:text-base py-2 md:py-3 px-16 md:px-20 shadow-2xl whitespace-nowrap"
+          style={{
+            transform: 'rotate(-45deg)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          AWS Internal Use Only - Do Not Share Externally
+        </div>
+      </motion.div>
+
       {/* Audio Controls - Upper Right Corner */}
       <motion.div
         className="absolute top-4 right-4 z-20"
