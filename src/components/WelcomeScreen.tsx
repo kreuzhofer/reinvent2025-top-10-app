@@ -50,10 +50,10 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         }}
       >
         <div 
-          className="bg-red-600/90 text-white font-bold text-sm md:text-base py-2 md:py-3 px-16 md:px-20 shadow-2xl whitespace-nowrap"
+          className="bg-red-600/90 text-white font-bold text-xs md:text-sm py-2 md:py-3 px-12 md:px-16 shadow-2xl whitespace-nowrap"
           style={{
             transform: 'rotate(-45deg)',
-            letterSpacing: '0.1em',
+            letterSpacing: '0.05em',
             textTransform: 'uppercase',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
           }}
