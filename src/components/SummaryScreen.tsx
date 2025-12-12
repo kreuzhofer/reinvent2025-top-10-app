@@ -95,7 +95,8 @@ const SummaryScreen: React.FC<SummaryScreenProps> = ({
       `✅ Correct Answers: ${correctAnswersCount}/${totalQuestions}\n` +
       `🎯 Score: ${score}/${totalPossible} points (${percentage}%)\n` +
       `${performance.emoji} ${performance.text}\n\n` +
-      `Try it yourself: ${baseUrl}`;
+      `Try it yourself: ${baseUrl}\n\n` +
+      `Don't share externally, this app is internal use only!`;
     
     try {
       // Copy message to clipboard

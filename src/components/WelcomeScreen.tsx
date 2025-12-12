@@ -45,8 +45,8 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
           ease: 'easeOut'
         }}
         style={{
-          top: '80px',
-          left: '-120px',
+          top: '140px',
+          left: '-110px',
         }}
       >
         <div 
